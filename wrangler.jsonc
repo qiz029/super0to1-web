@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "super0to1-web",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": true
+  },
+  "routes": [
+    { "pattern": "super0to1.com", "custom_domain": true },
+    { "pattern": "www.super0to1.com", "custom_domain": true }
+  ],
+  "observability": { "enabled": true }
+}
