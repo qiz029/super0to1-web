@@ -5,14 +5,13 @@ import { useReveal } from '../lib/useReveal'
 import { syncHead } from '../seo'
 import { htmlLang, LocaleContext, localePath, rememberLocale, splitLocale, useT, type Locale } from '../i18n/locale'
 import { LLink, LNavLink } from './LocaleLink'
+import { JoinUsButton } from './JoinUsButton'
 
 const YEAR = new Date().getFullYear()
 
 const NAV = [
-  { to: '/method', key: 'method' },
-  { to: '/projects', key: 'projects' },
-  { to: '/lab', key: 'lab' },
   { to: '/sessions', key: 'sessions' },
+  { to: '/lab', key: 'lab' },
   { to: '/lens', key: 'lens' },
   { to: '/about', key: 'about' },
 ] as const
@@ -79,6 +78,7 @@ function Header() {
               {t.nav[item.key]}
             </LNavLink>
           ))}
+          <JoinUsButton className="nav-join" onOpen={() => setOpen(false)}>{t.nav.join}</JoinUsButton>
         </nav>
         <div className="header-tools">
           <LanguageSwitch />
@@ -113,6 +113,7 @@ function Footer() {
               {t.nav[item.key]}
             </LLink>
           ))}
+          <JoinUsButton className="footer-join">{t.nav.join}</JoinUsButton>
           <a href={site.youtube} target="_blank" rel="noopener noreferrer">
             YouTube ↗
           </a>

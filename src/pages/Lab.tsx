@@ -1,9 +1,12 @@
 import { JoinButton } from '../components/JoinButton'
 import { LoopDiagram } from '../components/LoopDiagram'
 import { useT } from '../i18n/locale'
+import { useContent } from '../content/context'
+import { ProjectCards } from './Projects'
 
 export function Lab() {
   const { t } = useT()
+  const { projects } = useContent()
   const l = t.lab
   return (
     <>
@@ -27,6 +30,11 @@ export function Lab() {
           ))}
         </div>
       </section>
+
+      {projects.length > 0 && <section className="section container">
+        <div className="section-head" data-reveal><h2>{t.home.projects}</h2></div>
+        <ProjectCards items={projects} includeInvite={false} />
+      </section>}
 
       <section className="band band-cream">
         <div className="container cta-row">

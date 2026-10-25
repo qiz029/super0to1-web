@@ -319,7 +319,8 @@ p {
   font-weight: 500;
 }
 
-.site-nav a {
+.site-nav a,
+.site-nav .nav-join {
   display: inline-flex;
   align-items: center;
   line-height: 20px;
@@ -329,7 +330,8 @@ p {
   transition: color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
-.site-nav a:hover {
+.site-nav a:hover,
+.site-nav .nav-join:hover {
   color: var(--white);
   background: rgba(255, 255, 255, 0.07);
 }
@@ -338,6 +340,40 @@ p {
   color: var(--brown-ink);
   background: var(--cream);
   box-shadow: inset 0 -1px 0 rgba(46, 38, 32, 0.18), 0 2px 8px rgba(20, 16, 12, 0.3);
+}
+
+.site-nav .nav-join {
+  background: var(--cream);
+  color: var(--brown-ink);
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.site-nav .nav-join:hover {
+  background: var(--lime);
+  color: var(--brown-ink);
+}
+
+.footer-join {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.section-intro {
+  max-width: 42em;
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+.section-head h2 a:hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }
 
 .header-tools {
@@ -1770,7 +1806,8 @@ body::after {
     display: flex;
   }
 
-  .site-nav a {
+  .site-nav a,
+  .site-nav .nav-join {
     padding: 13px 16px;
     font-size: 17px;
     border-radius: 14px;
@@ -1808,6 +1845,15 @@ body::after {
     max-width: 320px;
     justify-self: center;
     order: -1;
+  }
+
+  .home-hero .hero-necklace {
+    order: 0;
+    max-width: 220px;
+  }
+
+  .home-hero::before {
+    max-width: 100%;
   }
 
   .facts-builder {

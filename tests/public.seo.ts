@@ -9,10 +9,10 @@ test('client navigation has the same metadata as a direct request, including lan
     if (message.type() === 'error' && /hydrat|Minified React error/.test(message.text())) errors.push(message.text())
   })
   await page.goto('/')
-  await page.locator('.site-nav a[href="/method"]').click()
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}/method`)
-  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', `${origin}/method`)
-  const direct = await (await request.get('/method')).text()
+  await page.locator('.site-nav a[href="/sessions"]').click()
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}/sessions`)
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', `${origin}/sessions`)
+  const direct = await (await request.get('/sessions')).text()
   const heads = await page.evaluate(html => ({
     actual: Array.from(document.head.querySelectorAll('[data-site-seo]'), node => node.outerHTML),
     expected: Array.from(new DOMParser().parseFromString(html, 'text/html').head.querySelectorAll('[data-site-seo]'), node => node.outerHTML),
@@ -20,9 +20,9 @@ test('client navigation has the same metadata as a direct request, including lan
   expect(heads.actual.length).toBeGreaterThan(15)
   expect(heads.actual).toEqual(heads.expected)
   await page.locator('.lang-switch a[lang="zh-CN"]').click()
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}/zh/method`)
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}/zh/sessions`)
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_CN')
-  await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', `${origin}/method`)
+  await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', `${origin}/sessions`)
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN')
   await expect(page.locator('head title')).toHaveCount(1)
   await expect(page.locator('head script[type="application/ld+json"]')).toHaveCount(1)
@@ -35,8 +35,8 @@ test('404 noindex is removed on recovery and foreign preview noindex is preserve
   const response = await page.goto('/missing-seo-page')
   expect(response?.status()).toBe(404)
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex')
-  await page.locator('.site-nav a[href="/method"]').click()
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}/method`)
+  await page.locator('.site-nav a[href="/sessions"]').click()
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}/sessions`)
   await expect(page.locator('meta[name="robots"]')).toHaveCount(0)
   await page.evaluate(() => {
     const robots = document.createElement('meta')

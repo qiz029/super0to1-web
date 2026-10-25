@@ -7,7 +7,7 @@ import type { Project } from '../content/projects'
 import { useT } from '../i18n/locale'
 import { NotFound } from './NotFound'
 
-export function ProjectCards({ items }: { items?: Project[] }) {
+export function ProjectCards({ items, includeInvite = true }: { items?: Project[]; includeInvite?: boolean }) {
   const { projects } = useContent()
   const { t, tx } = useT()
   return (
@@ -26,12 +26,12 @@ export function ProjectCards({ items }: { items?: Project[] }) {
           <p>{p.tagline ? tx(p.tagline) : t.projects.profileSoon}</p>
         </LLink>
       ))}
-      <LLink className="project-card" to="/lab" data-reveal style={{ ['--i' as string]: 1 }}>
+      {includeInvite && <LLink className="project-card" to="/lab" data-reveal style={{ ['--i' as string]: 1 }}>
         <span className="project-art">{t.projects.yourProjectArt}</span>
         <span className="meta">Super Lab</span>
         <h3>{t.projects.yourProjectTitle}</h3>
         <p>{t.projects.yourProjectBody}</p>
-      </LLink>
+      </LLink>}
     </div>
   )
 }
