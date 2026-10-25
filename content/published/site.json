@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "releaseId": "initial-20261024",
+  "releaseId": "9ca993e0-5c68-4152-bba0-5632efe3607f",
   "site": {
     "name": "Super 0→1",
     "fullName": "Super 0→1 Initiative",
@@ -36,10 +36,20 @@
   },
   "sessions": [
     {
+      "id": "find-your-direction",
+      "published": true,
       "slug": "find-your-direction",
       "title": {
         "en": "Find your direction",
         "zh": "找到你的方向"
+      },
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "body": {
+        "en": "",
+        "zh": ""
       },
       "month": {
         "en": "April 2026",
@@ -49,16 +59,6 @@
       "imageAlt": {
         "en": "Participants learning together at the Find your direction session",
         "zh": "“找到你的方向” Session 现场，大家一起学习"
-      },
-      "id": "find-your-direction",
-      "published": true,
-      "summary": {
-        "en": "",
-        "zh": ""
-      },
-      "body": {
-        "en": "",
-        "zh": ""
       },
       "datePrecision": "month",
       "startsAt": "",
@@ -72,10 +72,20 @@
       "eventState": "ended"
     },
     {
+      "id": "intro-to-vibe-coding",
+      "published": true,
       "slug": "intro-to-vibe-coding",
       "title": {
         "en": "Intro to Vibe Coding",
         "zh": "Vibe Coding 入门"
+      },
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "body": {
+        "en": "",
+        "zh": ""
       },
       "month": {
         "en": "March 2026",
@@ -85,16 +95,6 @@
       "imageAlt": {
         "en": "Super Session participants together in a room after Intro to Vibe Coding",
         "zh": "“Vibe Coding 入门” Session 结束后的合影"
-      },
-      "id": "intro-to-vibe-coding",
-      "published": true,
-      "summary": {
-        "en": "",
-        "zh": ""
-      },
-      "body": {
-        "en": "",
-        "zh": ""
       },
       "datePrecision": "month",
       "startsAt": "",
@@ -111,12 +111,12 @@
   "videos": [
     {
       "id": "tJLBy5aQPDI",
+      "published": true,
+      "youtubeId": "tJLBy5aQPDI",
       "title": {
         "en": "Compound Yourself: Start by Being Radically Honest | A Big Tech Design Director's Growth Playbook",
         "zh": "Compound Yourself: Start by Being Radically Honest | A Big Tech Design Director's Growth Playbook"
       },
-      "youtubeId": "tJLBy5aQPDI",
-      "published": true,
       "summary": {
         "en": "",
         "zh": ""
@@ -127,12 +127,12 @@
     },
     {
       "id": "bnqAROVwhc4",
+      "published": true,
+      "youtubeId": "bnqAROVwhc4",
       "title": {
         "en": "Built to 200 Photographers in Half a Year | Asian Photography Association 0→1 (Part 2)",
         "zh": "Built to 200 Photographers in Half a Year | Asian Photography Association 0→1 (Part 2)"
       },
-      "youtubeId": "bnqAROVwhc4",
-      "published": true,
       "summary": {
         "en": "",
         "zh": ""
@@ -143,12 +143,12 @@
     },
     {
       "id": "8MXhzjdRCk8",
+      "published": true,
+      "youtubeId": "8MXhzjdRCk8",
       "title": {
         "en": "Behind the Lens at MLS, MLB & WNBA | A Pro Photographer Reads the Game (Part 1) 体育摄影会长：拍球赛别带\"粉丝心态\"",
         "zh": "Behind the Lens at MLS, MLB & WNBA | A Pro Photographer Reads the Game (Part 1) 体育摄影会长：拍球赛别带\"粉丝心态\""
       },
-      "youtubeId": "8MXhzjdRCk8",
-      "published": true,
       "summary": {
         "en": "",
         "zh": ""
@@ -159,12 +159,12 @@
     },
     {
       "id": "hyng_gR8juE",
+      "published": true,
+      "youtubeId": "hyng_gR8juE",
       "title": {
         "en": "Does AI Have a Soul? | When One Person Is a Whole Team (Part 4)",
         "zh": "Does AI Have a Soul? | When One Person Is a Whole Team (Part 4)"
       },
-      "youtubeId": "hyng_gR8juE",
-      "published": true,
       "summary": {
         "en": "",
         "zh": ""
@@ -175,12 +175,12 @@
     },
     {
       "id": "v2uk0wZd-Vk",
+      "published": true,
+      "youtubeId": "v2uk0wZd-Vk",
       "title": {
         "en": "In the AI Age, Questions Beat Answers | When One Person Is a Whole Team (Part 3)",
         "zh": "In the AI Age, Questions Beat Answers | When One Person Is a Whole Team (Part 3)"
       },
-      "youtubeId": "v2uk0wZd-Vk",
-      "published": true,
       "summary": {
         "en": "",
         "zh": ""
@@ -191,12 +191,12 @@
     },
     {
       "id": "Pih8iuJeYwY",
+      "published": true,
+      "youtubeId": "Pih8iuJeYwY",
       "title": {
         "en": "AI Anxiety vs. 100× Productivity | One Person, a Whole Team (Part 2)",
         "zh": "AI Anxiety vs. 100× Productivity | One Person, a Whole Team (Part 2)"
       },
-      "youtubeId": "Pih8iuJeYwY",
-      "published": true,
       "summary": {
         "en": "",
         "zh": ""
@@ -208,6 +208,8 @@
   ],
   "projects": [
     {
+      "id": "asidefm",
+      "published": true,
       "slug": "asidefm",
       "name": "AsideFM",
       "domain": "asidefm.com",
@@ -276,9 +278,7 @@
           }
         }
       ],
-      "journey": [],
-      "id": "asidefm",
-      "published": true
+      "journey": []
     }
   ]
 }
