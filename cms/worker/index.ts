@@ -3,6 +3,7 @@ import seed from '../../content/published/site.json'
 import { snapshotSchema, contentIssues, publicSnapshot, type Snapshot } from '../../shared/content'
 import { authenticate, requireAdmin, requireSameOrigin } from './auth'
 import { commitSnapshot, github } from './github'
+import { translateContent } from './translate'
 import { HttpError, type Actor, type Env, type StateRow, type ReleaseRow, type MediaRow } from './types'
 
 const now = () => new Date().toISOString()
@@ -138,6 +139,7 @@ export async function reconcile(env: Env) {
 
 async function api(request: Request, env: Env, actor: Actor, ctx: ExecutionContext): Promise<Response> {
   const url = new URL(request.url), path = url.pathname
+  if (path === '/api/translate' && request.method === 'POST') return json(await translateContent(env, actor, await readJson(request)))
   if (path === '/api/state' && request.method === 'GET') {
     const row = await state(env)
     await rememberPaths(env, snapshotSchema.parse(seed))

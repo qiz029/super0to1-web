@@ -32,6 +32,7 @@
     }
   ],
   "vars": {
+    "OPENAI_TRANSLATION_MODEL": "gpt-5.4-mini",
     "ACCESS_TEAM_URL": "https://billowing-dream-9314.cloudflareaccess.com",
     "ACCESS_AUD": "fb23c959b95f42d97bbca79723b06eb03e4dcf1a19766f1bf6009f06e03161b4",
     "GITHUB_APP_ID": "5461254",

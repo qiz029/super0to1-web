@@ -24,7 +24,8 @@ the browser's first `Accept-Language`. Crawlers get the URL they ask for; each p
 ## Edit content
 
 The private CMS is at **https://cms.super0to1.com**. It manages sessions, videos, projects,
-homepage recommendations, images and registration settings. See [CMS guide](docs/cms-guide.md)
+homepage recommendations, images and registration settings. Editors can translate Chinese ↔ English
+for a whole record or individual fields, review the results, and apply them to drafts. See [CMS guide](docs/cms-guide.md)
 for editing, publication, recovery and local development.
 
 `content/published/site.json` contains only the approved public snapshot. The CMS GitHub App

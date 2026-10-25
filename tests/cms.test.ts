@@ -35,7 +35,7 @@ function fixture() {
 
 test('production denies unauthenticated access to UI, API, preview and media; dev mode cannot bypass a public hostname', async () => {
   const { request, env } = fixture()
-  for (const path of ['/', '/api/state', '/preview.html', '/api/media/' + 'a'.repeat(64)]) {
+  for (const path of ['/', '/api/state', '/api/translate', '/preview.html', '/api/media/' + 'a'.repeat(64)]) {
     assert.equal((await request(path, 'GET', undefined, { env: { ...env, CMS_DEV: undefined } })).status, 503)
     assert.equal((await request(path, 'GET', undefined, { hostname: 'cms.super0to1.com' })).status, 503)
   }
@@ -61,6 +61,7 @@ test('cross-origin writes and malformed input never mutate saved content', async
   const { request } = fixture()
   const before = await (await request('/api/state')).json() as StateView
   assert.equal((await request('/api/state', 'PUT', { revision: 1, data: before.data }, { origin: 'https://evil.test' })).status, 403)
+  assert.equal((await request('/api/translate', 'POST', { source: 'zh', entries: [{ id: 'text', text: '测试' }] }, { origin: 'https://evil.test' })).status, 403)
   assert.equal((await request('/api/state', 'PUT', { revision: 1, data: { ...before.data, secret: 'not allowed' } })).status, 422)
   assert.equal((await (await request('/api/state')).json() as StateView).revision, 1)
 })

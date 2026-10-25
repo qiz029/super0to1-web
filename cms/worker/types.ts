@@ -10,6 +10,8 @@ export interface Env {
   GITHUB_APP_ID: string
   GITHUB_INSTALLATION_ID: string
   GITHUB_APP_PRIVATE_KEY: string
+  OPENAI_API_KEY?: string
+  OPENAI_TRANSLATION_MODEL?: string
   CMS_DEV?: string | boolean
 }
 export type Actor = { email: string; role: 'admin' | 'editor' }

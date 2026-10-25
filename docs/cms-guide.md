@@ -34,6 +34,23 @@
 
 原有六期视频的标题已按原样导入两个语言字段，尚未重新翻译。报名链接和邮箱初始为空；应填写实际入口后再宣布开放报名。
 
+## AI 中英文翻译
+
+在活动、视频、项目编辑页，只填写中文或 English 即可开始：
+
+1. 使用编辑页上方的「中文 → English」或「English → 中文」翻译整条内容；每个双语字段旁也有同样入口。
+2. 默认只勾选目标语言为空的字段。重译已有内容时，主动勾选该字段或点击「全选（含已有译文）」。
+3. 点击「生成译文」，并排核对原文与译文，可直接修改结果，再「应用到草稿」。
+4. 应用不会自动保存或发布，仍需走保存、预览、发布流程。翻译失败、取消或未确认时不改变原内容。
+
+标题、简介、正文、图片说明、地点、历史月份、项目阶段、创造者介绍和项目步骤/成长记录支持翻译。网址、slug、YouTube ID、精确时间、共享产品名等不作为可翻译字段发送。翻译期间源文或现有译文变化时会拒绝应用过期结果。
+
+只有已登录管理员或编辑者可调用翻译接口。所选原文发送到 OpenAI；服务端使用 Responses API 的 [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)，设置 `store: false`，逐字段验证结果后返回。`store: false` 控制响应存储，不代表关闭提供商所有日志或保留机制。
+
+当前模型是 `gpt-5.4-mini`（[官方模型说明](https://developers.openai.com/api/docs/models/gpt-5.4-mini)），由 Worker 变量 `OPENAI_TRANSLATION_MODEL` 配置。每次最多 12,000 个源字符，每位编辑者每小时最多 60 次请求；请求超时、字段遗漏或额度问题会明确报错，保留原内容。
+
+`OPENAI_API_KEY` 只存 CMS Worker secret。仓库根目录 `.env` 保持忽略，Vite 前端不读取这个密钥。需要本地真实调用时，可在同样被忽略的 `cms/.dev.vars` 配置该变量；自动化测试使用模拟响应，不消耗 API 额度。
+
 ## 发布失败与恢复
 
 - 「发布失败」：打开部署记录定位问题；修复后重试该版本，或编辑草稿并发起新发布。
@@ -75,7 +92,7 @@ npx playwright test # 登录本地豁免环境，覆盖图片上传和双语私�
 Cloudflare 资源为 `super0to1-cms` Worker、同名 D1、`super0to1-cms-media` 私有 R2 bucket。
 主站与后台共享该 bucket，生产绑定记录在两个 Wrangler 配置中。Actions 每次部署先执行 D1 迁移，再部署主站和 CMS，最后检查官网和后台登录门禁。
 
-CMS Worker secrets：`CMS_OWNER_EMAIL`、`GITHUB_APP_PRIVATE_KEY`（PKCS8）。非敏感的 App ID、安装 ID、Access team URL 和 audience 在 CMS Wrangler 配置中。私钥仅存 Worker secret；不放 Actions、前端或公开 Git 仓库。
+CMS Worker secrets：`CMS_OWNER_EMAIL`、`GITHUB_APP_PRIVATE_KEY`（PKCS8）、`OPENAI_API_KEY`。非敏感的 App ID、安装 ID、Access team URL 和 audience 在 CMS Wrangler 配置中。私钥仅存 Worker secret；不放 Actions、前端或公开 Git 仓库。
 
 GitHub App `super0to1-cms-qiz029` 仅安装在此仓库，权限为 Contents write 与 Actions read。应用代码只写公开快照路径；GitHub 的 Contents 权限本身是仓库级，不能细化到单个文件。
 
