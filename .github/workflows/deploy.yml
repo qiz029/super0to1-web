@@ -50,6 +50,7 @@ jobs:
         run: |
           npx playwright install --with-deps chromium
           npx playwright test
+          npx playwright test --config playwright.seo.config.ts
 
       - name: Record deployed commit
         run: |

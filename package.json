@@ -14,7 +14,8 @@
     "cms:api": "wrangler dev --config cms/wrangler.dev.jsonc --ip 127.0.0.1 --port 8788",
     "cms:deploy": "npm run cms:build && wrangler deploy --config cms/wrangler.jsonc",
     "content:check": "tsx scripts/check-content.ts",
-    "test": "tsx --test tests/*.test.ts"
+    "test": "tsx --test tests/*.test.ts",
+    "test:seo": "playwright test --config playwright.seo.config.ts"
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "^1.2.4",

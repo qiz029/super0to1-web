@@ -37,6 +37,7 @@ export function getMeta(pathname: string, content: Snapshot = published): PageMe
     ...extra,
   })
   const notFound = page(s.notFound, s.notFoundBody, { notFound: true })
+  if (path.split('/').length > 3) return notFound
 
   if (path === '/')
     return {
@@ -53,9 +54,9 @@ export function getMeta(pathname: string, content: Snapshot = published): PageMe
     if (!slug) return page(t.projects.title, s.projects)
     const project = projects.find((p) => p.slug === slug)
     if (!project) return notFound
-    const description = project.summary ?? project.tagline
-    return page(project.name, description ? tx(description, locale) : s.project(project.name), {
-      image: project.cover ?? DEFAULT_IMAGE,
+    const description = (project.summary && tx(project.summary, locale)) || (project.tagline && tx(project.tagline, locale))
+    return page(project.name, description || s.project(project.name), {
+      image: project.cover || DEFAULT_IMAGE,
       imageAlt: project.coverAlt ? tx(project.coverAlt, locale) : project.name,
       type: 'article',
     })
@@ -121,10 +122,71 @@ const escape = (s: string) =>
 
 export const pageLang = (pathname: string): string => htmlLang(splitLocale(pathname).locale)
 
-export function renderHead(pathname: string): string {
-  const meta = getMeta(pathname)
-  const { locale, path } = splitLocale(pathname)
-  const url = absoluteUrl(pathname)
+/** Emit rich-result markup only when its required facts are actually present. */
+export function structuredData(pathname: string, content: Snapshot = published): Record<string, unknown>[] {
+  const { site, videos, sessions } = content
+  const { locale, path: rawPath } = splitLocale(pathname)
+  const path = rawPath.replace(/\/+$/, '') || '/'
+  const meta = getMeta(pathname, content)
+  if (meta.notFound) return []
+  const url = absoluteUrl(localePath(locale, path))
+  const t = messages[locale]
+  if (path === '/') return [
+    {
+      '@context': 'https://schema.org', '@type': 'Organization',
+      '@id': `${site.url}/#organization`, name: site.fullName, alternateName: site.name,
+      url: site.url, description: t.mission, sameAs: [site.youtube].filter(Boolean),
+    },
+    { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${site.url}/#website`, name: site.fullName, url: site.url, inLanguage: ['en', 'zh-CN'] },
+  ]
+
+  const [, section, slug] = path.split('/')
+  const labels: Record<string, string> = {
+    method: t.nav.method, projects: t.nav.projects, lab: t.nav.lab,
+    sessions: t.nav.sessions, lens: t.nav.lens, about: t.nav.about,
+  }
+  const crumbs = [
+    { name: site.name, item: absoluteUrl(localePath(locale, '/')) },
+    { name: labels[section], item: absoluteUrl(localePath(locale, `/${section}`)) },
+  ]
+  if (slug) crumbs.push({ name: meta.title.slice(0, -` — ${site.name}`.length), item: url })
+  const data: Record<string, unknown>[] = [{
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((crumb, index) => ({ '@type': 'ListItem', position: index + 1, ...crumb })),
+  }]
+
+  const video = section === 'lens' && slug ? videos.find(v => v.youtubeId === slug) : undefined
+  // The CMS stores a publication date, not a time. Preserve that precision.
+  const date = video?.publishedDate
+  const validDate = date && /^\d{4}-\d{2}-\d{2}$/.test(date) && Number.isFinite(Date.parse(date)) && new Date(date).toISOString().slice(0, 10) === date
+  if (video && validDate) data.push({
+    '@context': 'https://schema.org', '@type': 'VideoObject', '@id': `${url}#video`,
+    name: tx(video.title, locale), description: meta.description,
+    thumbnailUrl: [absoluteImage(meta.image)], uploadDate: date,
+    embedUrl: `https://www.youtube-nocookie.com/embed/${video.youtubeId}`, url,
+  })
+
+  const session = section === 'sessions' && slug ? sessions.find(s => s.slug === slug) : undefined
+  const validTime = (value: string) => /^\d{4}-\d{2}-\d{2}T/.test(value) && /(Z|[+-]\d{2}:\d{2})$/.test(value) && Number.isFinite(Date.parse(value))
+  if (session && session.datePrecision === 'datetime' && validTime(session.startsAt) && tx(session.location, locale).trim()) data.push({
+    '@context': 'https://schema.org', '@type': 'Event', '@id': `${url}#event`,
+    name: tx(session.title, locale), description: meta.description, url,
+    startDate: session.startsAt,
+    ...(validTime(session.endsAt) && Date.parse(session.endsAt) > Date.parse(session.startsAt) ? { endDate: session.endsAt } : {}),
+    image: [absoluteImage(session.image)],
+    location: { '@type': 'Place', name: tx(session.location, locale), address: tx(session.location, locale) },
+    eventStatus: session.eventState === 'cancelled' ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled',
+    organizer: { '@type': 'Organization', name: site.fullName, url: site.url },
+  })
+  return data
+}
+
+export function renderHead(pathname: string, content: Snapshot = published): string {
+  const { site } = content
+  const meta = getMeta(pathname, content)
+  const { locale, path: rawPath } = splitLocale(pathname)
+  const path = rawPath.replace(/\/+$/, '') || '/'
+  const url = escape(absoluteUrl(localePath(locale, path)))
   const ogLocale = (l: Locale) => (l === 'zh' ? 'zh_CN' : 'en_US')
 
   const tags = [
@@ -147,29 +209,28 @@ export function renderHead(pathname: string): string {
     `<meta property="og:title" content="${escape(meta.title)}" />`,
     `<meta property="og:description" content="${escape(meta.description)}" />`,
     `<meta property="og:url" content="${url}" />`,
-    `<meta property="og:image" content="${absoluteImage(meta.image)}" />`,
+    `<meta property="og:image" content="${escape(absoluteImage(meta.image))}" />`,
     `<meta property="og:image:alt" content="${escape(meta.imageAlt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escape(meta.title)}" />`,
     `<meta name="twitter:description" content="${escape(meta.description)}" />`,
-    `<meta name="twitter:image" content="${absoluteImage(meta.image)}" />`,
+    `<meta name="twitter:image" content="${escape(absoluteImage(meta.image))}" />`,
+    `<meta name="twitter:image:alt" content="${escape(meta.imageAlt)}" />`,
   )
 
-  if (path === '/') {
-    const jsonLd = [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: site.fullName,
-        alternateName: site.name,
-        url: site.url,
-        description: messages[locale].mission,
-        sameAs: [site.youtube],
-      },
-      { '@context': 'https://schema.org', '@type': 'WebSite', name: site.fullName, url: site.url, inLanguage: ['en', 'zh-CN'] },
-    ]
+  const jsonLd = structuredData(pathname, content)
+  if (jsonLd.length) {
     tags.push(`<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`)
   }
 
-  return tags.join('\n    ')
+  return tags.map(tag => tag.replace(/^<(title|meta|link|script)\b/, '<$1 data-site-seo')).join('\n    ')
+}
+
+/** Use the same head for static responses and client navigation. Leave CMS
+ * preview noindex tags (which aren't owned by the public site) untouched. */
+export function syncHead(pathname: string, content: Snapshot = published): void {
+  const template = document.createElement('template')
+  template.innerHTML = renderHead(pathname, content)
+  document.head.querySelectorAll('[data-site-seo], title').forEach(node => node.remove())
+  document.head.appendChild(template.content)
 }

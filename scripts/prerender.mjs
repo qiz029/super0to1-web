@@ -28,12 +28,12 @@ await writePage('/404', '404.html')
 await writePage('/zh/404', 'zh/404.html')
 
 // Sitemap with hreflang alternates for each page.
-const today = new Date().toISOString().slice(0, 10)
+// Omit lastmod until the content model tracks real per-page modification dates.
+// A deployment date is not a content update.
 const loc = (p) => `${SITE}${p === '/' ? '/' : p}`
 const zh = (p) => (p === '/' ? '/zh' : `/zh${p}`)
 const entry = (p, base) => `  <url>
     <loc>${loc(p)}</loc>
-    <lastmod>${today}</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="${loc(base)}"/>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="${loc(zh(base))}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${loc(base)}"/>

@@ -2,8 +2,8 @@
 // - www → apex redirect.
 // - Language: English at /, Chinese at /zh. A visitor's choice is stored in the
 //   `lang` cookie by the on-page switch; without it, the browser's preferred
-//   language (Accept-Language) picks the default. Crawlers send neither, so
-//   they always see the canonical URL they asked for.
+//   language (Accept-Language) picks the default at the English homepage only.
+//   Explicit language and deep links always serve the URL requested.
 type Env = { ASSETS: { fetch: (request: Request | string) => Promise<Response> }; MEDIA: R2Bucket }
 type Locale = 'en' | 'zh'
 
@@ -49,12 +49,7 @@ export default {
     const isPage = request.method === 'GET' && !/\.[a-z0-9]+$/i.test(path)
     if (isPage) {
       const chosen = cookieLocale(request)
-      if (isZhPath(path)) {
-        // Only an explicit choice sends someone away from a Chinese URL.
-        if (chosen === 'en') return redirect(url, path.slice(3) || '/')
-      } else if ((chosen ?? browserLocale(request)) === 'zh') {
-        return redirect(url, path === '/' ? '/zh' : `/zh${path}`)
-      }
+      if (path === '/' && (chosen ?? browserLocale(request)) === 'zh') return redirect(url, '/zh')
     }
 
     const response = await env.ASSETS.fetch(request)

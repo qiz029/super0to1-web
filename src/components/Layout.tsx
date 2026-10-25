@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { useContent } from '../content/context'
 import { useReveal } from '../lib/useReveal'
-import { getMeta } from '../seo'
+import { syncHead } from '../seo'
 import { htmlLang, LocaleContext, localePath, rememberLocale, splitLocale, useT, type Locale } from '../i18n/locale'
 import { LLink, LNavLink } from './LocaleLink'
 
@@ -131,7 +131,7 @@ function Chrome() {
   const { pathname } = useLocation()
   useReveal(pathname)
   useEffect(() => {
-    document.title = getMeta(pathname, content).title
+    syncHead(pathname, content)
     document.documentElement.lang = htmlLang(locale)
   }, [pathname, locale, content])
 

@@ -17,9 +17,21 @@ npm run lint
 
 English lives at `/`, Chinese at `/zh/...`. Interface copy is in `src/i18n/messages.ts` (the `zh`
 object must match the `en` shape); content fields that differ by language are `{ en, zh }` objects.
-The Worker picks the language for visitors: the `lang` cookie set by the EN/中 switch wins, otherwise
-the browser's first `Accept-Language`. Crawlers get the URL they ask for; each page lists its
-`hreflang` alternates.
+At `/`, the Worker picks the language for visitors: the `lang` cookie set by the EN/中 switch wins,
+otherwise the browser's first `Accept-Language`. Explicit Chinese URLs and all deep links keep
+their requested language. Each page lists its `hreflang` alternates.
+
+## SEO
+
+Build-time HTML and client navigation share the same metadata renderer, including canonical URLs,
+language alternates, social cards, structured data and 404 `noindex` cleanup. CMS previews retain
+their separate `noindex` protection. Every valid inner page has breadcrumb structured data.
+Video markup requires a valid publication date; event markup requires a precise start time and
+location. Missing historical facts are not invented. The sitemap omits `lastmod` until real
+per-page modification dates are available.
+
+Run `npm run build && npm run test:seo` to check the production Worker locally: static pages,
+language routing, font assets and browser navigation metadata. CI runs these checks before deployment.
 
 ## Edit content
 
