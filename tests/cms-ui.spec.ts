@@ -1,6 +1,30 @@
 import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 
+test('CMS next-session state controls homepage booking and excludes ended or cancelled sessions', async ({ page }) => {
+  const content = JSON.parse(readFileSync('content/published/site.json', 'utf8'))
+  const session = content.sessions[0]
+  content.home.upcomingSessionId = session.id
+  session.signupUrl = 'https://booking.example.test/session'
+  await page.route('**/api/previews/22222222-2222-2222-2222-222222222222', route => route.fulfill({ json: content }))
+  const previewUrl = '/preview.html?id=22222222-2222-2222-2222-222222222222&path=/'
+  session.eventState = 'open'
+  await page.goto(previewUrl)
+  await expect(page.locator('.hero .actions').getByRole('link', { name: 'Register for the next session', exact: true })).toHaveAttribute('href', 'https://booking.example.test/session?role=Session+attendee&lang=en')
+  session.eventState = 'announced'
+  await page.reload()
+  await expect(page.locator('.hero .actions').getByRole('link', { name: 'See the next session', exact: true })).toHaveAttribute('href', `/sessions/${session.slug}`)
+  for (const state of ['ended', 'cancelled']) {
+    session.eventState = state
+    await page.reload()
+    await expect(page.locator('.hero .actions').getByRole('link', { name: 'Next session', exact: true })).toBeVisible()
+    await expect(page.locator('.hero .actions a[target="_blank"]')).toHaveCount(0)
+    await page.locator('.hero .actions').getByRole('link', { name: 'Next session', exact: true }).click()
+    await expect(page.locator('#upcoming')).toContainText('No upcoming session announced yet.')
+    await expect(page.locator('#upcoming a, #upcoming button')).toHaveCount(0)
+  }
+})
+
 test('homepage preview honors CMS recommendations and a dedicated community target', async ({ page }) => {
   const content = JSON.parse(readFileSync('content/published/site.json', 'utf8'))
   content.home.showSessions = false

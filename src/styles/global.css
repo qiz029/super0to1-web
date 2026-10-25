@@ -371,6 +371,17 @@ p {
   color: var(--muted);
 }
 
+.hero-action-note {
+  max-width: 36em;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#upcoming {
+  scroll-margin-top: 110px;
+}
+
 .section-head h2 a:hover {
   text-decoration: underline;
   text-underline-offset: 6px;

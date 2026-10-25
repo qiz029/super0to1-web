@@ -1,11 +1,20 @@
 import { test, expect } from '@playwright/test'
 
+test('no upcoming session means an honest placeholder and no booking button', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('.hero-action-note')).toContainText('We’ll post the next session here')
+  await page.locator('.hero .actions').getByRole('link', { name: 'Next session', exact: true }).click()
+  await expect(page).toHaveURL(/\/sessions#upcoming$/)
+  await expect(page.locator('#upcoming')).toContainText('No upcoming session announced yet.')
+  await expect(page.locator('#upcoming a, #upcoming button')).toHaveCount(0)
+})
+
 test('home prioritizes participation and content while preserving detail routes', async ({ page }) => {
   await page.goto('/')
   const navigation = page.locator('#site-nav')
   await expect(navigation.getByRole('link')).toHaveText(['Super Session', 'Super Lab', 'Super Lens', 'About'])
   await expect(navigation.getByRole('button', { name: 'Join Us', exact: true })).toBeVisible()
-  await expect(page.locator('.hero .actions a')).toHaveText(['Join a session', 'Bring a prototype'])
+  await expect(page.locator('.hero .actions a')).toHaveText(['Next session', 'Bring a prototype'])
   await expect(page.locator('.program-grid, .stepper, .join-copy')).toHaveCount(0)
   await expect(page.locator('main h2 a')).toHaveText(['Super Lab ↗', 'Super Session ↗', 'Super Lens ↗'])
   await page.locator('h2 a[href="/lab"]').click()
@@ -44,7 +53,7 @@ test('mobile navigation and actions work in both languages without horizontal ov
   await expect(page.getByRole('dialog', { name: '订阅社群消息', exact: true })).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(page.getByRole('button', { name: '菜单', exact: true })).toHaveAttribute('aria-expanded', 'false')
-  await expect(page.locator('.hero .actions a')).toHaveText(['参加共学', '带原型来'])
+  await expect(page.locator('.hero .actions a')).toHaveText(['下一场共学', '带原型来'])
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   const actions = await page.locator('.hero .actions').boundingBox()
   expect(actions && actions.y + actions.height).toBeLessThan(844)

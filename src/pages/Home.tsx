@@ -5,7 +5,8 @@ import { JoinUsButton } from '../components/JoinUsButton'
 import { LLink } from '../components/LocaleLink'
 import { ProjectCards } from './Projects'
 import { useContent } from '../content/context'
-import { sessionDate, type Session } from '../content/sessions'
+import { sessionDate, upcomingSession, type Session } from '../content/sessions'
+import { SessionAction } from '../components/SessionAction'
 import { useT } from '../i18n/locale'
 
 export function Home() {
@@ -14,6 +15,7 @@ export function Home() {
   const [featured, ...rest] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
   const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id))
   const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id))
+  const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
 
@@ -38,10 +40,11 @@ export function Home() {
             {t.home.lede}
           </p>
           <div className="actions hero-in" style={{ ['--i' as string]: 6 }}>
-            <LLink className="button" to="/sessions">{t.home.attend}</LLink>
+            <SessionAction session={nextSession} showPlaceholderLink />
             <LLink className="button button-secondary" to="/lab">{t.home.bringPrototype}</LLink>
             <JoinUsButton className="button button-secondary">{t.nav.join}</JoinUsButton>
           </div>
+          {!nextSession && <p className="hero-action-note">{t.sessions.emptyBody}</p>}
         </div>
         <AnimatedNecklace className="hero-necklace" />
       </section>

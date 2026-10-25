@@ -3,14 +3,15 @@ import { JoinButton } from '../components/JoinButton'
 import { LLink } from '../components/LocaleLink'
 import { SessionCards } from './Home'
 import { useContent } from '../content/context'
-import { sessionDate } from '../content/sessions'
+import { sessionDate, upcomingSession as findUpcomingSession } from '../content/sessions'
+import { SessionAction } from '../components/SessionAction'
 import { useT } from '../i18n/locale'
 import { NotFound } from './NotFound'
 
 export function Sessions() {
   const { t, tx, locale } = useT()
   const { sessions, home } = useContent()
-  const upcomingSession = sessions.find(item => item.id === home.upcomingSessionId)
+  const upcomingSession = findUpcomingSession(sessions, home.upcomingSessionId)
   const s = t.sessions
   return (
     <>
@@ -20,7 +21,7 @@ export function Sessions() {
         <p className="lede">{s.lede}</p>
       </section>
 
-      <section className="band band-cream">
+      <section className="band band-cream" id="upcoming">
         <div className="container cta-row">
           <div>
             <p className="eyebrow">{s.upcoming}</p>
@@ -28,19 +29,17 @@ export function Sessions() {
               <>
                 <h2>{tx(upcomingSession.title)}</h2>
                 <p>
-                  {sessionDate(upcomingSession, locale)} · {tx(upcomingSession.location)}
+                  {[sessionDate(upcomingSession, locale), tx(upcomingSession.location)].filter(Boolean).join(' · ')}
                 </p>
               </>
             ) : (
               <>
-                <h2>{s.nextTitle}</h2>
-                <p>{s.nextBody}</p>
+                <h2>{s.emptyTitle}</h2>
+                <p>{s.emptyBody}</p>
               </>
             )}
           </div>
-          <div className="actions">
-            {upcomingSession?.eventState === 'announced' ? <LLink className="button" to={`/sessions/${upcomingSession.slug}`}>{locale === 'zh' ? '查看活动预告' : 'View session details'}</LLink> : <JoinButton role="Session attendee" signupUrl={upcomingSession?.signupUrl}>{s.saveSeat}</JoinButton>}
-          </div>
+          {upcomingSession && <div className="actions"><SessionAction session={upcomingSession} /></div>}
         </div>
       </section>
 
