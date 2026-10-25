@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import vm from 'node:vm'
 import { handleIntake } from '../worker/intake'
 
-const payload = { type: 'prototype', locale: 'en', requestId: 'c5d9e878-3e4b-4ad4-8f44-c81e88c1b245', website: '', name: 'Example', purpose: 'Try a product', audience: 'Builders seeking feedback', stage: 'prototype', contactType: 'wechat', contact: 'example-wechat', link: '' }
+const payload = { type: 'prototype', locale: 'en', requestId: 'c5d9e878-3e4b-4ad4-8f44-c81e88c1b245', website: '', name: 'Example', purpose: 'Try a product', audience: 'Builders seeking feedback', stage: 'testing', contactType: 'wechat', contact: 'example-wechat', link: '' }
 const request = (data: object, origin = 'https://super0to1.com') => new Request('https://super0to1.com/api/intake', { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
 const env = { GOOGLE_INTAKE_URL: 'https://script.google.com/macros/s/test/exec', GOOGLE_INTAKE_SECRET: 'test-only-secret' }
 
@@ -31,14 +31,19 @@ test('intake refuses invalid submissions and cannot claim success without a conf
 })
 
 test('prototype submission accepts a WeChat contact and rejects invalid email or executable links', async () => {
-  const prototype = { type: 'prototype', locale: 'zh', requestId: payload.requestId, website: '', name: 'Example', purpose: 'Try a product', audience: 'Builders seeking feedback', stage: 'prototype', contactType: 'wechat', contact: 'example-wechat', link: '' }
+  const prototype = { type: 'prototype', locale: 'zh', requestId: payload.requestId, website: '', name: 'Example', purpose: 'Try a product', audience: 'Builders seeking feedback', stage: 'testing', contactType: 'wechat', contact: 'example-wechat', link: '' }
   const send = (async (_url, init) => {
     const data = JSON.parse(String(init?.body))
     assert.equal(data.contactType, 'wechat')
     assert.equal(data.token, env.GOOGLE_INTAKE_SECRET)
     return Response.json({ ok: true, requestId: data.requestId })
   }) as typeof fetch
-  assert.equal((await handleIntake(request(prototype), env, send)).status, 200)
+  for (const stage of ['building', 'testing', 'paying']) {
+    assert.equal((await handleIntake(request({ ...prototype, stage }), env, send)).status, 200)
+  }
+  for (const stage of ['idea', 'prototype', 'ready', 'unknown']) {
+    assert.equal((await handleIntake(request({ ...prototype, stage }), env, send)).status, 400)
+  }
   assert.equal((await handleIntake(request({ ...prototype, contactType: 'email' }), env, send)).status, 400)
   assert.equal((await handleIntake(request({ ...prototype, link: 'javascript:alert(1)' }), env, send)).status, 400)
 })

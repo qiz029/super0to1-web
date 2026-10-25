@@ -11,7 +11,7 @@ export const intakeSchema = z.discriminatedUnion('type', [
   z.object({
     ...common, type: z.literal('prototype'), name: short,
     purpose: z.string().trim().min(1).max(1000), audience: z.string().trim().min(1).max(1000),
-    stage: z.enum(['idea', 'prototype', 'ready']),
+    stage: z.enum(['building', 'testing', 'paying']),
     contactType: z.enum(['email', 'wechat']), contact: short,
     link: z.union([z.literal(''), z.url().max(2000).refine(value => ['http:', 'https:'].includes(new URL(value).protocol))]),
   }).strict().refine(value => value.contactType !== 'email' || z.email().safeParse(value.contact).success),

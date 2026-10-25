@@ -30,3 +30,5 @@ The Google receiver accepts only prototypes, serializes writes and deduplicates 
 Prototype submissions do not implicitly subscribe people to email updates. Unit tests mock Brevo responses and browser tests mock submission receipts; neither proves that a live provider is connected.
 
 Google references: [web apps](https://developers.google.com/apps-script/guides/web), [Sheet writes](https://developers.google.com/apps-script/reference/spreadsheet/sheet), [write locking](https://developers.google.com/apps-script/reference/lock/lock-service).
+
+Product stage values are `building` (no users), `testing` (users but no paying customers), and `paying` (paying customers). The form, Worker validation and Google receiver must use the same values. Update the Apps Script deployment before enabling this form; old `idea`, `prototype`, and `ready` stage values are rejected. The internal submission type and existing Sheet tab name stay unchanged.

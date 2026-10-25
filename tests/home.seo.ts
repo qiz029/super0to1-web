@@ -39,7 +39,7 @@ test('email sign-up remains separate from prototype registration and returns key
   await expect(dialog).toBeHidden()
   await expect(opener).toBeFocused()
   await page.locator('.hero .actions a[href="/lab#submit-prototype"]').click()
-  await expect(page.getByRole('heading', { name: 'Bring your prototype', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Bring your product', exact: true })).toBeVisible()
   await expect(page.getByLabel('Product name', { exact: true })).toBeVisible()
 })
 

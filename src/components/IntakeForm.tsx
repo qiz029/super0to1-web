@@ -48,7 +48,7 @@ export function IntakeForm({ kind }: { kind: 'newsletter' | 'prototype' }) {
           <label htmlFor={`${id}-stage`}>{f.stage}
             <select id={`${id}-stage`} name="stage" aria-label={f.stage} defaultValue="" required>
               <option value="" disabled>{f.chooseStage}</option>
-              <option value="idea">{f.idea}</option><option value="prototype">{f.prototype}</option><option value="ready">{f.ready}</option>
+              <option value="building">{f.building}</option><option value="testing">{f.testing}</option><option value="paying">{f.paying}</option>
             </select>
           </label>
           <div className="form-contact-row">

@@ -8,7 +8,7 @@ function doPost(e) {
     var secret = PropertiesService.getScriptProperties().getProperty('INTAKE_SECRET');
     if (!secret || p.token !== secret || !/^[a-f0-9-]{36}$/i.test(p.requestId || '') || !['en', 'zh'].includes(p.locale) || p.website) return reply({ ok: false });
     if (p.type !== 'prototype') return reply({ ok: false });
-    if (!p.name || !p.purpose || !p.audience || !p.contact || !['idea', 'prototype', 'ready'].includes(p.stage) || !['email', 'wechat'].includes(p.contactType)) return reply({ ok: false });
+    if (!p.name || !p.purpose || !p.audience || !p.contact || !['building', 'testing', 'paying'].includes(p.stage) || !['email', 'wechat'].includes(p.contactType)) return reply({ ok: false });
     if (!lock.tryLock(10000)) return reply({ ok: false });
     var sheet = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SHEET_ID')).getSheetByName('Prototype submissions');
     if (!sheet) return reply({ ok: false });
