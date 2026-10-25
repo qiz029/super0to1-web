@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import vm from 'node:vm'
 import { handleIntake } from '../worker/intake'
 
-const payload = { type: 'newsletter', locale: 'en', requestId: 'c5d9e878-3e4b-4ad4-8f44-c81e88c1b245', email: 'test@example.test', website: '' }
+const payload = { type: 'prototype', locale: 'en', requestId: 'c5d9e878-3e4b-4ad4-8f44-c81e88c1b245', website: '', name: 'Example', purpose: 'Try a product', audience: 'Builders seeking feedback', stage: 'prototype', contactType: 'wechat', contact: 'example-wechat', link: '' }
 const request = (data: object, origin = 'https://super0to1.com') => new Request('https://super0to1.com/api/intake', { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
 const env = { GOOGLE_INTAKE_URL: 'https://script.google.com/macros/s/test/exec', GOOGLE_INTAKE_SECRET: 'test-only-secret' }
 
@@ -43,7 +43,7 @@ test('prototype submission accepts a WeChat contact and rejects invalid email or
   assert.equal((await handleIntake(request({ ...prototype, link: 'javascript:alert(1)' }), env, send)).status, 400)
 })
 
-test('Google receiver separates lists, serializes writes, deduplicates retries, and stores formula-like input as text', () => {
+test('Google receiver accepts only prototypes, serializes writes, deduplicates retries, and stores formula-like input as text', () => {
   const rows: Record<string, unknown[][]> = {
     'Email subscribers': [['Submitted at', 'Email', 'Language', 'Request ID']],
     'Prototype submissions': [['Submitted at', 'Product name', 'What it does', 'Audience and problem', 'Stage', 'Contact method', 'Contact', 'Product link', 'Language', 'Request ID']],
@@ -62,13 +62,12 @@ test('Google receiver separates lists, serializes writes, deduplicates retries, 
   vm.runInContext(readFileSync('scripts/google-intake.gs', 'utf8'), context)
   const post = (value: object) => context.doPost({ postData: { contents: JSON.stringify(value) } })
   assert.equal(post({ ...payload, token: 'bad' }).ok, false)
-  assert.equal(post({ ...payload, token: env.GOOGLE_INTAKE_SECRET }).ok, true)
-  assert.equal(post({ ...payload, requestId: 'f48583c0-1b4e-42d4-887c-547e186e1408', token: env.GOOGLE_INTAKE_SECRET }).ok, true)
-  assert.equal(rows['Email subscribers'].length, 2)
-  const prototype = { type: 'prototype', locale: 'en', requestId: payload.requestId, name: '=HYPERLINK("x")', purpose: 'Purpose', audience: 'Audience', stage: 'ready', contactType: 'wechat', contact: 'test', link: '', token: env.GOOGLE_INTAKE_SECRET }
+  assert.equal(post({ type: 'newsletter', email: 'test@example.test', locale: 'en', requestId: payload.requestId, token: env.GOOGLE_INTAKE_SECRET }).ok, false)
+  assert.equal(rows['Email subscribers'].length, 1)
+  const prototype = { ...payload, name: '=HYPERLINK("x")', token: env.GOOGLE_INTAKE_SECRET }
   assert.equal(post(prototype).ok, true)
   assert.equal(post(prototype).ok, true)
   assert.equal(rows['Prototype submissions'].length, 2)
-  assert.equal(rows['Prototype submissions'][1][1], '\'=HYPERLINK("x")')
+  assert.equal(rows['Prototype submissions'][1][1], "'=HYPERLINK(\"x\")")
   assert.equal(locked, false)
 })

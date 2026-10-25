@@ -25,6 +25,7 @@ export function IntakeForm({ kind }: { kind: 'newsletter' | 'prototype' }) {
         signal: AbortSignal.timeout(20000),
       })
       if (response.status === 400) { setError(f.invalid); setState('error'); return }
+      if (response.status === 409 && kind === 'newsletter') { setError(f.confirmationRequired); setState('error'); return }
       const result = await response.json() as { ok?: boolean; requestId?: string }
       if (!response.ok || result.ok !== true || result.requestId !== requestId.current) throw new Error('Not saved')
       setState('success')

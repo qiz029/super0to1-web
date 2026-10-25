@@ -7,7 +7,7 @@ const common = {
 }
 const short = z.string().trim().min(1).max(200)
 export const intakeSchema = z.discriminatedUnion('type', [
-  z.object({ ...common, type: z.literal('newsletter'), email: z.email().trim().toLowerCase().max(254) }).strict(),
+  z.object({ ...common, type: z.literal('newsletter'), email: z.string().trim().toLowerCase().pipe(z.email().max(254)) }).strict(),
   z.object({
     ...common, type: z.literal('prototype'), name: short,
     purpose: z.string().trim().min(1).max(1000), audience: z.string().trim().min(1).max(1000),

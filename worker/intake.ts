@@ -1,6 +1,7 @@
 import { intakeSchema } from '../shared/intake'
+import { subscribeToNewsletter, type NewsletterEnv } from './newsletter'
 
-export type IntakeEnv = { GOOGLE_INTAKE_URL?: string; GOOGLE_INTAKE_SECRET?: string }
+export type IntakeEnv = NewsletterEnv & { GOOGLE_INTAKE_URL?: string; GOOGLE_INTAKE_SECRET?: string }
 const json = (body: object, status: number) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } })
 
 export async function handleIntake(request: Request, env: IntakeEnv, send: typeof fetch = fetch) {
@@ -28,6 +29,10 @@ export async function handleIntake(request: Request, env: IntakeEnv, send: typeo
   catch { return json({ error: 'input' }, 400) }
   const parsed = intakeSchema.safeParse(input)
   if (!parsed.success || parsed.data.website) return json({ error: 'input' }, 400)
+  if (parsed.data.type === 'newsletter') {
+    const result = await subscribeToNewsletter(parsed.data, env, send)
+    return result.ok ? json({ ok: true, requestId: parsed.data.requestId }, 200) : json({ error: result.error }, result.status)
+  }
   if (!env.GOOGLE_INTAKE_URL || !env.GOOGLE_INTAKE_SECRET) return json({ error: 'unavailable' }, 503)
   try {
     const endpoint = new URL(env.GOOGLE_INTAKE_URL)
