@@ -15,6 +15,10 @@
     {
       "pattern": "cms.super0to1.com",
       "custom_domain": true
+    },
+    {
+      "pattern": "mcp.super0to1.com",
+      "custom_domain": true
     }
   ],
   "d1_databases": [
@@ -45,5 +49,14 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "compatibility_flags": [
+    "global_fetch_strictly_public"
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "60fac6bcd42b45d3acfbd099a743b41a"
+    }
+  ]
 }

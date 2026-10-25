@@ -17,6 +17,11 @@ export async function authenticate(request: Request, env: Env): Promise<Actor> {
     if (typeof payload.email !== 'string') throw new Error('Identity missing')
     email = payload.email.toLowerCase()
   } catch { throw new HttpError(401, '登录已过期，请重新登录。') }
+  return memberActor(email, env)
+}
+
+/** Recheck membership on every MCP call and token refresh. */
+export async function memberActor(email: string, env: Env): Promise<Actor> {
   if (env.CMS_OWNER_EMAIL && email === env.CMS_OWNER_EMAIL.toLowerCase()) return { email, role: 'admin' }
   const member = await env.DB.prepare('SELECT role FROM members WHERE email = ?').bind(email).first<{ role: 'admin' | 'editor' }>()
   if (!member) throw new HttpError(403, '这个账号尚未获得网站编辑权限。')

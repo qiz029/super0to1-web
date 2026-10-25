@@ -58,7 +58,7 @@ Set these repository **Settings → Secrets and variables → Actions** secrets 
 | Secret | Value |
 | --- | --- |
 | `CLOUDFLARE_ACCOUNT_ID` | The account containing the `super0to1-web` Worker |
-| `CLOUDFLARE_API_TOKEN` | Account: Workers Scripts Edit, Account Settings Read, D1 Edit, Workers R2 Storage Edit; zone: Workers Routes Edit, Zone Read |
+| `CLOUDFLARE_API_TOKEN` | Account: Workers Scripts Edit, Account Settings Read, Workers KV Storage Edit, D1 Edit, Workers R2 Storage Edit; zone: Workers Routes Edit, Zone Read |
 
 Use a token scoped to the deployment account and the `super0to1.com` zone, following
 [Cloudflare's GitHub Actions setup](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/).

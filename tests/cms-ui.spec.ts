@@ -1,5 +1,52 @@
 import { test, expect } from '@playwright/test'
 
+test('search matches either language and makes empty results recoverable', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: '01 活动' }).click()
+  const rows = page.locator('.content-row')
+  const total = await rows.count()
+  expect(total).toBeGreaterThan(0)
+  await rows.first().click()
+  const englishTitle = await page.getByRole('group', { name: '活动标题', exact: true }).getByRole('textbox', { name: 'English', exact: true }).inputValue()
+  expect(englishTitle).not.toBe('')
+  await page.getByRole('button', { name: '← 返回列表' }).click()
+  await page.getByRole('textbox', { name: '搜索内容' }).fill(`  ${englishTitle.toUpperCase()}  `)
+  await expect(rows).not.toHaveCount(0)
+  await page.getByRole('textbox', { name: '搜索内容' }).fill('no-matching-content-67953')
+  await expect(page.getByRole('heading', { name: '没有找到匹配的内容' })).toBeVisible()
+  await expect(rows).toHaveCount(0)
+  await page.getByRole('button', { name: '查看全部内容' }).click()
+  await expect(rows).toHaveCount(total)
+  await expect(page.getByRole('textbox', { name: '搜索内容' })).toHaveValue('')
+})
+
+test('dialogs contain keyboard focus, close with Escape, and return focus to the opener', async ({ page }) => {
+  await page.goto('/')
+  const publish = page.getByRole('button', { name: '发布内容 ↗' })
+  await publish.click()
+  const dialog = page.getByRole('dialog', { name: '发布内容', exact: true })
+  await expect(dialog).toBeVisible()
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press('Tab')
+    expect(await dialog.evaluate(el => el.contains(document.activeElement) || document.activeElement === document.body)).toBe(true)
+  }
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await expect(publish).toBeFocused()
+  await page.getByRole('button', { name: '01 活动' }).click()
+  await page.locator('.content-row').first().click()
+  const chooseImage = page.getByRole('button', { name: '选择 / 上传图片' })
+  await chooseImage.click()
+  await expect(page.getByRole('dialog', { name: '选择图片' })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(chooseImage).toBeFocused()
+  const translate = page.locator('.content-translation-bar').getByRole('button', { name: '中文 → English', exact: true })
+  await translate.click()
+  await expect(page.getByRole('dialog', { name: 'AI 翻译', exact: true })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(translate).toBeFocused()
+})
+
 test('edit a private session, upload a cover, preview both languages, and restore the draft', async ({ page, request }) => {
   const original = await (await request.get('/api/state')).json()
   const errors: string[] = []

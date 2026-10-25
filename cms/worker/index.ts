@@ -10,12 +10,12 @@ const now = () => new Date().toISOString()
 const json = (value: unknown, status = 200) => Response.json(value, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } })
 const id = () => crypto.randomUUID()
 const releaseView = ({ data: _data, ...row }: ReleaseRow) => row
-async function readJson(request: Request) {
+export async function readJson(request: Request) {
   if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new HttpError(415, '请发送 JSON 数据。')
   const body = await limitedBody(request, 2_000_000)
   try { return JSON.parse(new TextDecoder().decode(body)) } catch { throw new HttpError(400, '内容格式无效。') }
 }
-async function limitedBody(request: Request, limit: number): Promise<Uint8Array<ArrayBuffer>> {
+export async function limitedBody(request: Request, limit: number): Promise<Uint8Array<ArrayBuffer>> {
   if (Number(request.headers.get('Content-Length')) > limit) throw new HttpError(413, '文件或内容过大。')
   if (!request.body) throw new HttpError(400, '请求内容为空。')
   const reader = request.body.getReader(), chunks: Uint8Array[] = []
@@ -137,7 +137,7 @@ export async function reconcile(env: Env) {
   } finally { await env.DB.prepare('UPDATE releases SET lease_until = NULL WHERE id = ?').bind(active.id).run() }
 }
 
-async function api(request: Request, env: Env, actor: Actor, ctx: ExecutionContext): Promise<Response> {
+export async function cmsApi(request: Request, env: Env, actor: Actor, ctx: ExecutionContext): Promise<Response> {
   const url = new URL(request.url), path = url.pathname
   if (path === '/api/translate' && request.method === 'POST') return json(await translateContent(env, actor, await readJson(request)))
   if (path === '/api/state' && request.method === 'GET') {
@@ -219,10 +219,15 @@ async function api(request: Request, env: Env, actor: Actor, ctx: ExecutionConte
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     try {
+      const url = new URL(request.url)
+      if (url.hostname === 'mcp.super0to1.com' || url.pathname === '/mcp' || url.pathname.startsWith('/oauth/') || url.pathname.startsWith('/.well-known/') || url.pathname.startsWith('/api/mcp/')) {
+        const { handleMcpRequest } = await import('./mcp-auth')
+        return await handleMcpRequest(request, env, ctx)
+      }
       const actor = await authenticate(request, env)
       requireSameOrigin(request)
       const path = new URL(request.url).pathname
-      const response = path.startsWith('/api/') ? await api(request, env, actor, ctx) : ['GET', 'HEAD'].includes(request.method) ? await env.ASSETS.fetch(request) : json({ error: 'Method not allowed' }, 405)
+      const response = path.startsWith('/api/') ? await cmsApi(request, env, actor, ctx) : ['GET', 'HEAD'].includes(request.method) ? await env.ASSETS.fetch(request) : json({ error: 'Method not allowed' }, 405)
       const headers = new Headers(response.headers)
       headers.set('Cache-Control', 'private, no-store')
       headers.set('X-Robots-Tag', 'noindex, nofollow')
@@ -240,5 +245,7 @@ export default {
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext) {
     ctx.waitUntil(reconcile(env))
     ctx.waitUntil(env.DB.prepare('DELETE FROM previews WHERE expires_at < ?').bind(now()).run())
+    ctx.waitUntil(env.DB.prepare('DELETE FROM mcp_consents WHERE expires_at < ?').bind(now()).run())
+    ctx.waitUntil(env.DB.prepare('DELETE FROM mcp_rate_limits WHERE expires_at < ?').bind(Date.now()).run())
   },
 }

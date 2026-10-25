@@ -46,6 +46,11 @@ jobs:
       - name: Build CMS and private preview
         run: npm run cms:build
 
+      - name: Test CMS browser and MCP OAuth flows
+        run: |
+          npx playwright install --with-deps chromium
+          npx playwright test
+
       - name: Record deployed commit
         run: |
           node --input-type=module <<'NODE'
@@ -93,3 +98,16 @@ jobs:
             echo "::error::CMS returned unexpected unauthenticated status: $status"
             exit 1
           fi
+
+      - name: Verify MCP discovery and authentication boundary
+        run: |
+          curl --fail --silent --show-error --retry 3 --max-time 20 \
+            https://mcp.super0to1.com/.well-known/oauth-protected-resource/mcp \
+            | jq --exit-status '.resource == "https://mcp.super0to1.com/mcp"'
+          curl --fail --silent --show-error --retry 3 --max-time 20 \
+            https://mcp.super0to1.com/.well-known/oauth-authorization-server \
+            | jq --exit-status '.authorization_endpoint == "https://cms.super0to1.com/oauth/authorize"'
+          status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 20 https://mcp.super0to1.com/mcp)
+          test "$status" = "401"
+          status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 20 https://mcp.super0to1.com/api/state)
+          test "$status" = "404"

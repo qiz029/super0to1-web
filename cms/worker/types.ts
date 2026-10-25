@@ -2,6 +2,7 @@ import type { Snapshot } from '../../shared/content'
 
 export interface Env {
   DB: D1Database
+  OAUTH_KV: KVNamespace
   MEDIA: R2Bucket
   ASSETS: Fetcher
   ACCESS_TEAM_URL: string

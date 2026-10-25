@@ -1,19 +1,20 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { MAX_TRANSLATION_CHARACTERS, type TranslationChange, type TranslationField, type TranslationLanguage } from '../../shared/translation'
 import { api } from './api'
+import { Dialog } from './Dialog'
 
 type TranslationRequest = { title: string; source: TranslationLanguage; fields: TranslationField[]; apply: (changes: TranslationChange[]) => void }
-const TranslationContext = createContext<{ open: (request: TranslationRequest) => void; active: boolean }>({ open() {}, active: false })
+const TranslationContext = createContext<{ open: (request: TranslationRequest) => void }>({ open() {} })
 const languageName = { zh: '中文', en: 'English' }
 
 export function TranslationActions({ title, fields, apply, compact = false }: Omit<TranslationRequest, 'source'> & { compact?: boolean }) {
   const context = useContext(TranslationContext)
-  return <div className={`translation-actions ${compact ? 'compact' : ''}`} aria-label={`${title}翻译`}>
+  return <span className={`translation-actions ${compact ? 'compact' : ''}`} aria-label={`${title}翻译`}>
     {!compact && <span>AI 翻译</span>}
-    {(['zh', 'en'] as const).map(source => <button key={source} type="button" className={compact ? 'text-button' : 'button'} disabled={context.active || !fields.some(field => field.value[source].trim())} onClick={() => context.open({ title, source, fields, apply })}>
+    {(['zh', 'en'] as const).map(source => <button key={source} type="button" className={compact ? 'text-button' : 'button'} disabled={!fields.some(field => field.value[source].trim())} onClick={() => context.open({ title, source, fields, apply })}>
       {source === 'zh' ? '中文 → English' : 'English → 中文'}
     </button>)}
-  </div>
+  </span>
 }
 
 export function TranslationProvider({ children }: { children: ReactNode }) {
@@ -55,8 +56,8 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
     } catch (e) { setError(e instanceof Error ? e.message : '应用译文失败，请重试。') }
   }
   const select = (keys: string[]) => { setSelected(new Set(keys)); setResults(null); setError('') }
-  return <TranslationContext.Provider value={{ open, active: !!request }}>{children}
-    {request && <div className="modal-backdrop translation-backdrop"><section className="modal translation-modal" role="dialog" aria-modal="true" aria-label="AI 翻译">
+  return <TranslationContext.Provider value={{ open }}>{children}
+    {request && <Dialog label="AI 翻译" className="translation-backdrop" onClose={close}><section className="modal translation-modal">
       <div className="modal-heading"><div><p className="eyebrow">AI TRANSLATION</p><h2>{request.title} · {languageName[request.source]} → {languageName[target]}</h2></div><button className="icon-button" aria-label="关闭翻译" onClick={close}>×</button></div>
       <p>选择要翻译的字段，检查译文后应用到草稿。已有译文默认不覆盖；网址和共用名称保持原样。</p>
       {!results && <div className="translation-selection"><button className="text-button" disabled={busy} onClick={() => select(fields.filter(field => !field.value[target].trim()).map(field => field.key))}>只选空白译文</button><button className="text-button" disabled={busy} onClick={() => select(fields.map(field => field.key))}>全选（含已有译文）</button><button className="text-button" disabled={busy} onClick={() => select([])}>取消选择</button><small>{chosen.length} 个字段 · {characters.toLocaleString()} 字符</small></div>}
@@ -69,6 +70,6 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
       <div className="modal-actions"><button className="button" onClick={close}>{busy ? '取消等待' : '取消'}</button>{results ? <><button className="button" onClick={() => { setResults(null); setError('') }}>重新选择字段</button><button className="button primary" onClick={apply}>应用 {chosen.length} 项译文到草稿</button></> : <button className="button primary" disabled={busy || !chosen.length || characters > MAX_TRANSLATION_CHARACTERS} onClick={generate}>{busy ? '正在翻译…' : '生成译文'}</button>}</div>
       {characters > MAX_TRANSLATION_CHARACTERS && <p className="error">每次最多翻译 {MAX_TRANSLATION_CHARACTERS.toLocaleString()} 个字符，请减少所选字段。</p>}
       <small className="translation-note">所选原文将交给 OpenAI 翻译。应用后仍需保存、预览和发布，官网才会更新。</small>
-    </section></div>}
+    </section></Dialog>}
   </TranslationContext.Provider>
 }

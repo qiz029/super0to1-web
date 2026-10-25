@@ -16,6 +16,10 @@
 
 首页首屏等营销文案、About/Method/Lab 文案、SEO 手动覆盖、富文本、复制条目和成员管理界面留在后续阶段。布局、字体、配色和动画仍由代码维护。
 
+## MCP 连接
+
+后台侧栏「MCP 连接」提供 Codex、Claude Code 和通用远程 HTTP 的安装方式，以及授权撤销入口。首次连接经 CMS 登录并选择权限，之后自动续期。详见 [CMS MCP 连接说明](cms-mcp.md)。
+
 ## 编辑与发布
 
 1. 用站长账号登录。当前 Access 仅开放站长邮箱；Google 登录或邮箱验证码均可。
@@ -75,7 +79,7 @@ npx playwright test # 登录本地豁免环境，覆盖图片上传和双语私�
 ```
 
 仅独立的本地配置启用 `CMS_DEV`，且服务端校验 hostname 必须是 localhost/127.0.0.1。
-生产配置不开启该标记；后台 Workers.dev 和预览域名关闭。所有后台资源、API、图片和预览均验证 Access JWT 的签名、发行者、受众和成员权限；不信任裸 email 请求头。
+生产配置不开启该标记；后台 Workers.dev 和预览域名关闭。CMS 域名上的后台资源、浏览器 API、图片、预览和 MCP 授权管理均验证 Access JWT 的签名、发行者、受众和成员权限；不信任裸 email 请求头。
 
 - `shared/content.ts`：草稿与公开快照的严格 schema、双语/引用/URL 发布检查。
 - `content/published/site.json`：唯一提交到公开仓库的 CMS 内容快照，不能写入草稿或内部备注。
@@ -89,7 +93,7 @@ npx playwright test # 登录本地豁免环境，覆盖图片上传和双语私�
 
 ## 生产配置与运维
 
-Cloudflare 资源为 `super0to1-cms` Worker、同名 D1、`super0to1-cms-media` 私有 R2 bucket。
+Cloudflare 资源为 `super0to1-cms` Worker、同名 D1、`super0to1-cms-media` 私有 R2 bucket，以及 MCP 授权使用的 `OAUTH_KV`。独立 MCP 域名的保护方式见 [MCP 连接说明](cms-mcp.md)。
 主站与后台共享该 bucket，生产绑定记录在两个 Wrangler 配置中。Actions 每次部署先执行 D1 迁移，再部署主站和 CMS，最后检查官网和后台登录门禁。
 
 CMS Worker secrets：`CMS_OWNER_EMAIL`、`GITHUB_APP_PRIVATE_KEY`（PKCS8）、`OPENAI_API_KEY`。非敏感的 App ID、安装 ID、Access team URL 和 audience 在 CMS Wrangler 配置中。私钥仅存 Worker secret；不放 Actions、前端或公开 Git 仓库。
