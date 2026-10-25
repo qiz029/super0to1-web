@@ -1,5 +1,4 @@
 import { Fragment } from 'react'
-import { AnimatedNecklace } from '../components/Necklace'
 import { VideoCard } from '../components/VideoCard'
 import { JoinUsButton } from '../components/JoinUsButton'
 import { LLink } from '../components/LocaleLink'
@@ -39,14 +38,25 @@ export function Home() {
           <p className="lede hero-in" style={{ ['--i' as string]: 5 }}>
             {t.home.lede}
           </p>
-          <div className="actions hero-in" style={{ ['--i' as string]: 6 }}>
-            <SessionAction session={nextSession} showPlaceholderLink />
-            <LLink className="button button-secondary" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
-            <JoinUsButton className="button button-secondary">{t.nav.join}</JoinUsButton>
-          </div>
-          {!nextSession && <p className="hero-action-note">{t.sessions.emptyBody}</p>}
         </div>
-        <AnimatedNecklace className="hero-necklace" />
+        <div className="participation hero-in" style={{ ['--i' as string]: 6 }}>
+          <p className="eyebrow">{t.home.participate}</p>
+          <div className="actions participation-actions">
+            <div className="participation-primary">
+              <h2>{t.home.emailTitle}</h2>
+              <p>{t.home.emailBody}</p>
+              <JoinUsButton className="button">{t.home.emailAction} <span aria-hidden="true">↗</span></JoinUsButton>
+            </div>
+            <div className="participation-row">
+              <div><h2>{t.home.productTitle}</h2><p>{t.home.productBody}</p></div>
+              <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype} <span aria-hidden="true">↗</span></LLink>
+            </div>
+            <div className="participation-row">
+              <div><h2>{t.home.sessionTitle}</h2><p className="hero-action-note">{nextSession ? t.home.sessionsBody : t.home.sessionPending}</p></div>
+              <SessionAction session={nextSession} showPlaceholderLink />
+            </div>
+          </div>
+        </div>
       </section>
 
       {home.showProjects && featuredProjects.length > 0 && <section className="section container">

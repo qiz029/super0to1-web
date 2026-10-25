@@ -1973,3 +1973,28 @@ body::after {
 
 .session-body { max-width: 840px; }
 .session-body > p { white-space: pre-line; line-height: 1.8; margin-bottom: 1.5rem; }
+
+/* Homepage participation has one primary action and two contextual links. */
+.home-hero { grid-template-columns: 1.05fr 1fr; gap: clamp(32px, 5vw, 80px); min-height: min(760px, calc(100svh - 88px)); padding-block: 72px; }
+.home-hero .lede { max-width: 33em; }
+.participation { border-top: 1px solid var(--line); padding-top: 22px; }
+.participation > .eyebrow { margin-bottom: 22px; }
+.participation-actions { display: grid; gap: 0; margin-top: 0; }
+.participation h2 { font-size: 23px; letter-spacing: -.025em; line-height: 1.25; }
+.participation p:not(.eyebrow) { font-size: 15px; line-height: 1.6; color: var(--muted); margin-top: 8px; }
+.participation-primary { padding-bottom: 26px; }
+.participation-primary .button { margin-top: 20px; width: 100%; justify-content: space-between; border-radius: 10px; padding: 16px 20px; font-size: 16px; }
+.participation-row { border-top: 1px solid var(--line); padding-block: 22px; display: grid; gap: 12px; }
+.participation-row h2 { font-size: 18px; }
+.participation-row .participation-link, .participation-row .button { width: fit-content; background: transparent; border: 0; border-radius: 0; padding: 0 0 3px; color: var(--cream); box-shadow: none; font-size: 15px; font-weight: 600; border-bottom: 1px solid currentColor; }
+.participation-row :is(a, button):hover { color: var(--lime); }
+.participation .hero-action-note { margin-top: 8px; }
+@media (max-width: 760px) {
+  .home-hero { grid-template-columns: 1fr; padding-block: 44px 36px; gap: 28px; min-height: 0; }
+  .home-hero h1 { font-size: clamp(38px, 10vw, 58px); }
+  .home-hero .lede { font-size: 17px; }
+  .participation { padding-top: 18px; }
+  .participation > .eyebrow { margin-bottom: 16px; }
+  .participation-primary { padding-bottom: 20px; }
+  .participation-row { padding-block: 18px; }
+}
