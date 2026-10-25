@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2023", "lib": ["ES2023", "DOM"], "module": "ESNext", "moduleResolution": "bundler",
+    "types": ["@cloudflare/workers-types", "vite/client"], "jsx": "react-jsx", "strict": true,
+    "skipLibCheck": true, "noEmit": true, "resolveJsonModule": true, "allowImportingTsExtensions": true,
+    "noUnusedLocals": true, "noUnusedParameters": true
+  },
+  "include": ["cms/worker", "cms/ui", "shared", "src", "worker", "content/published"]
+}

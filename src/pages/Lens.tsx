@@ -1,12 +1,12 @@
 import { useParams } from 'react-router'
 import { VideoGrid } from '../components/VideoCard'
 import { LLink } from '../components/LocaleLink'
-import { site } from '../content/site'
-import { videos } from '../content/videos'
+import { useContent } from '../content/context'
 import { useT } from '../i18n/locale'
 import { NotFound } from './NotFound'
 
 export function Lens() {
+  const { site, videos } = useContent()
   const { t } = useT()
   return (
     <>
@@ -26,9 +26,10 @@ export function Lens() {
 }
 
 export function Episode() {
-  const { t } = useT()
+  const { videos } = useContent()
+  const { t, tx } = useT()
   const { id } = useParams()
-  const video = videos.find((v) => v.id === id)
+  const video = videos.find((v) => v.youtubeId === id)
   if (!video) return <NotFound />
 
   return (
@@ -38,13 +39,15 @@ export function Episode() {
           {t.lens.back}
         </LLink>
         <p className="eyebrow">Super Lens</p>
-        <h1 className="episode-title">{video.title}</h1>
+        <h1 className="episode-title">{tx(video.title)}</h1>
+        {(video.guestName || video.publishedDate) && <p className="meta">{[video.guestName, video.publishedDate].filter(Boolean).join(' · ')}</p>}
+        {tx(video.summary) && <p className="lede">{tx(video.summary)}</p>}
       </section>
       <section className="section container">
         <div className="player">
           <iframe
-            src={`https://www.youtube-nocookie.com/embed/${video.id}`}
-            title={video.title}
+            src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
+            title={tx(video.title)}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
@@ -53,7 +56,7 @@ export function Episode() {
         <div className="actions">
           <a
             className="button button-secondary"
-            href={`https://www.youtube.com/watch?v=${video.id}`}
+            href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -2,12 +2,15 @@ import { useParams } from 'react-router'
 import { JoinButton } from '../components/JoinButton'
 import { LLink } from '../components/LocaleLink'
 import { SessionCards } from './Home'
-import { sessions, upcomingSession } from '../content/sessions'
+import { useContent } from '../content/context'
+import { sessionDate } from '../content/sessions'
 import { useT } from '../i18n/locale'
 import { NotFound } from './NotFound'
 
 export function Sessions() {
-  const { t, tx } = useT()
+  const { t, tx, locale } = useT()
+  const { sessions, home } = useContent()
+  const upcomingSession = sessions.find(item => item.id === home.upcomingSessionId)
   const s = t.sessions
   return (
     <>
@@ -25,7 +28,7 @@ export function Sessions() {
               <>
                 <h2>{tx(upcomingSession.title)}</h2>
                 <p>
-                  {tx(upcomingSession.date)} · {tx(upcomingSession.location)}
+                  {sessionDate(upcomingSession, locale)} · {tx(upcomingSession.location)}
                 </p>
               </>
             ) : (
@@ -36,23 +39,28 @@ export function Sessions() {
             )}
           </div>
           <div className="actions">
-            <JoinButton role="Session attendee">{s.saveSeat}</JoinButton>
+            {upcomingSession?.eventState === 'announced' ? <LLink className="button" to={`/sessions/${upcomingSession.slug}`}>{locale === 'zh' ? '查看活动预告' : 'View session details'}</LLink> : <JoinButton role="Session attendee" signupUrl={upcomingSession?.signupUrl}>{s.saveSeat}</JoinButton>}
           </div>
         </div>
       </section>
 
+      {sessions.some(item => ['announced', 'open'].includes(item.eventState)) && <section className="section container">
+        <div className="section-head"><h2>{locale === 'zh' ? '即将举行' : 'Coming up'}</h2></div>
+        <SessionCards items={sessions.filter(item => ['announced', 'open'].includes(item.eventState))} />
+      </section>}
       <section className="section container">
         <div className="section-head" data-reveal>
           <h2>{s.past}</h2>
         </div>
-        <SessionCards />
+        <SessionCards items={sessions.filter(item => item.eventState === 'ended')} />
       </section>
     </>
   )
 }
 
 export function SessionDetail() {
-  const { t, tx } = useT()
+  const { t, tx, locale } = useT()
+  const { sessions } = useContent()
   const { slug } = useParams()
   const session = sessions.find((s) => s.slug === slug)
   if (!session) return <NotFound />
@@ -63,13 +71,19 @@ export function SessionDetail() {
         <LLink className="back-link" to="/sessions">
           {t.sessions.back}
         </LLink>
-        <p className="eyebrow">Super Session / {tx(session.month)}</p>
+        <p className="eyebrow">Super Session / {sessionDate(session, locale)}</p>
         <h1>{tx(session.title)}</h1>
         {session.summary && <p className="lede">{tx(session.summary)}</p>}
       </section>
       <section className="section container">
         <img className="feature-photo" src={session.image} alt={tx(session.imageAlt)} />
       </section>
+      {(session.body.en || session.body.zh || session.location.en || session.eventState === 'open' || session.eventState === 'cancelled') && <section className="section container session-body">
+        {tx(session.location) && <p className="meta">{tx(session.location)}</p>}
+        {tx(session.body).split('\n\n').filter(Boolean).map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+        {session.eventState === 'open' && <JoinButton role="Session attendee" signupUrl={session.signupUrl}>{t.sessions.saveSeat}</JoinButton>}
+        {session.eventState === 'cancelled' && <p>{locale === 'zh' ? '本场活动已取消。' : 'This session has been cancelled.'}</p>}
+      </section>}
       <section className="section container">
         <div className="section-head">
           <h2>{t.sessions.more}</h2>

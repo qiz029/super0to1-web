@@ -7,14 +7,15 @@ import { Marquee } from '../components/Marquee'
 import { MethodStepper } from '../components/MethodStepper'
 import { LLink } from '../components/LocaleLink'
 import { ProjectCards } from './Projects'
-import { videos } from '../content/videos'
-import { sessions } from '../content/sessions'
+import { useContent } from '../content/context'
+import { sessionDate, type Session } from '../content/sessions'
 import { PROGRAMS } from '../content/programs'
 import { useT } from '../i18n/locale'
 
 export function Home() {
-  const { t, tx } = useT()
-  const [featured, ...rest] = videos
+  const { t, tx, locale } = useT()
+  const { videos, sessions, projects, home } = useContent()
+  const [featured, ...rest] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
 
@@ -82,17 +83,17 @@ export function Home() {
         </div>
       </section>
 
-      <section className="section container">
+      {home.showSessions && <section className="section container">
         <div className="section-head" data-reveal>
-          <h2>{t.home.pastSessions}</h2>
+          <h2>{home.sessionIds.some(id => sessions.some(s => s.id === id && s.eventState !== 'ended')) ? (locale === 'zh' ? '活动与相遇' : 'Sessions & gatherings') : t.home.pastSessions}</h2>
           <LLink className="text-link" to="/sessions">
             {t.home.allSessions}
           </LLink>
         </div>
-        <SessionCards />
-      </section>
+        <SessionCards items={home.sessionIds.flatMap(id => sessions.filter(s => s.id === id))} />
+      </section>}
 
-      <section className="section container">
+      {home.showVideos && featured && <section className="section container">
         <div className="section-head" data-reveal>
           <h2>{t.home.lens}</h2>
           <LLink className="text-link" to="/lens">
@@ -111,17 +112,17 @@ export function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
 
-      <section className="section container">
+      {home.showProjects && <section className="section container">
         <div className="section-head" data-reveal>
           <h2>{t.home.projects}</h2>
           <LLink className="text-link" to="/projects">
             {t.home.viewProjects}
           </LLink>
         </div>
-        <ProjectCards />
-      </section>
+        <ProjectCards items={home.projectIds.flatMap(id => projects.filter(p => p.id === id))} />
+      </section>}
 
       <section className="band band-deep">
         <div className="container join">
@@ -139,15 +140,16 @@ export function Home() {
   )
 }
 
-export function SessionCards() {
-  const { tx } = useT()
+export function SessionCards({ items }: { items?: Session[] }) {
+  const { tx, locale } = useT()
+  const { sessions } = useContent()
   return (
     <div className="grid grid-2">
-      {sessions.map((s, i) => (
+      {(items ?? sessions).map((s, i) => (
         <LLink className="session-card" to={`/sessions/${s.slug}`} key={s.slug} data-reveal style={{ ['--i' as string]: i }}>
           <img src={s.image} alt={tx(s.imageAlt)} loading="lazy" />
           <span className="session-caption">
-            <span className="meta">{tx(s.month)}</span>
+            <span className="meta">{sessionDate(s, locale)}</span>
             <h3>{tx(s.title)}</h3>
           </span>
           <span className="arrow-pill" aria-hidden="true">

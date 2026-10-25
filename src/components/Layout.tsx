@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router'
-import { site } from '../content/site'
+import { useContent } from '../content/context'
 import { useReveal } from '../lib/useReveal'
 import { getMeta } from '../seo'
 import { htmlLang, LocaleContext, localePath, rememberLocale, splitLocale, useT, type Locale } from '../i18n/locale'
@@ -19,9 +19,10 @@ const NAV = [
 
 export function Logo() {
   const { t } = useT()
+  const { site } = useContent()
   return (
     <LLink className="logo" to="/" aria-label={t.nav.home}>
-      Super <span>0→1</span>
+      {site.name === 'Super 0→1' ? <>Super <span>0→1</span></> : site.name}
     </LLink>
   )
 }
@@ -97,6 +98,7 @@ function Header() {
 }
 
 function Footer() {
+  const { site } = useContent()
   const { t } = useT()
   return (
     <footer className="site-footer">
@@ -124,13 +126,14 @@ function Footer() {
 }
 
 function Chrome() {
+  const content = useContent()
   const { t, locale } = useT()
   const { pathname } = useLocation()
   useReveal(pathname)
   useEffect(() => {
-    document.title = getMeta(pathname).title
+    document.title = getMeta(pathname, content).title
     document.documentElement.lang = htmlLang(locale)
-  }, [pathname, locale])
+  }, [pathname, locale, content])
 
   return (
     <>

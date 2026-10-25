@@ -1,0 +1,34 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "super0to1-cms-local",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "../dist-cms",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "super0to1-cms",
+      "database_id": "b7a9d590-3c03-4bfe-ad1b-c0d84b5ded5e",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "super0to1-cms-media"
+    }
+  ],
+  "vars": {
+    "CMS_DEV": "true"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

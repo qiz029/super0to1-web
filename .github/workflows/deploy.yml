@@ -37,14 +37,21 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Test content and CMS behavior
+        run: npm test
+
       - name: Build and prerender
         run: npm run build
+
+      - name: Build CMS and private preview
+        run: npm run cms:build
 
       - name: Record deployed commit
         run: |
           node --input-type=module <<'NODE'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/deploy-meta.json', JSON.stringify({ commit: process.env.GITHUB_SHA }) + '\n');
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const { releaseId } = JSON.parse(readFileSync('content/published/site.json', 'utf8'));
+          writeFileSync('dist/deploy-meta.json', JSON.stringify({ commit: process.env.GITHUB_SHA, releaseId }) + '\n');
           NODE
 
       - name: Deploy Worker and static assets
@@ -57,7 +64,9 @@ jobs:
             echo '::error::Set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in repository Actions secrets.'
             exit 1
           fi
+          npx --no-install wrangler d1 migrations apply super0to1-cms --config cms/wrangler.jsonc --remote
           npx --no-install wrangler deploy
+          npx --no-install wrangler deploy --config cms/wrangler.jsonc
 
       - name: Verify production serves this commit
         run: |
@@ -76,3 +85,11 @@ jobs:
           done
           echo '::error::Production did not serve the expected commit within the verification window.'
           exit 1
+
+      - name: Verify CMS requires authentication
+        run: |
+          status=$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 20 https://cms.super0to1.com/api/state)
+          if [[ "$status" != "302" && "$status" != "401" && "$status" != "403" ]]; then
+            echo "::error::CMS returned unexpected unauthenticated status: $status"
+            exit 1
+          fi

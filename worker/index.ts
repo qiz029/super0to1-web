@@ -4,7 +4,7 @@
 //   `lang` cookie by the on-page switch; without it, the browser's preferred
 //   language (Accept-Language) picks the default. Crawlers send neither, so
 //   they always see the canonical URL they asked for.
-type Env = { ASSETS: { fetch: (request: Request | string) => Promise<Response> } }
+type Env = { ASSETS: { fetch: (request: Request | string) => Promise<Response> }; MEDIA: R2Bucket }
 type Locale = 'en' | 'zh'
 
 const isZhPath = (path: string) => path === '/zh' || path.startsWith('/zh/')
@@ -37,6 +37,15 @@ export default {
     }
 
     const path = url.pathname
+    const media = path.match(/^\/cms-media\/([a-f0-9]{64}\.webp)$/)?.[1]
+    if (media) {
+      if (!['GET', 'HEAD'].includes(request.method)) return new Response(null, { status: 405, headers: { Allow: 'GET, HEAD' } })
+      const object = await env.MEDIA.get(`published/${media}`)
+      if (!object) return new Response('Not found', { status: 404 })
+      const headers = { 'Content-Type': 'image/webp', 'Cache-Control': 'public, max-age=31536000, immutable', ETag: object.httpEtag, 'X-Content-Type-Options': 'nosniff' }
+      if (request.headers.get('If-None-Match') === object.httpEtag) return new Response(null, { status: 304, headers })
+      return new Response(request.method === 'HEAD' ? null : object.body, { headers })
+    }
     const isPage = request.method === 'GET' && !/\.[a-z0-9]+$/i.test(path)
     if (isPage) {
       const chosen = cookieLocale(request)

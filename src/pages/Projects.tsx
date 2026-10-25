@@ -2,15 +2,17 @@ import { useParams } from 'react-router'
 import { JoinButton } from '../components/JoinButton'
 import { LLink } from '../components/LocaleLink'
 import { Necklace, type Pearl } from '../components/Necklace'
-import { projects } from '../content/projects'
+import { useContent } from '../content/context'
+import type { Project } from '../content/projects'
 import { useT } from '../i18n/locale'
 import { NotFound } from './NotFound'
 
-export function ProjectCards() {
+export function ProjectCards({ items }: { items?: Project[] }) {
+  const { projects } = useContent()
   const { t, tx } = useT()
   return (
     <div className="grid grid-2">
-      {projects.map((p) => (
+      {(items ?? projects).map((p) => (
         <LLink className="project-card" to={`/projects/${p.slug}`} key={p.slug} data-reveal>
           {p.cover ? (
             <span className="project-art project-art-cover">
@@ -51,6 +53,7 @@ export function Projects() {
 }
 
 export function ProjectDetail() {
+  const { projects } = useContent()
   const { t, tx } = useT()
   const { slug } = useParams()
   const project = projects.find((p) => p.slug === slug)

@@ -13,5 +13,6 @@
     { "pattern": "super0to1.com", "custom_domain": true },
     { "pattern": "www.super0to1.com", "custom_domain": true }
   ],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "super0to1-cms-media" }],
   "observability": { "enabled": true }
 }

@@ -23,18 +23,17 @@ the browser's first `Accept-Language`. Crawlers get the URL they ask for; each p
 
 ## Edit content
 
-Content lives in `src/content/`; pages pick changes up automatically.
+The private CMS is at **https://cms.super0to1.com**. It manages sessions, videos, projects,
+homepage recommendations, images and registration settings. See [CMS guide](docs/cms-guide.md)
+for editing, publication, recovery and local development.
 
-| File | What it holds |
-| --- | --- |
-| `site.ts` | Mission, YouTube link, registration (`signupUrl` / `contactEmail`) |
-| `programs.ts` | Super Lab / Session / Lens summaries |
-| `sessions.ts` | Past sessions and the next upcoming session |
-| `videos.ts` | Super Lens episodes (YouTube IDs + titles) |
-| `projects.ts` | Featured projects; optional fields stay hidden until filled in |
+`content/published/site.json` contains only the approved public snapshot. The CMS GitHub App
+commits this file to `main`; drafts and preview snapshots remain in Cloudflare D1 and private R2.
+`src/content/` supplies typed adapters plus code-managed program copy. Page/interface copy remains
+in `src/i18n/messages.ts`; About, Method and Lab copy editors are planned for phase two.
 
-Registration buttons link to `signupUrl` when set (the role is appended as `?role=`), fall back to a
-pre-filled email to `contactEmail`, and otherwise show an "opening soon" note.
+Registration priority: session-specific URL → role-specific URL → default URL → contact email →
+opening-soon dialog. HTTPS targets receive `role` and `lang` query parameters.
 
 ## Routes
 
@@ -48,9 +47,9 @@ The site runs on Cloudflare Workers (static assets) at https://super0to1.com.
 ### Automatic deployment
 
 `.github/workflows/deploy.yml` deploys pushes to `main`. It installs the locked dependencies on
-Node.js 24, runs lint and the production build, then deploys the Worker and static assets with
+Node.js 24, runs lint, tests and both production builds, applies D1 migrations, then deploys both Workers and assets with
 the project's locked Wrangler version. The workflow checks the live deployment's commit marker
-and both language homepages before reporting success. Deployments run one at a time; a running
+and both language homepages, and verifies that unauthenticated CMS requests are blocked before reporting success. Deployments run one at a time; a running
 deployment is not cancelled by a newer push. Manual runs are also available on `main`.
 
 Set these repository **Settings → Secrets and variables → Actions** secrets before the first push:
@@ -58,7 +57,7 @@ Set these repository **Settings → Secrets and variables → Actions** secrets 
 | Secret | Value |
 | --- | --- |
 | `CLOUDFLARE_ACCOUNT_ID` | The account containing the `super0to1-web` Worker |
-| `CLOUDFLARE_API_TOKEN` | A Cloudflare API token authorized to deploy that Worker and manage its custom domains |
+| `CLOUDFLARE_API_TOKEN` | Account: Workers Scripts Edit, Account Settings Read, D1 Edit, Workers R2 Storage Edit; zone: Workers Routes Edit, Zone Read |
 
 Use a token scoped to the deployment account and the `super0to1.com` zone, following
 [Cloudflare's GitHub Actions setup](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/).
@@ -69,7 +68,8 @@ unattended deployment on every `main` update.
 ### Local deployment
 
 ```sh
-npm run deploy   # build + wrangler deploy
+npm run deploy       # public site only; prefer GitHub Actions for verified releases
+npm run cms:deploy   # CMS only; requires provisioned D1/R2 and Worker secrets
 ```
 
 `wrangler.jsonc` binds `super0to1.com` and `www.super0to1.com` as custom domains; `worker/index.ts`

@@ -1,20 +1,24 @@
 import { useRef, type ReactNode } from 'react'
-import { site, type JoinRole } from '../content/site'
+import type { JoinRole } from '../content/site'
+import { useContent } from '../content/context'
 import { useT } from '../i18n/locale'
 
 type Props = {
+  signupUrl?: string
   role: JoinRole
   children: ReactNode
   variant?: 'primary' | 'secondary'
 }
 
-export function JoinButton({ role, children, variant = 'primary' }: Props) {
+export function JoinButton({ role, children, signupUrl, variant = 'primary' }: Props) {
   const { t, locale } = useT()
+  const { site } = useContent()
+  const target = signupUrl || site.signupTargets[role] || site.signupUrl
   const dialog = useRef<HTMLDialogElement>(null)
   const className = `button ${variant === 'secondary' ? 'button-secondary' : ''}`
 
-  if (site.signupUrl) {
-    const url = new URL(site.signupUrl)
+  if (target) {
+    const url = new URL(target)
     url.searchParams.set('role', role)
     url.searchParams.set('lang', locale)
     return (

@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "initial-20261024",
+  "site": {
+    "name": "Super 0→1",
+    "fullName": "Super 0→1 Initiative",
+    "url": "https://super0to1.com",
+    "mission": "We empower super individuals to move from 0 to 1 — by helping them close the loops that matter.",
+    "youtube": "https://www.youtube.com/@Super0to1",
+    "signupUrl": "",
+    "contactEmail": "",
+    "signupTargets": {
+      "Builder": "",
+      "Tester": "",
+      "Session attendee": "",
+      "Community": ""
+    }
+  },
+  "home": {
+    "sessionIds": [
+      "find-your-direction",
+      "intro-to-vibe-coding"
+    ],
+    "videoIds": [
+      "tJLBy5aQPDI",
+      "bnqAROVwhc4",
+      "8MXhzjdRCk8"
+    ],
+    "projectIds": [
+      "asidefm"
+    ],
+    "showSessions": true,
+    "showVideos": true,
+    "showProjects": true,
+    "upcomingSessionId": null
+  },
+  "sessions": [
+    {
+      "slug": "find-your-direction",
+      "title": {
+        "en": "Find your direction",
+        "zh": "找到你的方向"
+      },
+      "month": {
+        "en": "April 2026",
+        "zh": "2026 年 4 月"
+      },
+      "image": "/media/session-direction.png",
+      "imageAlt": {
+        "en": "Participants learning together at the Find your direction session",
+        "zh": "“找到你的方向” Session 现场，大家一起学习"
+      },
+      "id": "find-your-direction",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "body": {
+        "en": "",
+        "zh": ""
+      },
+      "datePrecision": "month",
+      "startsAt": "",
+      "endsAt": "",
+      "timezone": "America/Los_Angeles",
+      "location": {
+        "en": "",
+        "zh": ""
+      },
+      "signupUrl": "",
+      "eventState": "ended"
+    },
+    {
+      "slug": "intro-to-vibe-coding",
+      "title": {
+        "en": "Intro to Vibe Coding",
+        "zh": "Vibe Coding 入门"
+      },
+      "month": {
+        "en": "March 2026",
+        "zh": "2026 年 3 月"
+      },
+      "image": "/media/session-vibe-coding.png",
+      "imageAlt": {
+        "en": "Super Session participants together in a room after Intro to Vibe Coding",
+        "zh": "“Vibe Coding 入门” Session 结束后的合影"
+      },
+      "id": "intro-to-vibe-coding",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "body": {
+        "en": "",
+        "zh": ""
+      },
+      "datePrecision": "month",
+      "startsAt": "",
+      "endsAt": "",
+      "timezone": "America/Los_Angeles",
+      "location": {
+        "en": "",
+        "zh": ""
+      },
+      "signupUrl": "",
+      "eventState": "ended"
+    }
+  ],
+  "videos": [
+    {
+      "id": "tJLBy5aQPDI",
+      "title": {
+        "en": "Compound Yourself: Start by Being Radically Honest | A Big Tech Design Director's Growth Playbook",
+        "zh": "Compound Yourself: Start by Being Radically Honest | A Big Tech Design Director's Growth Playbook"
+      },
+      "youtubeId": "tJLBy5aQPDI",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "cover": "",
+      "guestName": "",
+      "publishedDate": ""
+    },
+    {
+      "id": "bnqAROVwhc4",
+      "title": {
+        "en": "Built to 200 Photographers in Half a Year | Asian Photography Association 0→1 (Part 2)",
+        "zh": "Built to 200 Photographers in Half a Year | Asian Photography Association 0→1 (Part 2)"
+      },
+      "youtubeId": "bnqAROVwhc4",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "cover": "",
+      "guestName": "",
+      "publishedDate": ""
+    },
+    {
+      "id": "8MXhzjdRCk8",
+      "title": {
+        "en": "Behind the Lens at MLS, MLB & WNBA | A Pro Photographer Reads the Game (Part 1) 体育摄影会长：拍球赛别带\"粉丝心态\"",
+        "zh": "Behind the Lens at MLS, MLB & WNBA | A Pro Photographer Reads the Game (Part 1) 体育摄影会长：拍球赛别带\"粉丝心态\""
+      },
+      "youtubeId": "8MXhzjdRCk8",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "cover": "",
+      "guestName": "",
+      "publishedDate": ""
+    },
+    {
+      "id": "hyng_gR8juE",
+      "title": {
+        "en": "Does AI Have a Soul? | When One Person Is a Whole Team (Part 4)",
+        "zh": "Does AI Have a Soul? | When One Person Is a Whole Team (Part 4)"
+      },
+      "youtubeId": "hyng_gR8juE",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "cover": "",
+      "guestName": "",
+      "publishedDate": ""
+    },
+    {
+      "id": "v2uk0wZd-Vk",
+      "title": {
+        "en": "In the AI Age, Questions Beat Answers | When One Person Is a Whole Team (Part 3)",
+        "zh": "In the AI Age, Questions Beat Answers | When One Person Is a Whole Team (Part 3)"
+      },
+      "youtubeId": "v2uk0wZd-Vk",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "cover": "",
+      "guestName": "",
+      "publishedDate": ""
+    },
+    {
+      "id": "Pih8iuJeYwY",
+      "title": {
+        "en": "AI Anxiety vs. 100× Productivity | One Person, a Whole Team (Part 2)",
+        "zh": "AI Anxiety vs. 100× Productivity | One Person, a Whole Team (Part 2)"
+      },
+      "youtubeId": "Pih8iuJeYwY",
+      "published": true,
+      "summary": {
+        "en": "",
+        "zh": ""
+      },
+      "cover": "",
+      "guestName": "",
+      "publishedDate": ""
+    }
+  ],
+  "projects": [
+    {
+      "slug": "asidefm",
+      "name": "AsideFM",
+      "domain": "asidefm.com",
+      "tagline": {
+        "en": "Interrupt a podcast, ask out loud, keep listening.",
+        "zh": "用语音打断播客，随口提问接着听。"
+      },
+      "summary": {
+        "en": "AsideFM is a podcast player you can talk back to: interrupt an episode to ask by voice, keep the conversation going, and resume from a complete sentence.",
+        "zh": "AsideFM 是一个可以插话的播客播放器：听到好奇的地方开口提问，AI 结合前文回答，聊完从完整的一句话接着听。"
+      },
+      "cover": "/media/aside-cover.png",
+      "coverAlt": {
+        "en": "Aside — Follow your curiosity, ask anytime.",
+        "zh": "Aside——跟着好奇心，随时提问。"
+      },
+      "builder": {
+        "name": "Todd Zheng",
+        "role": {
+          "en": "Engineer · Builder · Writer",
+          "zh": "工程师 · 产品创造者 · 写作者"
+        },
+        "bio": {
+          "en": "Builds systems that help people and teams do complex work with less friction — from release platforms used by thousands of engineers to AI tools and independent products.",
+          "zh": "打造让个人和团队更顺畅地完成复杂工作的系统——从数千名工程师使用的发布平台，到 AI 工具和独立产品。"
+        },
+        "url": "https://toddzheng.net"
+      },
+      "stage": {
+        "en": "Live",
+        "zh": "已上线"
+      },
+      "url": {
+        "en": "https://asidefm.com",
+        "zh": "https://asidefm.com/zh"
+      },
+      "howItWorks": [
+        {
+          "title": {
+            "en": "Pick something that interests you",
+            "zh": "挑一段感兴趣的"
+          },
+          "body": {
+            "en": "Start with a few minutes of audio — historical interviews and presidential addresses are ready to try.",
+            "zh": "先留几分钟——历史访谈、总统演讲、鲁迅的小说，都可以直接试听。"
+          }
+        },
+        {
+          "title": {
+            "en": "Ask out loud",
+            "zh": "开口提问"
+          },
+          "body": {
+            "en": "When a thought comes to mind, interrupt the episode and jump into the conversation by voice.",
+            "zh": "听到有想法的地方，直接用语音打断，加入对话。"
+          }
+        },
+        {
+          "title": {
+            "en": "Keep listening",
+            "zh": "接着听"
+          },
+          "body": {
+            "en": "Keep the conversation going as long as you like, then resume from a complete sentence.",
+            "zh": "想聊多久都行，聊完从完整的一句话接着往下听。"
+          }
+        }
+      ],
+      "journey": [],
+      "id": "asidefm",
+      "published": true
+    }
+  ]
+}

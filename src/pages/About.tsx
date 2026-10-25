@@ -1,10 +1,11 @@
 import { LLink } from '../components/LocaleLink'
-import { site } from '../content/site'
+import { useContent } from '../content/context'
 import { PROGRAMS } from '../content/programs'
 import { useT } from '../i18n/locale'
 import globe from '../assets/images/brand-globe.png'
 
 export function About() {
+  const { site } = useContent()
   const { t, tx } = useT()
   return (
     <>

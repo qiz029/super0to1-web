@@ -3,6 +3,9 @@ import { projects } from './content/projects'
 import { sessions } from './content/sessions'
 import { thumbnail, videos } from './content/videos'
 import { messages } from './i18n/messages'
+import { published } from './content/context'
+import { sessionDate } from '../shared/format'
+import type { Snapshot } from '../shared/content'
 import { htmlLang, LOCALES, localePath, splitLocale, tx, type Locale } from './i18n/locale'
 
 export type PageMeta = {
@@ -17,7 +20,8 @@ export type PageMeta = {
 const DEFAULT_IMAGE = '/og-image.png'
 const DEFAULT_IMAGE_ALT = 'Super 0→1 — We empower super individuals'
 
-export function getMeta(pathname: string): PageMeta {
+export function getMeta(pathname: string, content: Snapshot = published): PageMeta {
+  const { site, sessions, videos, projects } = content
   const { locale, path: rawPath } = splitLocale(pathname)
   const path = rawPath.replace(/\/+$/, '') || '/'
   const t = messages[locale]
@@ -71,18 +75,18 @@ export function getMeta(pathname: string): PageMeta {
     const title = tx(session.title, locale)
     return page(
       title,
-      session.summary ? tx(session.summary, locale) : s.session(title, tx(session.month, locale)),
+      tx(session.summary, locale) || s.session(title, sessionDate(session, locale)),
       { image: session.image, imageAlt: tx(session.imageAlt, locale), type: 'article' },
     )
   }
 
   if (section === 'lens') {
-    if (!slug) return page('Super Lens', s.lens, { image: thumbnail(videos[0].id), imageAlt: videos[0].title })
-    const video = videos.find((v) => v.id === slug)
+    if (!slug) return page('Super Lens', s.lens, videos[0] ? { image: videos[0].cover || thumbnail(videos[0].youtubeId), imageAlt: tx(videos[0].title, locale) } : {})
+    const video = videos.find((v) => v.youtubeId === slug)
     if (!video) return notFound
-    return page(video.title, s.episode(video.title), {
-      image: thumbnail(video.id),
-      imageAlt: video.title,
+    return page(tx(video.title, locale), tx(video.summary, locale) || s.episode(tx(video.title, locale)), {
+      image: video.cover || thumbnail(video.youtubeId),
+      imageAlt: tx(video.title, locale),
       type: 'video.other',
     })
   }
@@ -102,7 +106,7 @@ export const basePaths = [
   '/sessions',
   ...sessions.map((s) => `/sessions/${s.slug}`),
   '/lens',
-  ...videos.map((v) => `/lens/${v.id}`),
+  ...videos.map((v) => `/lens/${v.youtubeId}`),
   '/about',
 ]
 

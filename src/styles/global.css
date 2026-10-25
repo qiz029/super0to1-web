@@ -1888,3 +1888,6 @@ body::after {
     transition: none !important;
   }
 }
+
+.session-body { max-width: 840px; }
+.session-body > p { white-space: pre-line; line-height: 1.8; margin-bottom: 1.5rem; }

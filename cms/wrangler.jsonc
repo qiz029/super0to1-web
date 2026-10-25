@@ -1,0 +1,48 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "super0to1-cms",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "../dist-cms",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  },
+  "routes": [
+    {
+      "pattern": "cms.super0to1.com",
+      "custom_domain": true
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "super0to1-cms",
+      "database_id": "b7a9d590-3c03-4bfe-ad1b-c0d84b5ded5e",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "super0to1-cms-media"
+    }
+  ],
+  "vars": {
+    "ACCESS_TEAM_URL": "https://billowing-dream-9314.cloudflareaccess.com",
+    "ACCESS_AUD": "fb23c959b95f42d97bbca79723b06eb03e4dcf1a19766f1bf6009f06e03161b4",
+    "GITHUB_APP_ID": "5461254",
+    "GITHUB_INSTALLATION_ID": "174975626"
+  },
+  "triggers": {
+    "crons": [
+      "* * * * *"
+    ]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

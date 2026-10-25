@@ -31,3 +31,6 @@ dist-ssr
 # Cloudflare
 .wrangler
 dist-server
+dist-cms
+playwright-report
+test-results
