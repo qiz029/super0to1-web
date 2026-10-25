@@ -4,7 +4,8 @@
 //   `lang` cookie by the on-page switch; without it, the browser's preferred
 //   language (Accept-Language) picks the default at the English homepage only.
 //   Explicit language and deep links always serve the URL requested.
-type Env = { ASSETS: { fetch: (request: Request | string) => Promise<Response> }; MEDIA: R2Bucket }
+import { handleIntake, type IntakeEnv } from './intake'
+type Env = IntakeEnv & { ASSETS: { fetch: (request: Request | string) => Promise<Response> }; MEDIA: R2Bucket }
 type Locale = 'en' | 'zh'
 
 const isZhPath = (path: string) => path === '/zh' || path.startsWith('/zh/')
@@ -37,6 +38,7 @@ export default {
     }
 
     const path = url.pathname
+    if (path === '/api/intake') return handleIntake(request, env)
     const media = path.match(/^\/cms-media\/([a-f0-9]{64}\.webp)$/)?.[1]
     if (media) {
       if (!['GET', 'HEAD'].includes(request.method)) return new Response(null, { status: 405, headers: { Allow: 'GET, HEAD' } })

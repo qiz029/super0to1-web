@@ -25,7 +25,7 @@ test('CMS next-session state controls homepage booking and excludes ended or can
   }
 })
 
-test('homepage preview honors CMS recommendations and a dedicated community target', async ({ page }) => {
+test('homepage preview honors CMS recommendations and the inline email form', async ({ page }) => {
   const content = JSON.parse(readFileSync('content/published/site.json', 'utf8'))
   content.home.showSessions = false
   content.home.showVideos = false
@@ -36,17 +36,18 @@ test('homepage preview honors CMS recommendations and a dedicated community targ
   await page.goto('/preview.html?id=11111111-1111-1111-1111-111111111111&path=/')
   await expect(page.locator('main h2 a')).toHaveText(['Super Lab ↗'])
   await expect(page.locator('main .project-card').first()).toContainText('Private preview prototype')
-  await page.locator('.hero').getByRole('button', { name: 'Join Us', exact: true }).click()
-  const dialog = page.getByRole('dialog', { name: 'Join the community', exact: true })
-  await expect(dialog.getByRole('link')).toHaveAttribute('href', 'https://newsletter.example.test/join?source=cms&role=Community&lang=en')
+  await page.locator('.hero').getByRole('button', { name: 'Email updates', exact: true }).click()
+  const dialog = page.getByRole('dialog', { name: 'Get email updates', exact: true })
+  await expect(dialog.getByLabel('Email', { exact: true })).toBeVisible()
+  await expect(dialog.getByRole('link')).toHaveCount(0)
   await page.keyboard.press('Escape')
   content.site.signupTargets.Community = ''
   content.home.projectIds = []
   await page.reload()
   await expect(page.locator('main .project-card')).toHaveCount(0)
   await expect(page.locator('main h2')).toHaveCount(0)
-  await page.locator('.hero').getByRole('button', { name: 'Join Us', exact: true }).click()
-  await expect(dialog).toContainText('Email sign-up is not open yet.')
+  await page.locator('.hero').getByRole('button', { name: 'Email updates', exact: true }).click()
+  await expect(dialog.getByLabel('Email', { exact: true })).toBeVisible()
   await expect(dialog.getByRole('link')).toHaveCount(0)
 })
 

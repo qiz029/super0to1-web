@@ -3,6 +3,7 @@ import { LoopDiagram } from '../components/LoopDiagram'
 import { useT } from '../i18n/locale'
 import { useContent } from '../content/context'
 import { ProjectCards } from './Projects'
+import { IntakeForm } from '../components/IntakeForm'
 
 export function Lab() {
   const { t } = useT()
@@ -17,6 +18,15 @@ export function Lab() {
           <p className="lede">{l.lede}</p>
         </div>
         <LoopDiagram />
+      </section>
+
+      <section className="section container prototype-section" id="submit-prototype">
+        <div>
+          <p className="eyebrow">Super Lab</p>
+          <h2>{t.forms.prototypeTitle}</h2>
+          <p className="lede">{t.forms.prototypeIntro}</p>
+        </div>
+        <IntakeForm kind="prototype" />
       </section>
 
       <section className="section container">
@@ -44,7 +54,7 @@ export function Lab() {
             <p>{l.nextBody}</p>
           </div>
           <div className="actions">
-            <JoinButton role="Builder">{l.bringPrototype}</JoinButton>
+            <a className="button" href="#submit-prototype">{l.bringPrototype}</a>
             <JoinButton role="Tester" variant="secondary">
               {l.joinTester}
             </JoinButton>

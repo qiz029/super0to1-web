@@ -382,6 +382,31 @@ p {
   scroll-margin-top: 110px;
 }
 
+#submit-prototype { scroll-margin-top: 110px; }
+.prototype-section { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; }
+.intake-form fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 18px; min-width: 0; }
+.intake-form label { display: grid; gap: 8px; font-size: 15px; font-weight: 500; }
+.intake-form :is(input, textarea, select) {
+  width: 100%; min-width: 0; padding: 12px 14px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--brown-deep); color: var(--white); font: inherit;
+}
+.intake-form textarea { resize: vertical; }
+.intake-form .button { justify-self: start; }
+.intake-form fieldset:disabled { opacity: 0.65; }
+.intake-form button:disabled { cursor: wait; }
+.form-contact-row { display: grid; grid-template-columns: 1fr 1.5fr; gap: 16px; }
+.form-note { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 0; }
+.form-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.form-error { color: #ffd3d0; margin-top: 18px; }
+.form-success { margin-top: 20px; }
+.dialog .intake-form :is(input, textarea, select) { color-scheme: light; background: #fff; color: var(--brown-ink); border-color: rgba(46,38,32,0.3); }
+.dialog .form-note { color: var(--brown); }
+.dialog .form-error { color: #80271f; }
+
+@media (max-width: 760px) {
+  .prototype-section, .form-contact-row { grid-template-columns: 1fr; gap: 24px; }
+}
+
 .section-head h2 a:hover {
   text-decoration: underline;
   text-underline-offset: 6px;

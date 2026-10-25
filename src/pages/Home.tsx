@@ -41,7 +41,7 @@ export function Home() {
           </p>
           <div className="actions hero-in" style={{ ['--i' as string]: 6 }}>
             <SessionAction session={nextSession} showPlaceholderLink />
-            <LLink className="button button-secondary" to="/lab">{t.home.bringPrototype}</LLink>
+            <LLink className="button button-secondary" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
             <JoinUsButton className="button button-secondary">{t.nav.join}</JoinUsButton>
           </div>
           {!nextSession && <p className="hero-action-note">{t.sessions.emptyBody}</p>}
