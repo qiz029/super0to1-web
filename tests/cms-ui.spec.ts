@@ -11,6 +11,10 @@ test('CMS next-session state controls homepage booking and excludes ended or can
   session.eventState = 'open'
   await page.goto(previewUrl)
   await expect(page.locator('.next-event .actions').getByRole('link', { name: 'Register for the event', exact: true })).toHaveAttribute('href', 'https://booking.example.test/session?role=Session+attendee&lang=en')
+  await page.goto(previewUrl.replace('&path=/', '&path=/sessions'))
+  await expect(page.locator('.next-event')).toContainText(session.title.en)
+  await expect(page.locator(`.session-card[href="/sessions/${session.slug}"]`)).toHaveCount(0)
+  await page.goto(previewUrl)
   session.program = 'lab'
   await page.reload()
   await expect(page.locator('.next-event')).toContainText('Super Lab')

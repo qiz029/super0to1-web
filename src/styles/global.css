@@ -2020,3 +2020,10 @@ body::after {
   .lab-entry-actions > :is(a, button) { flex: 1 1 145px; }
   .lab-flow { max-width: none; margin-top: 24px; }
 }
+
+.sessions-hero { padding-block: 48px; }
+.sessions-hero .lede { max-width: 38em; }
+.sessions-hero .actions { align-items: center; gap: 24px; }
+.session-invite-note { margin-top: 14px; font-size: 14px; color: var(--muted); }
+#past-sessions { scroll-margin-top: 110px; }
+.sessions-hero + .next-event { margin-top: 0; }

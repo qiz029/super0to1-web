@@ -4,45 +4,40 @@ import { LLink } from '../components/LocaleLink'
 import { SessionCards } from './Home'
 import { useContent } from '../content/context'
 import { sessionDate, upcomingSession as findUpcomingSession } from '../content/sessions'
-import { SessionAction } from '../components/SessionAction'
+import { EventFeature } from '../components/EventFeature'
+import { JoinUsButton } from '../components/JoinUsButton'
 import { useT } from '../i18n/locale'
 import { NotFound } from './NotFound'
 
 export function Sessions() {
-  const { t, tx, locale } = useT()
+  const { t } = useT()
   const { sessions: events, home } = useContent()
   const sessions = events.filter(item => item.program !== 'lab')
-  const upcomingSession = findUpcomingSession(sessions, home.upcomingSessionId)
+  const next = findUpcomingSession(sessions, home.upcomingSessionId)
+  const comingUp = sessions.filter(item => ['announced', 'open'].includes(item.eventState) && item.id !== next?.id)
+  const past = sessions.filter(item => item.eventState === 'ended')
   const s = t.sessions
   return (
     <>
-      <section className="page-hero container">
-        <p className="eyebrow">{s.eyebrow}</p>
+      <section className="page-hero container sessions-hero">
         <h1>Super Session</h1>
         <p className="lede">{s.lede}</p>
+        <div className="actions">
+          <JoinUsButton>{s.inviteAction}</JoinUsButton>
+          {past.length > 0 && <a className="text-link" href="#past-sessions">{s.browsePast} ↓</a>}
+        </div>
+        <p className="session-invite-note">{s.inviteNote}</p>
       </section>
 
-      {upcomingSession && <section className="band band-cream" id="upcoming">
-        <div className="container cta-row">
-          <div>
-            <p className="eyebrow">{s.upcoming}</p>
-            <h2>{tx(upcomingSession.title)}</h2>
-            <p>{[sessionDate(upcomingSession, locale), tx(upcomingSession.location)].filter(Boolean).join(' · ')}</p>
-          </div>
-          <div className="actions"><SessionAction session={upcomingSession} /></div>
-        </div>
+      <EventFeature event={next} />
+      {comingUp.length > 0 && <section className="section container">
+        <div className="section-head"><h2>{s.upcoming}</h2></div>
+        <SessionCards items={comingUp} />
       </section>}
-
-      {sessions.some(item => ['announced', 'open'].includes(item.eventState)) && <section className="section container">
-        <div className="section-head"><h2>{locale === 'zh' ? '即将举行' : 'Coming up'}</h2></div>
-        <SessionCards items={sessions.filter(item => ['announced', 'open'].includes(item.eventState))} />
+      {past.length > 0 && <section className="section container" id="past-sessions">
+        <div className="section-head" data-reveal><h2>{s.past}</h2></div>
+        <SessionCards items={past} />
       </section>}
-      <section className="section container">
-        <div className="section-head" data-reveal>
-          <h2>{s.past}</h2>
-        </div>
-        <SessionCards items={sessions.filter(item => item.eventState === 'ended')} />
-      </section>
     </>
   )
 }

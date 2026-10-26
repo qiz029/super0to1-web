@@ -69,3 +69,21 @@ test('tester signup collects only email and carries the tester source', async ({
   expect(received?.source).toBe('lab_tester')
   expect(received?.type).toBe('newsletter')
 })
+
+
+test('Session page offers email invitations and a real archive without numbered labels', async ({ page }) => {
+  await page.goto('/sessions')
+  await expect(page.locator('.sessions-hero .eyebrow')).toHaveCount(0)
+  await page.locator('.sessions-hero').getByRole('link', { name: 'Browse past sessions', exact: false }).click()
+  await expect(page).toHaveURL(/#past-sessions$/)
+  await expect(page.locator('#past-sessions .session-card')).toHaveCount(2)
+  await page.locator('.sessions-hero').getByRole('button', { name: 'Get session invites', exact: true }).click()
+  const dialog = page.getByRole('dialog')
+  await expect(dialog.getByRole('textbox')).toHaveCount(1)
+  await expect(dialog.getByLabel('Email', { exact: true })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/zh/sessions')
+  await expect(page.locator('.sessions-hero').getByRole('button', { name: '接收活动邀请' })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
