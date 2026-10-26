@@ -16,7 +16,6 @@ export function Lab() {
       <EventFeature event={nextEvent?.program === 'lab' ? nextEvent : undefined} />
       <section className="page-hero container split lab-hero">
         <div>
-          <p className="eyebrow">{l.eyebrow}</p>
           <h1>Super Lab</h1>
           <p className="lede">{l.lede}</p>
           <div className="lab-entry-actions actions">
@@ -25,7 +24,7 @@ export function Lab() {
           </div>
           <p className="lab-entry-note">{l.testerNote}</p>
         </div>
-        <img className="lab-illustration" src="/media/lab-community-v1.webp" alt={l.illustrationAlt} width="1536" height="1024" />
+        <img className="lab-illustration" src="/media/lab-community-v2.webp" alt={l.illustrationAlt} width="1536" height="1024" />
       </section>
 
       <section className="section container prototype-section" id="submit-prototype">
