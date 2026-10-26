@@ -63,3 +63,8 @@
 复核中英文首屏、按钮、流程和表单说明。替换 try together 等生硬表达；入口改为 Share your product / Try new products，流程强调演示、观察真实使用和反馈后的下一步。成功提示说明收到的是产品资料。移除 Lab 顶部 01 / Build & try 标签。内置 image_gen 移除插图背景，新增带透明通道的 v2 WebP，保留 v1。后台预览复用相同组件与新素材。代码检查、两套构建、10 项网页测试与中英文 Lab 预览测试通过。未推送或部署。
 
 后续逐页任务：移除其他页面顶部 01、02、03 类编号与栏目标签；本批未改其他页面布局。
+
+
+## Lab 流程第二步文案
+
+按用户确认，将 Watch people explore 改为 Let people try it，说明改为 Hear what works for them and what could be better.；中文同步为“让大家上手试试／听听哪些地方有用，哪些地方还可以改进。”仅改共享文案，后台预览同步，其他流程与布局不变。

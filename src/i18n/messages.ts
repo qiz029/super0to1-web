@@ -91,7 +91,7 @@ const en = {
     illustrationAlt: 'A builder shows a product while two participants try it and share feedback.',
     steps: [
       { n: '01 / Show', title: 'Give a quick demo', body: 'Show what you’ve built. A work in progress is welcome.' },
-      { n: '02 / Try', title: 'Watch people explore', body: 'See what makes sense to them and where they get stuck.' },
+      { n: '02 / Try', title: 'Let people try it', body: 'Hear what works for them and what could be better.' },
       { n: '03 / Iterate', title: 'Take feedback forward', body: 'Leave with ideas for what to improve or try next.' },
     ],
     nextEyebrow: 'The next Lab',
@@ -280,7 +280,7 @@ const zh: Messages = {
     illustrationAlt: '一位创作者展示产品，两位参与者上手试用并交流反馈。',
     steps: [
       { n: '01 / 展示', title: '演示你做的东西', body: '简单展示即可，产品不必已经完善。' },
-      { n: '02 / 试用', title: '看看大家怎么用', body: '让参与者自由探索，留意哪里顺畅、哪里卡住。' },
+      { n: '02 / 试用', title: '让大家上手试试', body: '听听哪些地方有用，哪些地方还可以改进。' },
       { n: '03 / 迭代', title: '带着反馈往前走', body: '从交流中找到值得改进或尝试的方向。' },
     ],
     nextEyebrow: '下一期 Lab',
