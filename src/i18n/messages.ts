@@ -4,7 +4,6 @@ const en = {
   mission:
     'We empower super individuals to move from 0 to 1 — by helping them close the loops that matter.',
   nav: {
-    method: 'Pearl Method',
     projects: 'Projects',
     lab: 'Super Lab',
     sessions: 'Super Session',
@@ -38,7 +37,6 @@ const en = {
     sessionsBody: 'Learn together, share ideas, and meet people building something of their own.',
     labBody: 'Prototypes from our community. Try a project, meet its builder, or bring your own.',
     explore: 'Explore programs ↓',
-    method: 'The Pearl Method',
     programs: 'Super 0→1 Programs',
     pastSessions: 'Past Sessions',
     allSessions: 'All sessions →',
@@ -52,35 +50,6 @@ const en = {
     you: 'You',
   },
   marquee: ['Close the loop', 'Build', 'Try', 'Learn', 'Iterate', 'Zero to one'],
-  stepper: {
-    eyebrow: 'Methodology',
-    title: '0→1 is not a leap.',
-    lede: 'It’s a necklace of pearls — a series of loops you need to close, one by one.',
-    label: 'The Pearl Method',
-    steps: [
-      {
-        term: 'Thread',
-        meaning: 'Mission & Vision',
-        body: 'The thread runs through everything — why you started. It holds every stage and every loop together.',
-      },
-      {
-        term: 'Strand',
-        meaning: 'Stage',
-        body: 'Pearls gather into strands: Direction, Product, Go-To-Market. Each stage has its own loops to close.',
-      },
-      {
-        term: 'Pearl',
-        meaning: 'Loop',
-        body: 'Every pearl is one loop — Problem, Action, Outcome. Close it, and the outcome points to the next problem.',
-      },
-    ],
-    readMore: 'Read the Pearl Method →',
-  },
-  stages: [
-    { name: 'Direction', body: 'Find what is worth building and who it is for.' },
-    { name: 'Product', body: 'Make something people can try, and learn from what they do.' },
-    { name: 'Go-To-Market', body: 'Bring it to the people who need it, and keep them.' },
-  ],
   loop: {
     problem: 'Problem',
     action: 'Action',
@@ -91,29 +60,6 @@ const en = {
     hero: 'A necklace of pearls: loops closing one by one',
     thread: 'The thread that holds the pearls',
     strand: 'A strand of pearls split into three stages',
-  },
-  method: {
-    eyebrow: 'Methodology',
-    title: 'The Pearl Method',
-    lede: '0→1 is not a leap. It’s a necklace of pearls — a series of loops you need to close, one by one.',
-    thread: {
-      meta: '01 / Thread',
-      title: 'Mission & Vision',
-      body: 'The thread runs through everything. It is why you started, and it holds every stage and every loop together.',
-    },
-    strand: {
-      meta: '02 / Strand',
-      title: 'Stage',
-      body: 'Along the thread, pearls gather into strands — the stages of going from zero to one. Each stage has its own loops to close.',
-    },
-    pearl: {
-      meta: '03 / Pearl',
-      title: 'Loop',
-      body: 'Every pearl is a single loop: name a problem, take an action, look honestly at the outcome. Close it, and the outcome points to the next problem.',
-    },
-    ctaTitle: 'Close your next loop with others.',
-    ctaLab: 'Bring it to Super Lab',
-    ctaSession: 'Learn at Super Session',
   },
   projects: {
     eyebrow: 'Discover',
@@ -184,7 +130,6 @@ const en = {
       'Super 0→1 is a community for people building something of their own. We believe going from zero to one isn’t a single leap — it’s a series of loops you close, one by one. Our programs exist to help you close them faster, and not alone.',
     projects:
       'Projects that come through Super keep a record of the feedback, new use cases, and iterations that emerge from the community.',
-    method: 'The Pearl Method',
   },
   join: {
     roles: {
@@ -225,8 +170,6 @@ const en = {
   },
   seo: {
     home: 'Super Lab, Super Session and Super Lens help builders go from zero to one.',
-    method:
-      '0→1 is not a leap. It’s a necklace of pearls — a series of loops you need to close, one by one. Thread, strand and pearl: how Super 0→1 thinks about building.',
     projects:
       'Independent projects from the Super 0→1 community. Meet the builders, try their products, and follow their progress, loop by loop.',
     lab: 'Bring a prototype, try something new, and help a builder find their next step. Super Lab is where Super 0→1 projects get hands-on feedback.',
@@ -249,7 +192,6 @@ const zh: Messages = {
   mission: '我们助力超级个体实现从 0 到 1——帮他们走完每一个真正重要的闭环。',
   nav: {
     // Program names are shared brand names; interface labels are localized.
-    method: 'Pearl Method',
     projects: 'Projects',
     lab: 'Super Lab',
     sessions: 'Super Session',
@@ -283,7 +225,6 @@ const zh: Messages = {
     sessionsBody: '一起学习、交流想法，认识正在做自己作品的人。',
     labBody: '看看社群里的原型，试用作品、认识作者，也可以带上你正在做的东西。',
     explore: '了解我们的项目 ↓',
-    method: 'Pearl Method 珍珠方法',
     programs: 'Super 0→1 的三个项目',
     pastSessions: '往期 Session',
     allSessions: '全部 Session →',
@@ -297,35 +238,6 @@ const zh: Messages = {
     you: '你',
   },
   marquee: ['走完闭环', '动手做', '试一试', '一起学', '持续迭代', '从 0 到 1'],
-  stepper: {
-    eyebrow: '方法论',
-    title: '0→1 不是一次跳跃。',
-    lede: '它是一串珍珠——由一个个需要走完的闭环串成。',
-    label: 'Pearl Method 珍珠方法',
-    steps: [
-      {
-        term: 'Thread',
-        meaning: '线 · 使命与愿景',
-        body: '这根线贯穿始终，是你出发的原因。它把每一个阶段、每一个闭环串在一起。',
-      },
-      {
-        term: 'Strand',
-        meaning: '串 · 阶段',
-        body: '珍珠沿着线聚成一串串：方向、产品、走向市场。每个阶段都有自己要走完的闭环。',
-      },
-      {
-        term: 'Pearl',
-        meaning: '珠 · 闭环',
-        body: '每颗珍珠都是一个闭环：问题、行动、结果。走完它，结果会指向下一个问题。',
-      },
-    ],
-    readMore: '了解 Pearl Method →',
-  },
-  stages: [
-    { name: '方向 Direction', body: '找到值得做的事，以及它为谁而做。' },
-    { name: '产品 Product', body: '做出别人能上手试的东西，从他们的使用中学习。' },
-    { name: '走向市场 Go-To-Market', body: '把它带给真正需要的人，并留住他们。' },
-  ],
   loop: {
     problem: '问题',
     action: '行动',
@@ -336,29 +248,6 @@ const zh: Messages = {
     hero: '一串珍珠：闭环一个接一个地完成',
     thread: '串起珍珠的那根线',
     strand: '一串珍珠，分成三个阶段',
-  },
-  method: {
-    eyebrow: '方法论',
-    title: 'Pearl Method 珍珠方法',
-    lede: '0→1 不是一次跳跃。它是一串珍珠——由一个个需要走完的闭环串成。',
-    thread: {
-      meta: '01 / Thread 线',
-      title: '使命与愿景',
-      body: '这根线贯穿始终。它是你出发的原因，也把每一个阶段、每一个闭环串在一起。',
-    },
-    strand: {
-      meta: '02 / Strand 串',
-      title: '阶段',
-      body: '沿着这根线，珍珠聚成一串串，也就是从 0 到 1 的不同阶段。每个阶段都有自己要走完的闭环。',
-    },
-    pearl: {
-      meta: '03 / Pearl 珠',
-      title: '闭环',
-      body: '每颗珍珠都是一个闭环：说清一个问题，采取一次行动，诚实地看待结果。走完它，结果会指向下一个问题。',
-    },
-    ctaTitle: '和大家一起，走完你的下一个闭环。',
-    ctaLab: '带去 Super Lab',
-    ctaSession: '来 Super Session 学习',
   },
   projects: {
     eyebrow: '发现',
@@ -427,7 +316,6 @@ const zh: Messages = {
     intro:
       'Super 0→1 是一个属于“在做自己的东西”的人的社群。我们相信，从 0 到 1 不是一次跳跃，而是一个个闭环，一次走完一个。我们的项目，就是为了帮你更快地走完它们，而且不是一个人走。',
     projects: '经由 Super 的项目，会把社群里产生的反馈、新的使用场景和每一次迭代都记录下来。',
-    method: 'Pearl Method 珍珠方法',
   },
   join: {
     roles: {
@@ -468,8 +356,6 @@ const zh: Messages = {
   },
   seo: {
     home: 'Super Lab、Super Session 和 Super Lens 陪伴做产品的人从 0 走到 1。',
-    method:
-      '0→1 不是一次跳跃，而是一串珍珠——由一个个需要走完的闭环串成。线、串、珠：Super 0→1 如何看待“做东西”这件事。',
     projects: '来自 Super 0→1 社群的独立项目。认识做它们的人，亲手试试产品，见证它们一个闭环一个闭环地成长。',
     lab: '带来你的产品，试试新东西，帮做产品的人找到下一步。Super Lab 是 Super 0→1 项目获得真实反馈的地方。',
     sessions: '由真正有东西可教的人带来的分享和共学。Super 0→1 即将举行和往期的 Session。',

@@ -48,7 +48,6 @@ export function getMeta(pathname: string, content: Snapshot = published): PageMe
       type: 'website',
     }
 
-  if (section === 'method' && !slug) return page(t.method.title, s.method)
 
   if (section === 'projects') {
     if (!slug) return page(t.projects.title, s.projects)
@@ -100,7 +99,6 @@ export function getMeta(pathname: string, content: Snapshot = published): PageMe
 // Every page (English paths) to prerender in each language and list in the sitemap.
 export const basePaths = [
   '/',
-  '/method',
   '/projects',
   ...projects.map((p) => `/projects/${p.slug}`),
   '/lab',
@@ -142,7 +140,7 @@ export function structuredData(pathname: string, content: Snapshot = published):
 
   const [, section, slug] = path.split('/')
   const labels: Record<string, string> = {
-    method: t.nav.method, projects: t.nav.projects, lab: t.nav.lab,
+    projects: t.nav.projects, lab: t.nav.lab,
     sessions: t.nav.sessions, lens: t.nav.lens, about: t.nav.about,
   }
   const crumbs = [

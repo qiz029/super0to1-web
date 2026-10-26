@@ -27,9 +27,6 @@ export function About() {
         </ul>
         <p>{t.about.projects}</p>
         <div className="actions">
-          <LLink className="button" to="/method">
-            {t.about.method}
-          </LLink>
           <a className="button button-secondary" href={site.youtube} target="_blank" rel="noopener noreferrer">
             YouTube ↗
           </a>

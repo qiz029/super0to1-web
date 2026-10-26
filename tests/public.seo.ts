@@ -74,8 +74,8 @@ test('static crawlability, sitemap, fonts and language routing', async ({ reques
   const chinese = { 'Accept-Language': 'zh-CN', Cookie: 'lang=zh' }
   const english = { 'Accept-Language': 'en-US', Cookie: 'lang=en' }
   expect((await request.get('/', { headers: chinese, maxRedirects: 0 })).status()).toBe(302)
-  expect((await request.get('/method', { headers: chinese, maxRedirects: 0 })).status()).toBe(200)
-  expect((await request.get('/zh/method', { headers: english, maxRedirects: 0 })).status()).toBe(200)
+  expect((await request.get('/method', { headers: chinese, maxRedirects: 0 })).status()).toBe(404)
+  expect((await request.get('/zh/method', { headers: english, maxRedirects: 0 })).status()).toBe(404)
   expect((await request.get('/zh', { headers: english, maxRedirects: 0 })).status()).toBe(200)
   expect((await request.get('/', { headers: english, maxRedirects: 0 })).status()).toBe(200)
 })
