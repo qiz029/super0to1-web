@@ -17,9 +17,9 @@ test('CMS next-session state controls homepage booking and excludes ended or can
   for (const state of ['ended', 'cancelled']) {
     session.eventState = state
     await page.reload()
-    await expect(page.locator('.hero .actions').getByRole('link', { name: 'Next session', exact: true })).toBeVisible()
+    await expect(page.locator('.hero .actions').getByRole('link', { name: 'View sessions', exact: true })).toBeVisible()
     await expect(page.locator('.hero .actions a[target="_blank"]')).toHaveCount(0)
-    await page.locator('.hero .actions').getByRole('link', { name: 'Next session', exact: true }).click()
+    await page.locator('.hero .actions').getByRole('link', { name: 'View sessions', exact: true }).click()
     await expect(page.locator('#upcoming')).toContainText('No upcoming session announced yet.')
     await expect(page.locator('#upcoming a, #upcoming button')).toHaveCount(0)
   }
@@ -36,7 +36,7 @@ test('homepage preview honors CMS recommendations and the inline email form', as
   await page.goto('/preview.html?id=11111111-1111-1111-1111-111111111111&path=/')
   await expect(page.locator('main h2 a')).toHaveText(['Super Lab ↗'])
   await expect(page.locator('main .project-card').first()).toContainText('Private preview prototype')
-  await page.locator('.hero').getByRole('button', { name: 'Email updates', exact: true }).click()
+  await page.locator('.hero').getByRole('button', { name: 'Sign up for email updates', exact: false }).click()
   const dialog = page.getByRole('dialog', { name: 'Get email updates', exact: true })
   await expect(dialog.getByLabel('Email', { exact: true })).toBeVisible()
   await expect(dialog.getByRole('link')).toHaveCount(0)
@@ -45,8 +45,8 @@ test('homepage preview honors CMS recommendations and the inline email form', as
   content.home.projectIds = []
   await page.reload()
   await expect(page.locator('main .project-card')).toHaveCount(0)
-  await expect(page.locator('main h2')).toHaveCount(0)
-  await page.locator('.hero').getByRole('button', { name: 'Email updates', exact: true }).click()
+  await expect(page.locator('main h2 a')).toHaveCount(0)
+  await page.locator('.hero').getByRole('button', { name: 'Sign up for email updates', exact: false }).click()
   await expect(dialog.getByLabel('Email', { exact: true })).toBeVisible()
   await expect(dialog.getByRole('link')).toHaveCount(0)
 })
@@ -194,4 +194,40 @@ test('translate a whole record or one field, review before applying, and keep ex
   await expect(modal.getByRole('alert')).toContainText('原内容未修改')
   await modal.getByRole('button', { name: '关闭翻译' }).click()
   await expect(title.getByRole('textbox', { name: 'English', exact: true })).toHaveValue('From idea to action')
+})
+
+
+test('CMS Lab preview shares product stages and localized form labels with the website', async ({ page }) => {
+  const content = JSON.parse(readFileSync('content/published/site.json', 'utf8'))
+  await page.route('**/api/previews/33333333-3333-3333-3333-333333333333', route => route.fulfill({ json: content }))
+  for (const [path, label, title, options] of [
+    ['/lab', 'Product stage', 'Bring your product', ['Choose a stage', 'Building the first version · No users yet', 'Testing with early users · No paying customers yet', 'Serving paying customers']],
+    ['/zh/lab', '产品阶段', '带上你的产品', ['请选择阶段', '首版开发中 · 暂无用户', '早期用户试用中 · 暂无付费客户', '已有付费客户']],
+  ] as const) {
+    await page.goto(`/preview.html?id=33333333-3333-3333-3333-333333333333&path=${encodeURIComponent(path)}`)
+    await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible()
+    await expect(page.getByLabel(label, { exact: true }).locator('option')).toHaveText([...options])
+  }
+})
+
+
+test('homepage controls save to a private preview in the website section order', async ({ page, request }) => {
+  const original = await (await request.get('/api/state')).json()
+  try {
+    await page.goto('/')
+    await page.getByRole('button', { name: '↗ 首页推荐', exact: true }).click()
+    await expect(page.locator('main h2')).toHaveText(['下一场活动', '项目推荐', '活动推荐', '视频推荐'])
+    await page.getByLabel('下一场活动', { exact: true }).selectOption('')
+    for (const checkbox of await page.getByRole('checkbox', { name: '在首页显示这个区块', exact: true }).all()) await checkbox.uncheck()
+    await page.getByRole('button', { name: '保存草稿', exact: true }).click()
+    await expect(page.getByRole('status')).toContainText('草稿已保存')
+    await page.getByRole('button', { name: '预览', exact: true }).click()
+    const preview = page.frameLocator('iframe[title="网站内容预览"]')
+    await expect(preview.locator('main h2 a')).toHaveCount(0)
+    await expect(preview.locator('.hero-action-note')).toContainText('下一场共学尚未公布')
+  } finally {
+    const latest = await (await request.get('/api/state')).json()
+    const restored = await request.put('/api/state', { data: { revision: latest.revision, data: original.data }, headers: { Origin: 'http://127.0.0.1:8788' } })
+    expect(restored.ok()).toBe(true)
+  }
 })
