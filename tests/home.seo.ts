@@ -1,12 +1,11 @@
 import { test, expect } from '@playwright/test'
 
-test('no upcoming session means an honest placeholder and no booking button', async ({ page }) => {
-  await page.goto('/')
-  await expect(page.locator('.hero-action-note')).toContainText('No session announced yet')
-  await page.locator('.hero .actions').getByRole('link', { name: 'View sessions', exact: true }).click()
-  await expect(page).toHaveURL(/\/sessions#upcoming$/)
-  await expect(page.locator('#upcoming')).toContainText('No upcoming session announced yet.')
-  await expect(page.locator('#upcoming a, #upcoming button')).toHaveCount(0)
+test('no upcoming event leaves no placeholder or booking prompt on home and program pages', async ({ page }) => {
+  for (const path of ['/', '/sessions', '/lab']) {
+    await page.goto(path)
+    await expect(page.locator('.next-event, #upcoming')).toHaveCount(0)
+    await expect(page.getByText('Date & location to be announced.', { exact: true })).toHaveCount(0)
+  }
 })
 
 test('home prioritizes participation and content while preserving detail routes', async ({ page }) => {
@@ -14,7 +13,7 @@ test('home prioritizes participation and content while preserving detail routes'
   const navigation = page.locator('#site-nav')
   await expect(navigation.getByRole('link')).toHaveText(['Super Session', 'Super Lab', 'Super Lens', 'About'])
   await expect(navigation.getByRole('button', { name: 'Email updates', exact: true })).toBeVisible()
-  await expect(page.locator('.hero .actions a')).toHaveText(['Submit a product ↗', 'View sessions'])
+  await expect(page.locator('.hero .actions a')).toHaveText(['Submit a product↗', 'Watch on YouTube↗'])
   await expect(page.locator('.program-grid, .stepper, .join-copy')).toHaveCount(0)
   await expect(page.locator('main h2 a')).toHaveText(['Super Lab ↗', 'Super Session ↗', 'Super Lens ↗'])
   await page.locator('h2 a[href="/lab"]').click()
@@ -53,9 +52,9 @@ test('mobile navigation and actions work in both languages without horizontal ov
   await expect(page.getByRole('dialog', { name: '订阅社群消息', exact: true })).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(page.getByRole('button', { name: '菜单', exact: true })).toHaveAttribute('aria-expanded', 'false')
-  await expect(page.locator('.hero .actions a')).toHaveText(['提交产品报名 ↗', '查看共学活动'])
+  await expect(page.locator('.hero .actions a')).toHaveText(['提交产品报名↗', '关注 YouTube 频道↗'])
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-  const actions = await page.locator('.participation-primary .button').boundingBox()
+  const actions = await page.locator('.participation-actions > .button').boundingBox()
   expect(actions && actions.y + actions.height).toBeLessThan(844)
   await page.getByRole('link', { name: 'English', exact: true }).click()
   await page.getByRole('button', { name: 'Menu', exact: true }).click()

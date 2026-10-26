@@ -9,7 +9,7 @@ test('newsletter asks only for email, retains it on failure, and only accepts a 
     await route.fulfill({ status: success ? 200 : 503, json: success ? { ok: true, requestId: body.requestId } : { error: 'unavailable' } })
   })
   await page.goto('/')
-  await page.locator('.hero').getByRole('button', { name: 'Sign up for email updates', exact: false }).click()
+  await page.locator('.hero').getByRole('button', { name: 'Get email updates', exact: false }).click()
   const dialog = page.getByRole('dialog', { name: 'Get email updates', exact: true })
   await expect(dialog.getByRole('textbox')).toHaveCount(1)
   await dialog.getByLabel('Email', { exact: true }).fill('test@example.test')
@@ -46,4 +46,22 @@ test('prototype action leads to the Lab form, accepts WeChat, and does not subsc
   expect(received?.contactType).toBe('wechat')
   expect(received?.email).toBeUndefined()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
+
+test('tester signup collects only email and carries the tester source', async ({ page }) => {
+  let received: Record<string, string> | undefined
+  await page.route('**/api/intake', async route => {
+    received = route.request().postDataJSON()
+    await route.fulfill({ json: { ok: true, requestId: received?.requestId } })
+  })
+  await page.goto('/lab')
+  await page.locator('.lab-tester button').click()
+  const dialog = page.getByRole('dialog')
+  await expect(dialog.getByRole('textbox')).toHaveCount(1)
+  await dialog.getByLabel('Email', { exact: true }).fill('tester@example.test')
+  await dialog.getByRole('button', { name: 'Subscribe', exact: true }).click()
+  await expect(dialog.getByRole('status')).toBeVisible()
+  expect(received?.source).toBe('lab_tester')
+  expect(received?.type).toBe('newsletter')
 })

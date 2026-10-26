@@ -65,7 +65,7 @@ export function getMeta(pathname: string, content: Snapshot = published): PageMe
   if (section === 'lab' && !slug) return page('Super Lab', s.lab)
 
   if (section === 'sessions') {
-    const first = sessions[0]
+    const first = sessions.find(item => item.program !== 'lab')
     if (!slug)
       return page('Super Session', s.sessions, {
         image: first?.image ?? DEFAULT_IMAGE,
@@ -76,7 +76,7 @@ export function getMeta(pathname: string, content: Snapshot = published): PageMe
     const title = tx(session.title, locale)
     return page(
       title,
-      tx(session.summary, locale) || s.session(title, sessionDate(session, locale)),
+      tx(session.summary, locale) || (session.program === 'lab' ? `${title} · Super Lab · ${sessionDate(session, locale)}` : s.session(title, sessionDate(session, locale))),
       { image: session.image, imageAlt: tx(session.imageAlt, locale), type: 'article' },
     )
   }

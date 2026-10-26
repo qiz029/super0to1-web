@@ -1,7 +1,7 @@
 import { useId, useRef, useState, type FormEvent } from 'react'
 import { useT } from '../i18n/locale'
 
-export function IntakeForm({ kind }: { kind: 'newsletter' | 'prototype' }) {
+export function IntakeForm({ kind, source = 'general' }: { kind: 'newsletter' | 'prototype'; source?: 'general' | 'lab_tester' | 'project_tester' }) {
   const { t, locale } = useT()
   const f = t.forms
   const id = useId()
@@ -17,7 +17,7 @@ export function IntakeForm({ kind }: { kind: 'newsletter' | 'prototype' }) {
     const data = Object.fromEntries(new FormData(event.currentTarget).entries())
     const key = JSON.stringify(data)
     if (key !== fingerprint.current) { requestId.current = crypto.randomUUID(); fingerprint.current = key }
-    const payload = { ...data, type: kind, locale, requestId: requestId.current }
+    const payload = { ...data, ...(kind === 'newsletter' ? { source } : {}), type: kind, locale, requestId: requestId.current }
     setState('sending')
     try {
       const response = await fetch('/api/intake', {

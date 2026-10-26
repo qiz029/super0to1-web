@@ -10,7 +10,8 @@ import { NotFound } from './NotFound'
 
 export function Sessions() {
   const { t, tx, locale } = useT()
-  const { sessions, home } = useContent()
+  const { sessions: events, home } = useContent()
+  const sessions = events.filter(item => item.program !== 'lab')
   const upcomingSession = findUpcomingSession(sessions, home.upcomingSessionId)
   const s = t.sessions
   return (
@@ -21,27 +22,16 @@ export function Sessions() {
         <p className="lede">{s.lede}</p>
       </section>
 
-      <section className="band band-cream" id="upcoming">
+      {upcomingSession && <section className="band band-cream" id="upcoming">
         <div className="container cta-row">
           <div>
             <p className="eyebrow">{s.upcoming}</p>
-            {upcomingSession ? (
-              <>
-                <h2>{tx(upcomingSession.title)}</h2>
-                <p>
-                  {[sessionDate(upcomingSession, locale), tx(upcomingSession.location)].filter(Boolean).join(' · ')}
-                </p>
-              </>
-            ) : (
-              <>
-                <h2>{s.emptyTitle}</h2>
-                <p>{s.emptyBody}</p>
-              </>
-            )}
+            <h2>{tx(upcomingSession.title)}</h2>
+            <p>{[sessionDate(upcomingSession, locale), tx(upcomingSession.location)].filter(Boolean).join(' · ')}</p>
           </div>
-          {upcomingSession && <div className="actions"><SessionAction session={upcomingSession} /></div>}
+          <div className="actions"><SessionAction session={upcomingSession} /></div>
         </div>
-      </section>
+      </section>}
 
       {sessions.some(item => ['announced', 'open'].includes(item.eventState)) && <section className="section container">
         <div className="section-head"><h2>{locale === 'zh' ? '即将举行' : 'Coming up'}</h2></div>
@@ -67,10 +57,10 @@ export function SessionDetail() {
   return (
     <>
       <section className="page-hero container">
-        <LLink className="back-link" to="/sessions">
-          {t.sessions.back}
+        <LLink className="back-link" to={session.program === 'lab' ? '/lab' : '/sessions'}>
+          {session.program === 'lab' ? 'Super Lab' : t.sessions.back}
         </LLink>
-        <p className="eyebrow">Super Session / {sessionDate(session, locale)}</p>
+        <p className="eyebrow">{session.program === 'lab' ? 'Super Lab' : 'Super Session'} / {sessionDate(session, locale)}</p>
         <h1>{tx(session.title)}</h1>
         {session.summary && <p className="lede">{tx(session.summary)}</p>}
       </section>
@@ -88,8 +78,8 @@ export function SessionDetail() {
           <h2>{t.sessions.more}</h2>
         </div>
         <div className="actions">
-          <LLink className="button" to="/sessions">
-            {t.sessions.all}
+          <LLink className="button" to={session.program === 'lab' ? '/lab' : '/sessions'}>
+            {session.program === 'lab' ? 'Super Lab' : t.sessions.all}
           </LLink>
           <LLink className="button button-secondary" to="/lens">
             {t.sessions.watchLens}

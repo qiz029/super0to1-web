@@ -64,3 +64,19 @@ test('missing Brevo configuration cannot fall back to Google and provider errors
   assert.equal(failed.status, 503)
   assert.equal((await failed.text()).includes('private'), false)
 })
+
+
+test('tester entry is attributed by list membership without resubscribing blocked contacts', async () => {
+  const testerRequest = () => new Request('https://super0to1.com/api/intake', { method: 'POST', headers: { Origin: 'https://super0to1.com', 'Content-Type': 'application/json' }, body: JSON.stringify({ ...payload, source: 'lab_tester' }) })
+  const config = { ...env, BREVO_TESTER_LIST_ID: '8' }
+  const created = transport([{ status: 404 }, { status: 201, body: { id: 43 } }])
+  assert.equal((await handleIntake(testerRequest(), config, created.send)).status, 200)
+  assert.deepEqual(created.calls[1].body, { email, listIds: [7, 8], updateEnabled: false })
+  const existing = transport([{ status: 200, body: contact }, { status: 204 }])
+  assert.equal((await handleIntake(testerRequest(), config, existing.send)).status, 200)
+  assert.deepEqual(existing.calls[1].body, { listIds: [7, 8] })
+  const blocked = transport([{ status: 200, body: { ...contact, listUnsubscribed: [8] } }])
+  assert.equal((await handleIntake(testerRequest(), config, blocked.send)).status, 409)
+  assert.equal(blocked.calls.length, 1)
+  assert.equal((await handleIntake(testerRequest(), env, created.send)).status, 503)
+})

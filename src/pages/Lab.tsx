@@ -1,16 +1,20 @@
-import { JoinButton } from '../components/JoinButton'
+import { JoinUsButton } from '../components/JoinUsButton'
 import { LoopDiagram } from '../components/LoopDiagram'
 import { useT } from '../i18n/locale'
 import { useContent } from '../content/context'
 import { ProjectCards } from './Projects'
+import { EventFeature } from '../components/EventFeature'
+import { upcomingSession } from '../content/sessions'
 import { IntakeForm } from '../components/IntakeForm'
 
 export function Lab() {
   const { t } = useT()
-  const { projects } = useContent()
+  const { projects, sessions, home } = useContent()
+  const nextEvent = upcomingSession(sessions, home.upcomingSessionId)
   const l = t.lab
   return (
     <>
+      <EventFeature event={nextEvent?.program === 'lab' ? nextEvent : undefined} />
       <section className="page-hero container split">
         <div>
           <p className="eyebrow">{l.eyebrow}</p>
@@ -46,20 +50,8 @@ export function Lab() {
         <ProjectCards items={projects} includeInvite={false} />
       </section>}
 
-      <section className="band band-cream">
-        <div className="container cta-row">
-          <div>
-            <p className="eyebrow">{l.nextEyebrow}</p>
-            <h2>{l.nextTitle}</h2>
-            <p>{l.nextBody}</p>
-          </div>
-          <div className="actions">
-            <a className="button" href="#submit-prototype">{l.bringPrototype}</a>
-            <JoinButton role="Tester" variant="secondary">
-              {l.joinTester}
-            </JoinButton>
-          </div>
-        </div>
+      <section className="section container lab-tester">
+        <JoinUsButton source="lab_tester" className="button button-secondary">{l.joinTester}</JoinUsButton>
       </section>
     </>
   )

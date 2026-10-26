@@ -10,18 +10,17 @@ test('CMS next-session state controls homepage booking and excludes ended or can
   const previewUrl = '/preview.html?id=22222222-2222-2222-2222-222222222222&path=/'
   session.eventState = 'open'
   await page.goto(previewUrl)
-  await expect(page.locator('.hero .actions').getByRole('link', { name: 'Register for the next session', exact: true })).toHaveAttribute('href', 'https://booking.example.test/session?role=Session+attendee&lang=en')
+  await expect(page.locator('.next-event .actions').getByRole('link', { name: 'Register for the event', exact: true })).toHaveAttribute('href', 'https://booking.example.test/session?role=Session+attendee&lang=en')
+  session.program = 'lab'
+  await page.reload()
+  await expect(page.locator('.next-event')).toContainText('Super Lab')
   session.eventState = 'announced'
   await page.reload()
-  await expect(page.locator('.hero .actions').getByRole('link', { name: 'See the next session', exact: true })).toHaveAttribute('href', `/sessions/${session.slug}`)
+  await expect(page.locator('.next-event .actions').getByRole('link', { name: 'View event', exact: true })).toHaveAttribute('href', `/sessions/${session.slug}`)
   for (const state of ['ended', 'cancelled']) {
     session.eventState = state
     await page.reload()
-    await expect(page.locator('.hero .actions').getByRole('link', { name: 'View sessions', exact: true })).toBeVisible()
-    await expect(page.locator('.hero .actions a[target="_blank"]')).toHaveCount(0)
-    await page.locator('.hero .actions').getByRole('link', { name: 'View sessions', exact: true }).click()
-    await expect(page.locator('#upcoming')).toContainText('No upcoming session announced yet.')
-    await expect(page.locator('#upcoming a, #upcoming button')).toHaveCount(0)
+    await expect(page.locator('.next-event')).toHaveCount(0)
   }
 })
 
@@ -36,7 +35,7 @@ test('homepage preview honors CMS recommendations and the inline email form', as
   await page.goto('/preview.html?id=11111111-1111-1111-1111-111111111111&path=/')
   await expect(page.locator('main h2 a')).toHaveText(['Super Lab ↗'])
   await expect(page.locator('main .project-card').first()).toContainText('Private preview prototype')
-  await page.locator('.hero').getByRole('button', { name: 'Sign up for email updates', exact: false }).click()
+  await page.locator('.hero').getByRole('button', { name: 'Get email updates', exact: false }).click()
   const dialog = page.getByRole('dialog', { name: 'Get email updates', exact: true })
   await expect(dialog.getByLabel('Email', { exact: true })).toBeVisible()
   await expect(dialog.getByRole('link')).toHaveCount(0)
@@ -46,7 +45,7 @@ test('homepage preview honors CMS recommendations and the inline email form', as
   await page.reload()
   await expect(page.locator('main .project-card')).toHaveCount(0)
   await expect(page.locator('main h2 a')).toHaveCount(0)
-  await page.locator('.hero').getByRole('button', { name: 'Sign up for email updates', exact: false }).click()
+  await page.locator('.hero').getByRole('button', { name: 'Get email updates', exact: false }).click()
   await expect(dialog.getByLabel('Email', { exact: true })).toBeVisible()
   await expect(dialog.getByRole('link')).toHaveCount(0)
 })
@@ -109,6 +108,7 @@ test('edit a private session, upload a cover, preview both languages, and restor
     await page.getByRole('button', { name: '＋ 新建活动' }).click()
     await page.getByRole('group', { name: '活动标题', exact: true }).getByRole('textbox', { name: '中文', exact: true }).fill('CMS 测试活动，仅草稿')
     await page.getByRole('group', { name: '活动标题', exact: true }).getByRole('textbox', { name: 'English', exact: true }).fill('CMS draft verification')
+    await page.getByLabel('活动类别').selectOption('lab')
     await page.getByLabel('日期精度').selectOption('month')
     await page.getByRole('group', { name: '显示月份', exact: true }).getByRole('textbox', { name: '中文', exact: true }).fill('2026 年 11 月')
     await page.getByRole('group', { name: '显示月份', exact: true }).getByRole('textbox', { name: 'English', exact: true }).fill('November 2026')
@@ -124,6 +124,7 @@ test('edit a private session, upload a cover, preview both languages, and restor
     const current = await (await request.get('/api/state')).json()
     const created = current.data.sessions.find((x: { title: { en: string } }) => x.title.en === 'CMS draft verification')
     expect(created.published).toBe(false)
+    expect(created.program).toBe('lab')
     expect(created.image).toMatch(/^media:[a-f0-9]{64}$/)
     await page.getByRole('button', { name: '预览', exact: true }).click()
     const preview = page.frameLocator('iframe[title="网站内容预览"]')
@@ -224,7 +225,7 @@ test('homepage controls save to a private preview in the website section order',
     await page.getByRole('button', { name: '预览', exact: true }).click()
     const preview = page.frameLocator('iframe[title="网站内容预览"]')
     await expect(preview.locator('main h2 a')).toHaveCount(0)
-    await expect(preview.locator('.hero-action-note')).toContainText('下一场共学尚未公布')
+    await expect(preview.locator('.next-event')).toHaveCount(0)
   } finally {
     const latest = await (await request.get('/api/state')).json()
     const restored = await request.put('/api/state', { data: { revision: latest.revision, data: original.data }, headers: { Origin: 'http://127.0.0.1:8788' } })

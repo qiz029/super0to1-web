@@ -5,21 +5,23 @@ import { LLink } from '../components/LocaleLink'
 import { ProjectCards } from './Projects'
 import { useContent } from '../content/context'
 import { sessionDate, upcomingSession, type Session } from '../content/sessions'
-import { SessionAction } from '../components/SessionAction'
+import { EventFeature } from '../components/EventFeature'
+import globe from '../assets/images/brand-globe.png'
 import { useT } from '../i18n/locale'
 
 export function Home() {
   const { t } = useT()
-  const { videos, sessions, projects, home } = useContent()
+  const { videos, sessions, projects, home, site } = useContent()
   const [featured, ...rest] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
   const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id))
-  const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id))
+  const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.program !== 'lab'))
   const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
 
   return (
     <>
+      <EventFeature event={nextSession} />
       <section className="hero home-hero container">
         <div className="hero-copy">
           <p className="eyebrow hero-in" style={{ ['--i' as string]: 0 }}>
@@ -40,21 +42,11 @@ export function Home() {
           </p>
         </div>
         <div className="participation hero-in" style={{ ['--i' as string]: 6 }}>
-          <p className="eyebrow">{t.home.participate}</p>
+          <div className="home-brand-art" aria-hidden="true"><img src={globe} alt="" /></div>
           <div className="actions participation-actions">
-            <div className="participation-primary">
-              <h2>{t.home.emailTitle}</h2>
-              <p>{t.home.emailBody}</p>
-              <JoinUsButton className="button">{t.home.emailAction} <span aria-hidden="true">↗</span></JoinUsButton>
-            </div>
-            <div className="participation-row">
-              <div><h2>{t.home.productTitle}</h2><p>{t.home.productBody}</p></div>
-              <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype} <span aria-hidden="true">↗</span></LLink>
-            </div>
-            <div className="participation-row">
-              <div><h2>{t.home.sessionTitle}</h2><p className="hero-action-note">{nextSession ? t.home.sessionsBody : t.home.sessionPending}</p></div>
-              <SessionAction session={nextSession} showPlaceholderLink />
-            </div>
+            <JoinUsButton className="button">{t.home.emailAction}<span aria-hidden="true">↗</span></JoinUsButton>
+            <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype}<span aria-hidden="true">↗</span></LLink>
+            {site.youtube && <a className="participation-link" href={site.youtube} target="_blank" rel="noopener noreferrer">{t.home.youtubeAction}<span aria-hidden="true">↗</span></a>}
           </div>
         </div>
       </section>

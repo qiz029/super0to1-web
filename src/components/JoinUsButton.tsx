@@ -3,10 +3,10 @@ import { createPortal } from 'react-dom'
 import { useT } from '../i18n/locale'
 import { IntakeForm } from './IntakeForm'
 
-type Props = { children: ReactNode; className?: string; onOpen?: () => void }
+type Props = { children: ReactNode; className?: string; onOpen?: () => void; source?: 'general' | 'lab_tester' | 'project_tester' }
 
 // Email signup is separate from event booking in JoinButton.
-export function JoinUsButton({ children, className = 'button', onOpen }: Props) {
+export function JoinUsButton({ children, className = 'button', onOpen, source = 'general' }: Props) {
   const { t } = useT()
   const dialog = useRef<HTMLDialogElement>(null)
   const titleId = useId()
@@ -30,7 +30,7 @@ export function JoinUsButton({ children, className = 'button', onOpen }: Props) 
           <button type="button" className="dialog-close" aria-label={t.join.close} onClick={() => dialog.current?.close()}>×</button>
           <h2 id={titleId}>{t.newsletter.title}</h2>
           <p>{t.newsletter.body}</p>
-          <IntakeForm kind="newsletter" />
+          <IntakeForm kind="newsletter" source={source} />
         </div>
       </dialog>, document.body)}
     </>
