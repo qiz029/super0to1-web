@@ -38,7 +38,7 @@ Tester email entry points use the same newsletter form with a validated `source`
 
 ## Speaker, guest and collaboration proposals
 
-The homepage member action collects only email. The separate speaker modal posts `type: speaker` with interest `session_speaker`, `lens_guest`, or `collaboration`, a name, topic, optional bio, contact method and contact, and optional profile link. These proposals never subscribe the sender to Brevo.
+The homepage member action collects only email. The separate speaker modal posts `type: speaker` with interest `session_speaker`, `lens_guest`, or `collaboration`, a name, topic, required bio, contact method and contact, and optional profile link. These proposals never subscribe the sender to Brevo.
 
 Before enabling real submissions, add a private tab named `Speaker proposals` to the intake Sheet with this exact header row:
 

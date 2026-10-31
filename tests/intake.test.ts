@@ -85,7 +85,7 @@ test('Google receiver accepts products and proposals, serializes writes, dedupli
 
 
 test('speaker proposals validate all participation choices and route only to Sheets', async () => {
-  const speaker = { type: 'speaker', locale: 'en', requestId: payload.requestId, website: '', name: 'A maker', interest: 'session_speaker', topic: 'Lessons from building a product', bio: '', contactType: 'wechat', contact: 'example-maker', link: '' }
+  const speaker = { type: 'speaker', locale: 'en', requestId: payload.requestId, website: '', name: 'A maker', interest: 'session_speaker', topic: 'Lessons from building a product', bio: 'I build tools for makers.', contactType: 'wechat', contact: 'example-maker', link: '' }
   let calls = 0
   const send = (async (url, init) => {
     calls++
@@ -96,7 +96,7 @@ test('speaker proposals validate all participation choices and route only to She
   }) as typeof fetch
   for (const interest of ['session_speaker', 'lens_guest', 'collaboration']) assert.equal((await handleIntake(request({ ...speaker, interest }), env, send)).status, 200)
   assert.equal(calls, 3)
-  for (const change of [{ interest: 'invalid' }, { topic: ' ' }, { contactType: 'email' }, { link: 'javascript:alert(1)' }]) assert.equal((await handleIntake(request({ ...speaker, ...change }), env, send)).status, 400)
+  for (const change of [{ interest: 'invalid' }, { bio: ' ' }, { topic: ' ' }, { contactType: 'email' }, { link: 'javascript:alert(1)' }]) assert.equal((await handleIntake(request({ ...speaker, ...change }), env, send)).status, 400)
   assert.equal(calls, 3)
   assert.equal((await handleIntake(request(speaker), {}, send)).status, 503)
 })

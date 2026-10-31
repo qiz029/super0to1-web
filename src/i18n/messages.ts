@@ -166,8 +166,8 @@ const en = {
   speaker: {
     title: 'Join as a speaker', body: 'Share a topic, a story, or an idea for working together.',
     name: 'Your name', interest: 'How would you like to get involved?', chooseInterest: 'Choose an option',
-    session: 'Speak at Super Session', lens: 'Be a Super Lens guest', collaboration: 'Other collaboration',
-    topic: 'Topic or collaboration idea', bio: 'A little about you (optional)', link: 'Profile or website (optional)',
+    session: 'Speak at Super Session', lens: 'YouTube guest', collaboration: 'Other collaboration',
+    topic: 'Topic or collaboration idea', bio: 'A little about you', link: 'Profile or website (optional)',
     contactUse: 'We’ll use your contact to follow up on this proposal. This won’t subscribe you to emails.',
     submit: 'Send proposal', received: 'Thanks! We’ve received your proposal and will follow up using the contact you provided.',
   },
@@ -365,8 +365,8 @@ const zh: Messages = {
   speaker: {
     title: '成为分享者', body: '带来一个话题、一段经历，或一个合作想法。',
     name: '你的名字', interest: '你想以什么方式参与？', chooseInterest: '请选择',
-    session: '在 Super Session 分享', lens: '成为 Super Lens 嘉宾', collaboration: '其他合作',
-    topic: '想聊的话题或合作想法', bio: '简单介绍自己（选填）', link: '个人主页或网站（选填）',
+    session: '在 Super Session 分享', lens: 'YouTube 嘉宾', collaboration: '其他合作',
+    topic: '想聊的话题或合作想法', bio: '简单介绍自己', link: '个人主页或网站（选填）',
     contactUse: '我们会通过你留下的联系方式沟通这次提议，不会自动为你订阅邮件。',
     submit: '提交提议', received: '已收到你的提议，我们会通过你留下的联系方式跟进。',
   },

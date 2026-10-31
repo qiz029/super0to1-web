@@ -53,7 +53,7 @@ export function IntakeForm({ kind, source = 'general' }: { kind: 'newsletter' | 
               </select>
             </label>
             <label htmlFor={`${id}-topic`}>{t.speaker.topic}<textarea id={`${id}-topic`} name="topic" rows={2} maxLength={1000} required /></label>
-            <label htmlFor={`${id}-bio`}>{t.speaker.bio}<textarea id={`${id}-bio`} name="bio" rows={2} maxLength={1000} /></label>
+            <label htmlFor={`${id}-bio`}>{t.speaker.bio}<textarea id={`${id}-bio`} name="bio" rows={2} maxLength={1000} required /></label>
           </> : <>
           <label htmlFor={`${id}-purpose`}>{f.purpose}<textarea id={`${id}-purpose`} name="purpose" rows={2} maxLength={1000} required /></label>
           <label htmlFor={`${id}-audience`}>{f.audience}<textarea id={`${id}-audience`} name="audience" rows={2} maxLength={1000} required /></label>

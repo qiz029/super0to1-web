@@ -9,7 +9,7 @@ function doPost(e) {
     if (!secret || p.token !== secret || !/^[a-f0-9-]{36}$/i.test(p.requestId || '') || !['en', 'zh'].includes(p.locale) || p.website) return reply({ ok: false });
     if (!['prototype', 'speaker'].includes(p.type) || !p.name || !p.contact || !['email', 'wechat'].includes(p.contactType)) return reply({ ok: false });
     if (p.type === 'prototype' && (!p.purpose || !p.audience || !['building', 'testing', 'paying'].includes(p.stage))) return reply({ ok: false });
-    if (p.type === 'speaker' && (!p.topic || !['session_speaker', 'lens_guest', 'collaboration'].includes(p.interest))) return reply({ ok: false });
+    if (p.type === 'speaker' && (!String(p.bio || '').trim() || !p.topic || !['session_speaker', 'lens_guest', 'collaboration'].includes(p.interest))) return reply({ ok: false });
     if (!lock.tryLock(10000)) return reply({ ok: false });
     var sheet = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SHEET_ID')).getSheetByName(p.type === 'speaker' ? 'Speaker proposals' : 'Prototype submissions');
     if (!sheet) return reply({ ok: false });
