@@ -21,7 +21,7 @@ export function Sessions() {
   return (
     <>
       <IllustratedHero className="sessions-hero" image="/media/brand-session-v2.webp" alt={s.artAlt}>
-        <h1>Super Session</h1>
+        <h1 className="program-title">Super <strong>Session</strong></h1>
         <p className="lede">{s.lede}</p>
         <div className="actions">
           <JoinUsButton>{s.inviteAction}</JoinUsButton>

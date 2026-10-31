@@ -2065,5 +2065,12 @@ body::after {
 }
 
 .logo img { width: 112px; height: auto; }
-.program-wordmark { width: min(235px, 70%); }
-.program-wordmark img { width: 100%; height: auto; }
+.page-hero .program-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+.program-title strong { font-weight: 700; }
