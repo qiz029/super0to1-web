@@ -2,14 +2,13 @@ import { LLink } from '../components/LocaleLink'
 import { useContent } from '../content/context'
 import { PROGRAMS } from '../content/programs'
 import { useT } from '../i18n/locale'
-import globe from '../assets/images/brand-globe.png'
 
 export function About() {
   const { site } = useContent()
   const { t, tx } = useT()
   return (
     <>
-      <section className="page-hero container">
+      <section className="page-hero container about-hero">
         <p className="eyebrow">{t.about.eyebrow}</p>
         <h1 className="about-mission">{t.mission}</h1>
       </section>
@@ -32,9 +31,6 @@ export function About() {
           </a>
         </div>
       </section>
-      <div className="about-globe" aria-hidden="true">
-        <img src={globe} alt="" />
-      </div>
     </>
   )
 }

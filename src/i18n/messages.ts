@@ -104,6 +104,7 @@ const en = {
   sessions: {
     lede: 'Learn new skills and explore ideas with people building things of their own.',
     inviteAction: 'Get session invites',
+    artAlt: 'One speaker presenting to a small seated audience.',
     browsePast: 'Browse past sessions',
     inviteNote: 'Leave your email for new events and community news.',
     upcoming: 'Upcoming',
@@ -122,7 +123,7 @@ const en = {
     watchLens: 'Watch Super Lens',
   },
   lens: {
-    eyebrow: '03 / Meet the people',
+    artAlt: 'An interview host and guest sharing a conversation over microphones.',
     lede: 'The Super interview series — conversations with people finding their own path from zero to one.',
     subscribe: 'Subscribe on YouTube ↗',
     back: '← Super Lens',
@@ -304,6 +305,7 @@ const zh: Messages = {
   sessions: {
     lede: '和正在做自己作品的人一起学新技能，交流想法，打开思路。',
     inviteAction: '接收活动邀请',
+    artAlt: '一位讲者在前面分享，下方的参与者坐着听讲。',
     browsePast: '查看往期活动',
     inviteNote: '留下邮箱，获取新活动和社群消息。',
     upcoming: '即将举行',
@@ -322,7 +324,7 @@ const zh: Messages = {
     watchLens: '看 Super Lens',
   },
   lens: {
-    eyebrow: '03 / 认识这些人',
+    artAlt: '主持人与嘉宾面对面交流，桌上放着麦克风。',
     lede: 'Super 的访谈系列：和正在走自己的 0 到 1 之路的人聊聊。',
     subscribe: '在 YouTube 订阅 ↗',
     back: '← Super Lens',

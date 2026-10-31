@@ -62,3 +62,20 @@ test('mobile navigation and actions work in both languages without horizontal ov
   await expect(page).toHaveURL(/\/sessions$/)
   await expect(page.getByRole('button', { name: 'Menu', exact: true })).toHaveAttribute('aria-expanded', 'false')
 })
+
+test('brand artwork and original wordmarks load without stretching on desktop and mobile', async ({ page }) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    for (const path of ['/', '/sessions', '/lens', '/about', '/zh/lab', '/zh/lens']) {
+      await page.goto(path)
+      const images = page.locator('.logo img, .program-wordmark img, .brand-scene, .home-brand-art img')
+      for (const image of await images.all()) {
+        await expect(image).toBeVisible()
+        await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true)
+        const geometry = await image.evaluate((el: HTMLImageElement) => ({ width: el.clientWidth, height: el.clientHeight, naturalWidth: el.naturalWidth, naturalHeight: el.naturalHeight, fit: getComputedStyle(el).objectFit }))
+        if (geometry.fit !== 'contain') expect(Math.abs(geometry.width / geometry.height - geometry.naturalWidth / geometry.naturalHeight)).toBeLessThan(.08)
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    }
+  }
+})

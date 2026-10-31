@@ -7,6 +7,7 @@ import { sessionDate, upcomingSession as findUpcomingSession } from '../content/
 import { EventFeature } from '../components/EventFeature'
 import { JoinUsButton } from '../components/JoinUsButton'
 import { useT } from '../i18n/locale'
+import { IllustratedHero } from '../components/IllustratedHero'
 import { NotFound } from './NotFound'
 
 export function Sessions() {
@@ -19,14 +20,14 @@ export function Sessions() {
   const s = t.sessions
   return (
     <>
-      <section className="page-hero container sessions-hero">
+      <IllustratedHero className="sessions-hero" image="/media/brand-session-v2.webp" alt={s.artAlt}>
         <h1>Super Session</h1>
         <p className="lede">{s.lede}</p>
         <div className="actions">
           <JoinUsButton>{s.inviteAction}</JoinUsButton>
         </div>
         <p className="session-invite-note">{s.inviteNote}</p>
-      </section>
+      </IllustratedHero>
 
       <EventFeature event={next} />
       {comingUp.length > 0 && <section className="section container">

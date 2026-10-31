@@ -2032,3 +2032,38 @@ body::after {
 .participation-actions > button.participation-link:hover { color: var(--cream); background: rgba(255,255,255,.04); }
 
 .dialog { max-height: calc(100svh - 48px); overflow-y: auto; }
+
+/* Shared editorial treatment follows the approved Lab artwork. */
+:root { --white: #fff9ec; --muted: #e7ded0; --lime: #e2efa0; --rose: #e7a084; --sky: #acc5d9; --line: rgba(255,249,236,.2); }
+.header-inner, .site-header.is-scrolled .header-inner { background: rgba(68,55,45,.96); box-shadow: 0 4px 18px rgba(35,27,21,.14); border: 1px solid var(--line); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.header-inner::before { display: none; }
+.site-header :is(.logo, .site-nav a, .lang-switch a) { text-shadow: none; }
+.illustrated-hero { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: clamp(28px, 5vw, 72px); padding-block: 48px; }
+.illustrated-hero .lede { max-width: 35em; }
+.brand-scene { width: 100%; height: auto; max-height: 340px; object-fit: contain; }
+.illustrated-hero .text-link { display: inline-block; margin-top: 22px; }
+.home-brand-art { height: auto; margin-bottom: 22px; }
+.home-brand-art img { width: 100%; height: 210px; object-fit: contain; }
+.home-hero { min-height: min(760px, calc(100svh - 88px)); }
+:is(.illustrated-hero, .home-hero, .about-body) .button { border-radius: 14px; }
+:is(.session-card, .project-art, .video-thumb) { border-radius: 14px; }
+.session-card { border: 1px solid rgba(255,249,236,.16); }
+.about-hero { padding-block: 54px 44px; }
+.about-hero .eyebrow { color: var(--rose); }
+.about-mission { color: var(--cream); max-width: 15em !important; }
+.about-body { padding-top: 32px; }
+.about-body > p { max-width: 38em; line-height: 1.75; }
+.about-programs a { padding: 26px 0; }
+.about-programs li:nth-child(2) strong { color: var(--rose); }
+.about-programs li:nth-child(3) strong { color: var(--sky); }
+@media (max-width: 760px) {
+  .illustrated-hero { grid-template-columns: 1fr; gap: 24px; padding-block: 32px; }
+  .brand-scene { max-height: 230px; }
+  .home-brand-art img { height: 130px; }
+  .home-hero { min-height: 0; }
+  .about-hero { padding-block: 36px 28px; }
+}
+
+.logo img { width: 112px; height: auto; }
+.program-wordmark { width: min(235px, 70%); }
+.program-wordmark img { width: 100%; height: auto; }

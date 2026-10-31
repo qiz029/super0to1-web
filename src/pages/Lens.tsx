@@ -3,6 +3,7 @@ import { VideoGrid } from '../components/VideoCard'
 import { LLink } from '../components/LocaleLink'
 import { useContent } from '../content/context'
 import { useT } from '../i18n/locale'
+import { IllustratedHero } from '../components/IllustratedHero'
 import { NotFound } from './NotFound'
 
 export function Lens() {
@@ -10,14 +11,13 @@ export function Lens() {
   const { t } = useT()
   return (
     <>
-      <section className="page-hero container">
-        <p className="eyebrow">{t.lens.eyebrow}</p>
-        <h1>Super Lens</h1>
+      <IllustratedHero className="lens-hero" image="/media/brand-lens-v2.webp" alt={t.lens.artAlt}>
+        <h1 className="program-wordmark"><img src="/brand/super-lens.png" alt="Super Lens" width="855" height="454" /></h1>
         <p className="lede">{t.lens.lede}</p>
         <a className="text-link" href={site.youtube} target="_blank" rel="noopener noreferrer">
           {t.lens.subscribe}
         </a>
-      </section>
+      </IllustratedHero>
       <section className="section container">
         <VideoGrid items={videos} />
       </section>

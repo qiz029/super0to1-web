@@ -6,7 +6,6 @@ import { ProjectCards } from './Projects'
 import { useContent } from '../content/context'
 import { sessionDate, upcomingSession, type Session } from '../content/sessions'
 import { EventFeature } from '../components/EventFeature'
-import globe from '../assets/images/brand-globe.png'
 import { useT } from '../i18n/locale'
 
 export function Home() {
@@ -42,7 +41,7 @@ export function Home() {
           </p>
         </div>
         <div className="participation hero-in" style={{ ['--i' as string]: 6 }}>
-          <div className="home-brand-art" aria-hidden="true"><img src={globe} alt="" /></div>
+          <div className="home-brand-art" aria-hidden="true"><img src="/media/brand-home-v2.webp" alt="" width="1536" height="1024" /></div>
           <div className="actions participation-actions">
             <JoinUsButton className="button">{t.home.emailAction}<span aria-hidden="true">↗</span></JoinUsButton>
             <JoinUsButton kind="speaker" className="participation-link">{t.home.speakerAction}<span aria-hidden="true">↗</span></JoinUsButton>

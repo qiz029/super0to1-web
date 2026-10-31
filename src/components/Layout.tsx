@@ -21,7 +21,7 @@ export function Logo() {
   const { site } = useContent()
   return (
     <LLink className="logo" to="/" aria-label={t.nav.home}>
-      {site.name === 'Super 0→1' ? <>Super <span>0→1</span></> : site.name}
+      {site.name === 'Super 0→1' ? <img src="/brand/super-wordmark.png" alt={site.name} width="2046" height="462" /> : site.name}
     </LLink>
   )
 }
