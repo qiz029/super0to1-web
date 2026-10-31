@@ -150,7 +150,7 @@ const en = {
   },
   forms: {
     email: 'Email', wechat: 'WeChat ID', productName: 'Product name',
-    purpose: 'What does it do?', audience: 'Who is it for, and what problem does it solve?',
+    purpose: 'How does your product solve that problem?', audience: 'Who is it for, and what problem are you solving?',
     stage: 'Product stage', chooseStage: 'Choose a stage', building: 'Building the first version · No users yet', testing: 'Testing with early users · No paying customers yet', paying: 'Serving paying customers',
     contactMethod: 'Contact method', link: 'Product or demo link (optional)', website: 'Website',
     emailUse: 'Subscribe to emails about upcoming sessions, labs and community news.',
@@ -349,7 +349,7 @@ const zh: Messages = {
   },
   forms: {
     email: '邮箱', wechat: '微信号', productName: '产品名称',
-    purpose: '它是做什么的？', audience: '它为谁解决什么问题？',
+    purpose: '你的产品如何解决这个问题？', audience: '你在为谁解决什么问题？',
     stage: '产品阶段', chooseStage: '请选择阶段', building: '首版开发中 · 暂无用户', testing: '早期用户试用中 · 暂无付费客户', paying: '已有付费客户',
     contactMethod: '联系方式', link: '产品或演示链接（选填）', website: '网站',
     emailUse: '订阅后，你会收到共学、原型体验和社群消息邮件。',

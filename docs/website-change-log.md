@@ -93,3 +93,12 @@
 ## 分享者表单文案与必填项
 
 下拉选项对外改为 YouTube guest / YouTube 嘉宾，内部 lens_guest 标识保留。A little about you / 简单介绍自己 改为必填，前端、服务端及 Google 接收脚本同步拒绝空简介。接收脚本仍需按接入清单更新远端部署。
+
+
+## 产品报名问题顺序与表述
+
+产品表单先问目标用户和问题，再问产品如何解决该问题。英文改为 Who is it for, and what problem are you solving? / How does your product solve that problem?；中文同步为“你在为谁解决什么问题？”／“你的产品如何解决这个问题？”。沿用 audience / purpose 数据字段与现有 Sheet 列映射，不改接收表头，后台预览共用文案同步。
+
+## 后续全站视觉方向
+
+以 Lab 已确认插图为风格参考：温暖手绘、棕色底、淡黄色主色，少量珊瑚色与浅蓝。统一字体、按钮、留白和插图质感；不要求每页插图化，Session 保留真实活动照片，Lens 保留嘉宾与访谈画面。按逐页审阅顺序落实，本次未扩改其他页视觉。
