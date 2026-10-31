@@ -24,7 +24,6 @@ export function Sessions() {
         <p className="lede">{s.lede}</p>
         <div className="actions">
           <JoinUsButton>{s.inviteAction}</JoinUsButton>
-          {past.length > 0 && <a className="text-link" href="#past-sessions">{s.browsePast} ↓</a>}
         </div>
         <p className="session-invite-note">{s.inviteNote}</p>
       </section>
@@ -68,19 +67,6 @@ export function SessionDetail() {
         {session.eventState === 'open' && <JoinButton role="Session attendee" signupUrl={session.signupUrl}>{t.sessions.saveSeat}</JoinButton>}
         {session.eventState === 'cancelled' && <p>{locale === 'zh' ? '本场活动已取消。' : 'This session has been cancelled.'}</p>}
       </section>}
-      <section className="section container">
-        <div className="section-head">
-          <h2>{t.sessions.more}</h2>
-        </div>
-        <div className="actions">
-          <LLink className="button" to={session.program === 'lab' ? '/lab' : '/sessions'}>
-            {session.program === 'lab' ? 'Super Lab' : t.sessions.all}
-          </LLink>
-          <LLink className="button button-secondary" to="/lens">
-            {t.sessions.watchLens}
-          </LLink>
-        </div>
-      </section>
     </>
   )
 }

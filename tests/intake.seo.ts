@@ -74,8 +74,7 @@ test('tester signup collects only email and carries the tester source', async ({
 test('Session page offers email invitations and a real archive without numbered labels', async ({ page }) => {
   await page.goto('/sessions')
   await expect(page.locator('.sessions-hero .eyebrow')).toHaveCount(0)
-  await page.locator('.sessions-hero').getByRole('link', { name: 'Browse past sessions', exact: false }).click()
-  await expect(page).toHaveURL(/#past-sessions$/)
+  await expect(page.locator('.sessions-hero a[href="#past-sessions"]')).toHaveCount(0)
   await expect(page.locator('#past-sessions .session-card')).toHaveCount(2)
   await page.locator('.sessions-hero').getByRole('button', { name: 'Get session invites', exact: true }).click()
   const dialog = page.getByRole('dialog')
