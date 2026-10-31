@@ -18,7 +18,7 @@ export function About() {
           {PROGRAMS.map((p) => (
             <li key={p.to}>
               <LLink to={p.to}>
-                <strong>{p.name}</strong>
+                <strong>Super <b>{p.name.replace(/^Super /, '')}</b></strong>
                 <span>{tx(p.body)}</span>
               </LLink>
             </li>

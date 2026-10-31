@@ -1351,7 +1351,8 @@ a.builder-name:hover {
 .about-programs strong {
   font-family: var(--font-display);
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 400;
+  white-space: nowrap;
   letter-spacing: -0.03em;
   color: var(--cream);
 }
@@ -2074,3 +2075,5 @@ body::after {
   white-space: nowrap;
 }
 .program-title strong { font-weight: 700; }
+
+.about-programs strong b { font-weight: 700; }
