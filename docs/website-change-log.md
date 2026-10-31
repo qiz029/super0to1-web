@@ -75,4 +75,4 @@
 
 ## Session 冗余入口清理（2026-10-31）
 
-移除 Session 首屏 Browse past sessions 跳转链接；移除活动详情底部 More from Super 及 All sessions / Watch Super Lens 按钮区块。管理中心预览共用组件，同步生效，活动数据与发布配置不变。往期活动点击后链接 PPT 的想法记为后续任务，本次未接入 PPT。第三张往期卡片的移除范围尚待确认，暂保留现有卡片。
+移除 Session 首屏 Browse past sessions 跳转链接；移除活动详情底部 More from Super 及 All sessions / Watch Super Lens 按钮区块。管理中心预览共用组件，同步生效，活动数据与发布配置不变。往期活动点击后链接 PPT 的想法记为后续任务，本次未接入 PPT。用户已确认：保留往期活动卡片，之后再把点击目标接到对应 PPT；本次不更改卡片或现有点击行为。
