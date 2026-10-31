@@ -11,7 +11,7 @@ export function Lens() {
   const { t } = useT()
   return (
     <>
-      <IllustratedHero className="lens-hero" image="/media/brand-lens-v3.webp" alt={t.lens.artAlt}>
+      <IllustratedHero className="lens-hero" image="/media/brand-lens-v4.webp" alt={t.lens.artAlt}>
         <h1 className="program-title">Super <strong>Lens</strong></h1>
         <p className="lede">{t.lens.lede}</p>
         <a className="text-link" href={site.youtube} target="_blank" rel="noopener noreferrer">
