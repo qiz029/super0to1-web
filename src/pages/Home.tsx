@@ -41,7 +41,7 @@ export function Home() {
           </p>
         </div>
         <div className="participation hero-in" style={{ ['--i' as string]: 6 }}>
-          <div className="home-brand-art" aria-hidden="true"><img src="/media/brand-home-v2.webp" alt="" width="1536" height="1024" /></div>
+          <div className="home-brand-art" aria-hidden="true"><img src="/media/brand-home-v3.webp" alt="" width="1536" height="1024" /></div>
           <div className="actions participation-actions">
             <JoinUsButton className="button">{t.home.emailAction}<span aria-hidden="true">↗</span></JoinUsButton>
             <JoinUsButton kind="speaker" className="participation-link">{t.home.speakerAction}<span aria-hidden="true">↗</span></JoinUsButton>
