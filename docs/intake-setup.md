@@ -2,7 +2,7 @@
 
 The homepage Session action follows `home.upcomingSessionId`. Only announced or open sessions qualify. With no next session, the homepage and Session page show an announcement placeholder without booking. Session booking continues to use CMS registration settings.
 
-The Lab prototype form and email subscription modal post to `/api/intake`. The public Worker validates the input and routes newsletters to Brevo and prototypes to a Google Apps Script web app. Provider credentials stay out of the browser. Missing Brevo configuration never falls back to Google Sheets.
+The Lab prototype form and email subscription modal post to `/api/intake`. The public Worker validates the input and routes newsletters to Brevo and product or speaker proposals to a Google Apps Script web app. Provider credentials stay out of the browser. Missing Brevo configuration never falls back to Google Sheets.
 
 ## Connect email subscriptions
 
@@ -25,7 +25,7 @@ References: [create contact](https://developers.brevo.com/reference/create-conta
 
 For local testing put the destination variables in the ignored root `.dev.vars`, run `npm run build`, then `npx wrangler dev --ip 127.0.0.1 --port 8791`. Vite forwards `/api/intake` to that local Worker. Without configuration, submission returns an unavailable error and does not report success. Browser tests mock the receipt contract; they do not establish that a Google deployment is connected.
 
-The Google receiver accepts only prototypes, serializes writes and deduplicates request IDs. Formula-like input is stored as literal text. Client success requires a matching confirmed receipt, and failures preserve form values.
+The Google receiver accepts product and speaker proposals, serializes writes and deduplicates request IDs. Formula-like input is stored as literal text. Client success requires a matching confirmed receipt, and failures preserve form values.
 
 Prototype submissions do not implicitly subscribe people to email updates. Unit tests mock Brevo responses and browser tests mock submission receipts; neither proves that a live provider is connected.
 
@@ -34,3 +34,14 @@ Google references: [web apps](https://developers.google.com/apps-script/guides/w
 Product stage values are `building` (no users), `testing` (users but no paying customers), and `paying` (paying customers). The form, Worker validation and Google receiver must use the same values. Update the Apps Script deployment before enabling this form; old `idea`, `prototype`, and `ready` stage values are rejected. The internal submission type and existing Sheet tab name stay unchanged.
 
 Tester email entry points use the same newsletter form with a validated `source` value. Configure `BREVO_TESTER_LIST_ID` as a separate positive list ID in addition to `BREVO_LIST_ID`. A tester is added to both the general and tester lists, so list membership records the tester entry source. Existing subscriptions keep their other lists and unsubscribe flags. Missing tester-list configuration returns unavailable rather than silently losing attribution. The source distinguishes tester entry from general signup, not a confirmed event registration. No extra personal fields are requested.
+
+
+## Speaker, guest and collaboration proposals
+
+The homepage member action collects only email. The separate speaker modal posts `type: speaker` with interest `session_speaker`, `lens_guest`, or `collaboration`, a name, topic, optional bio, contact method and contact, and optional profile link. These proposals never subscribe the sender to Brevo.
+
+Before enabling real submissions, add a private tab named `Speaker proposals` to the intake Sheet with this exact header row:
+
+`Submitted at | Name | Interest | Topic or collaboration | About | Contact method | Contact | Profile link | Language | Request ID`
+
+Update the Apps Script draft and deployment to the current `scripts/google-intake.gs`. It uses the same secret, locking, formula escaping and request deduplication as product intake, with a separate tab. A missing tab or mismatched header returns a failure. Neither the tab nor the remote deployment has been configured by the local code change; verify a controlled row in the real Sheet before calling the form connected.

@@ -76,3 +76,15 @@
 ## Session 冗余入口清理（2026-10-31）
 
 移除 Session 首屏 Browse past sessions 跳转链接；移除活动详情底部 More from Super 及 All sessions / Watch Super Lens 按钮区块。管理中心预览共用组件，同步生效，活动数据与发布配置不变。往期活动点击后链接 PPT 的想法记为后续任务，本次未接入 PPT。用户已确认：保留往期活动卡片，之后再把点击目标接到对应 PPT；本次不更改卡片或现有点击行为。
+
+## 首页会员、分享者与产品三个入口（2026-10-31）
+
+首页 CTA 改为 Join as a member / Join as a speaker / Submit a product；移除该区域的 Watch on YouTube，其他频道链接保留。会员弹窗标题同步为 Join as a member / 加入社群，仍仅收邮箱。导航保留 Join us。
+
+新增分享者表单：下拉选择 Super Session 分享者、Super Lens 嘉宾、其他合作；填写名字、想聊的话题或合作想法、可选简介、邮箱或微信联系方式、可选主页链接。复用原有 modal、提交回执、错误保留输入、联系方式及反垃圾逻辑。不会自动加入邮件名单。
+
+服务端新增严格的 speaker 类型校验，提议转发至 Google 接收端，绝不发送到 Brevo。Google 脚本按类型写入独立 Speaker proposals 分页，沿用密钥、写锁、去重与公式转义。后台共享预览同步新入口与表单，并更新报名设置说明；未新增后台编辑字段。
+
+实际配置限制：本批只更新本地代码与脚本源文件。真实 Sheet 的 Speaker proposals 分页和远端 Apps Script 部署尚未配置；接入文档已记录精确表头及验证步骤。会员 Brevo 接入也仍待原有配置步骤。不得把本地模拟测试当成真实收件证明。
+
+验证：35 项单元测试、12 项网页测试、官网与后台构建、后台首页预览测试通过。未推送、未部署、未发送邮件。

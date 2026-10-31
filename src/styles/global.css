@@ -2027,3 +2027,8 @@ body::after {
 .session-invite-note { margin-top: 14px; font-size: 14px; color: var(--muted); }
 #past-sessions { scroll-margin-top: 110px; }
 .sessions-hero + .next-event { margin-top: 0; }
+
+.participation-actions > button.participation-link { text-align: left; background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; color: inherit; }
+.participation-actions > button.participation-link:hover { color: var(--cream); background: rgba(255,255,255,.04); }
+
+.dialog { max-height: calc(100svh - 48px); overflow-y: auto; }

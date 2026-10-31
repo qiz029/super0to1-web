@@ -11,7 +11,7 @@ import { useT } from '../i18n/locale'
 
 export function Home() {
   const { t } = useT()
-  const { videos, sessions, projects, home, site } = useContent()
+  const { videos, sessions, projects, home } = useContent()
   const [featured, ...rest] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
   const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id))
   const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.program !== 'lab'))
@@ -45,8 +45,8 @@ export function Home() {
           <div className="home-brand-art" aria-hidden="true"><img src={globe} alt="" /></div>
           <div className="actions participation-actions">
             <JoinUsButton className="button">{t.home.emailAction}<span aria-hidden="true">↗</span></JoinUsButton>
+            <JoinUsButton kind="speaker" className="participation-link">{t.home.speakerAction}<span aria-hidden="true">↗</span></JoinUsButton>
             <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype}<span aria-hidden="true">↗</span></LLink>
-            {site.youtube && <a className="participation-link" href={site.youtube} target="_blank" rel="noopener noreferrer">{t.home.youtubeAction}<span aria-hidden="true">↗</span></a>}
           </div>
         </div>
       </section>

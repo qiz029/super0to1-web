@@ -9,8 +9,8 @@ test('newsletter asks only for email, retains it on failure, and only accepts a 
     await route.fulfill({ status: success ? 200 : 503, json: success ? { ok: true, requestId: body.requestId } : { error: 'unavailable' } })
   })
   await page.goto('/')
-  await page.locator('.hero').getByRole('button', { name: 'Join us', exact: false }).click()
-  const dialog = page.getByRole('dialog', { name: 'Join us', exact: true })
+  await page.locator('.hero').getByRole('button', { name: 'Join as a member', exact: false }).click()
+  const dialog = page.getByRole('dialog', { name: 'Join as a member', exact: true })
   await expect(dialog.getByRole('textbox')).toHaveCount(1)
   await dialog.getByLabel('Email', { exact: true }).fill('test@example.test')
   await dialog.getByRole('button', { name: 'Subscribe', exact: true }).click()
@@ -85,4 +85,34 @@ test('Session page offers email invitations and a real archive without numbered 
   await page.goto('/zh/sessions')
   await expect(page.locator('.sessions-hero').getByRole('button', { name: '接收活动邀请' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
+
+test('homepage separates member email, speaker proposals and product submission', async ({ page }) => {
+  let received: Record<string, string> | undefined
+  let fail = true
+  await page.route('**/api/intake', async route => {
+    received = route.request().postDataJSON()
+    await route.fulfill({ status: fail ? 503 : 200, json: fail ? { error: 'unavailable' } : { ok: true, requestId: received?.requestId } })
+  })
+  await page.goto('/')
+  await expect(page.locator('.participation-actions')).not.toContainText('YouTube')
+  await page.locator('.participation-actions').getByRole('button', { name: 'Join as a speaker', exact: true }).click()
+  const dialog = page.getByRole('dialog', { name: 'Join as a speaker', exact: true })
+  await dialog.getByLabel('Your name', { exact: true }).fill('Test maker')
+  await expect(dialog.getByLabel('How would you like to get involved?').locator('option')).toHaveText(['Choose an option', 'Speak at Super Session', 'Be a Super Lens guest', 'Other collaboration'])
+  await dialog.getByLabel('How would you like to get involved?').selectOption('lens_guest')
+  await dialog.getByLabel('Topic or collaboration idea').fill('What I learned building my first product')
+  await dialog.getByLabel('Email', { exact: true }).fill('speaker@example.test')
+  await dialog.getByRole('button', { name: 'Send proposal' }).click()
+  await expect(dialog.getByRole('alert')).toBeVisible()
+  await expect(dialog.getByLabel('Your name')).toHaveValue('Test maker')
+  fail = false
+  await dialog.getByRole('button', { name: 'Send proposal' }).click()
+  await expect(dialog.getByRole('status')).toContainText('received your proposal')
+  expect(received?.type).toBe('speaker')
+  expect(received?.interest).toBe('lens_guest')
+  await page.keyboard.press('Escape')
+  await page.locator('.participation-actions').getByRole('button', { name: 'Join as a member', exact: false }).click()
+  await expect(page.getByRole('dialog').getByRole('textbox')).toHaveCount(1)
 })

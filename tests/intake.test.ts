@@ -48,9 +48,10 @@ test('prototype submission accepts a WeChat contact and rejects invalid email or
   assert.equal((await handleIntake(request({ ...prototype, link: 'javascript:alert(1)' }), env, send)).status, 400)
 })
 
-test('Google receiver accepts only prototypes, serializes writes, deduplicates retries, and stores formula-like input as text', () => {
+test('Google receiver accepts products and proposals, serializes writes, deduplicates retries, and stores formula-like input as text', () => {
   const rows: Record<string, unknown[][]> = {
     'Email subscribers': [['Submitted at', 'Email', 'Language', 'Request ID']],
+    'Speaker proposals': [['Submitted at', 'Name', 'Interest', 'Topic or collaboration', 'About', 'Contact method', 'Contact', 'Profile link', 'Language', 'Request ID']],
     'Prototype submissions': [['Submitted at', 'Product name', 'What it does', 'Audience and problem', 'Stage', 'Contact method', 'Contact', 'Product link', 'Language', 'Request ID']],
   }
   let locked = false
@@ -74,5 +75,28 @@ test('Google receiver accepts only prototypes, serializes writes, deduplicates r
   assert.equal(post(prototype).ok, true)
   assert.equal(rows['Prototype submissions'].length, 2)
   assert.equal(rows['Prototype submissions'][1][1], "'=HYPERLINK(\"x\")")
+  const speaker = { ...payload, type: 'speaker', interest: 'lens_guest', topic: '=1+1', bio: 'A maker', token: env.GOOGLE_INTAKE_SECRET }
+  assert.equal(post(speaker).ok, true)
+  assert.equal(post(speaker).ok, true)
+  assert.equal(rows['Speaker proposals'].length, 2)
+  assert.equal(rows['Speaker proposals'][1][3], "'=1+1")
   assert.equal(locked, false)
+})
+
+
+test('speaker proposals validate all participation choices and route only to Sheets', async () => {
+  const speaker = { type: 'speaker', locale: 'en', requestId: payload.requestId, website: '', name: 'A maker', interest: 'session_speaker', topic: 'Lessons from building a product', bio: '', contactType: 'wechat', contact: 'example-maker', link: '' }
+  let calls = 0
+  const send = (async (url, init) => {
+    calls++
+    assert.equal(String(url), env.GOOGLE_INTAKE_URL)
+    const body = JSON.parse(String(init?.body))
+    assert.equal(body.type, 'speaker')
+    return Response.json({ ok: true, requestId: body.requestId })
+  }) as typeof fetch
+  for (const interest of ['session_speaker', 'lens_guest', 'collaboration']) assert.equal((await handleIntake(request({ ...speaker, interest }), env, send)).status, 200)
+  assert.equal(calls, 3)
+  for (const change of [{ interest: 'invalid' }, { topic: ' ' }, { contactType: 'email' }, { link: 'javascript:alert(1)' }]) assert.equal((await handleIntake(request({ ...speaker, ...change }), env, send)).status, 400)
+  assert.equal(calls, 3)
+  assert.equal((await handleIntake(request(speaker), {}, send)).status, 503)
 })
