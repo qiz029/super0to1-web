@@ -1,7 +1,7 @@
 import { useId, useRef, useState, type FormEvent } from 'react'
 import { useT } from '../i18n/locale'
 
-export function IntakeForm({ kind, source = 'general' }: { kind: 'newsletter' | 'prototype' | 'speaker'; source?: 'general' | 'lab_tester' | 'project_tester' }) {
+export function IntakeForm({ kind, source = 'general', defaultInterest = '' }: { kind: 'newsletter' | 'prototype' | 'speaker'; source?: 'general' | 'lab_tester' | 'project_tester'; defaultInterest?: '' | 'session_speaker' | 'lens_guest' | 'collaboration' }) {
   const { t, locale } = useT()
   const f = t.forms
   const id = useId()
@@ -45,7 +45,7 @@ export function IntakeForm({ kind, source = 'general' }: { kind: 'newsletter' | 
           <label htmlFor={`${id}-name`}>{kind === 'speaker' ? t.speaker.name : f.productName}<input id={`${id}-name`} name="name" maxLength={200} required /></label>
           {kind === 'speaker' ? <>
             <label htmlFor={`${id}-interest`}>{t.speaker.interest}
-              <select id={`${id}-interest`} name="interest" defaultValue="" required>
+              <select id={`${id}-interest`} name="interest" defaultValue={defaultInterest} required>
                 <option value="" disabled>{t.speaker.chooseInterest}</option>
                 <option value="session_speaker">{t.speaker.session}</option>
                 <option value="lens_guest">{t.speaker.lens}</option>

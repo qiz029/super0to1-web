@@ -25,6 +25,7 @@ export function Sessions() {
         <p className="lede">{s.lede}</p>
         <div className="actions">
           <JoinUsButton>{s.inviteAction}</JoinUsButton>
+          <JoinUsButton kind="speaker" defaultInterest="session_speaker" className="button button-secondary">{t.home.speakerAction}</JoinUsButton>
         </div>
         <p className="session-invite-note">{s.inviteNote}</p>
       </IllustratedHero>

@@ -3,10 +3,10 @@ import { createPortal } from 'react-dom'
 import { useT } from '../i18n/locale'
 import { IntakeForm } from './IntakeForm'
 
-type Props = { kind?: 'newsletter' | 'speaker'; children: ReactNode; className?: string; onOpen?: () => void; source?: 'general' | 'lab_tester' | 'project_tester' }
+type Props = { defaultInterest?: '' | 'session_speaker' | 'lens_guest' | 'collaboration'; kind?: 'newsletter' | 'speaker'; children: ReactNode; className?: string; onOpen?: () => void; source?: 'general' | 'lab_tester' | 'project_tester' }
 
 // Email signup is separate from event booking in JoinButton.
-export function JoinUsButton({ children, className = 'button', onOpen, source = 'general', kind = 'newsletter' }: Props) {
+export function JoinUsButton({ children, className = 'button', onOpen, source = 'general', kind = 'newsletter', defaultInterest = '' }: Props) {
   const { t } = useT()
   const copy = kind === 'speaker' ? t.speaker : t.newsletter
   const dialog = useRef<HTMLDialogElement>(null)
@@ -31,7 +31,7 @@ export function JoinUsButton({ children, className = 'button', onOpen, source = 
           <button type="button" className="dialog-close" aria-label={t.join.close} onClick={() => dialog.current?.close()}>×</button>
           <h2 id={titleId}>{copy.title}</h2>
           <p>{copy.body}</p>
-          <IntakeForm kind={kind} source={source} />
+          <IntakeForm kind={kind} source={source} defaultInterest={defaultInterest} />
         </div>
       </dialog>, document.body)}
     </>

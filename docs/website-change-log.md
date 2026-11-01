@@ -134,3 +134,11 @@ About 的 Super Lab、Super Session、Super Lens 同步为横排，Super 常规�
 按用户反馈更换左侧嘉宾人物，保留一对一采访构图、右侧主持人、桌面道具及手绘风格。使用内置 imagegen 编辑，保存为 public/media/brand-lens-v4.webp，旧版保留可回退。网站与管理中心共享预览同步。未改变内容字段或表单。
 
 验证：生成图已查看，WebP 尺寸 1536×1024，保留透明通道；代码检查与网站类型检查通过。未重新浏览器目视验收。已记录提示词，未推送、未部署。
+
+## Session 分享者入口与往期照片待办（2026-10-31）
+
+Session 页增加 Join as a speaker／成为分享者，与原有邮件邀请按钮并列。复用首页 JoinUsButton 与 IntakeForm，通过 defaultInterest 预选 session_speaker；仍可改选，提交使用同一个 speaker 类型与接收流程，不另建表。管理中心共享预览同步，无后台数据结构变化。使用 code-structure 避免重复表单逻辑，unslop 整理记录。
+
+用户要求每个往期 Session 从自有小红书选择一张照片，优先非正脸，合影可用。网站两场为找到你的方向（2026年4月）、Vibe Coding 入门（2026年3月）。Chrome 创作平台已确认账号 Super0-1 Initiative；用户正在操作 Chrome，停止抢占。内置小红书页面要求登录，已询问登录或提供笔记链接。尚未取得、筛选或替换照片。
+
+验证：代码检查、网站与管理中心类型检查、网站构建通过；两项网页回归测试通过，覆盖中英文预选和首页通用表单提交。Google Sheet 正式接收配置仍待完成。未推送、未部署。
