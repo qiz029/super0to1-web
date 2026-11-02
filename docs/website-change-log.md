@@ -158,3 +158,7 @@ Session 页增加 Join as a speaker／成为分享者，与原有邮件邀请按
 ## 本地预览进程修复（2026-11-01）
 
 用户再次反馈无法打开，检查发现5173没有监听进程。改用当前用户 launchctl 临时任务 com.super0to1.local-preview 独立启动 Vite，避免依赖聊天工具会话生命周期。绑定127.0.0.1:5173，仅本机访问；未建立开机启动plist。确认端口监听且首页HTTP200。日志在 outputs/website-preview.log、website-preview-error.log。停止命令：launchctl remove com.super0to1.local-preview。没有修改网页或管理中心代码，没有部署。
+
+## 下一期 Lab 海报与活动草稿准备（2026-11-01）
+
+已查看用户桌面 Super-Lab-03-Poster-v2.png，复制原稿到 outputs/events/super-lab-03-poster.png；按海报准备中英文活动草稿 super-lab-03-draft.json。时间 2026-11-05 19:30–21:00 America/Los_Angeles，Clare 的海外社媒营销增长 Agent、Isla 的趣味闹钟 App，线上活动。建议首页简短入口、Lab 页面完整海报；待补报名链接。草稿 published=false、image与signupUrl留空，未写入发布快照或网站运行时，未上传或部署。
