@@ -154,3 +154,7 @@ Session 页增加 Join as a speaker／成为分享者，与原有邮件邀请按
 下一期 Lab：用户已确定分享者并持有 Demo 信息，正在另外制作海报。待用户提供资料再整理活动与产品展示，不编造或提前发布。
 
 验证：代码检查、网站与管理中心类型检查、网站构建通过。两张本地 PNG 均非空，比例与来源一致，活动卡片沿用现有图片显示规则；浏览器策略阻止本轮实际页面目视验收。已记录来源并本地提交，未推送、未部署。
+
+## 本地预览进程修复（2026-11-01）
+
+用户再次反馈无法打开，检查发现5173没有监听进程。改用当前用户 launchctl 临时任务 com.super0to1.local-preview 独立启动 Vite，避免依赖聊天工具会话生命周期。绑定127.0.0.1:5173，仅本机访问；未建立开机启动plist。确认端口监听且首页HTTP200。日志在 outputs/website-preview.log、website-preview-error.log。停止命令：launchctl remove com.super0to1.local-preview。没有修改网页或管理中心代码，没有部署。
