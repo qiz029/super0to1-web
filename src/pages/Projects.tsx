@@ -1,5 +1,4 @@
 import { useParams } from 'react-router'
-import { JoinUsButton } from '../components/JoinUsButton'
 import { LLink } from '../components/LocaleLink'
 import { Necklace, type Pearl } from '../components/Necklace'
 import { useContent } from '../content/context'
@@ -84,9 +83,6 @@ export function ProjectDetail() {
               {t.projects.tryIt(project.name)}
             </a>
           )}
-          <JoinUsButton source="project_tester" className={`button ${url ? 'button-secondary' : ''}`}>
-            {t.projects.tryAtLab}
-          </JoinUsButton>
         </div>
       </section>
 

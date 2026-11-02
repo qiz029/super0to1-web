@@ -162,3 +162,9 @@ Session 页增加 Join as a speaker／成为分享者，与原有邮件邀请按
 ## 下一期 Lab 海报与活动草稿准备（2026-11-01）
 
 已查看用户桌面 Super-Lab-03-Poster-v2.png，复制原稿到 outputs/events/super-lab-03-poster.png；按海报准备中英文活动草稿 super-lab-03-draft.json。时间 2026-11-05 19:30–21:00 America/Los_Angeles，Clare 的海外社媒营销增长 Agent、Isla 的趣味闹钟 App，线上活动。建议首页简短入口、Lab 页面完整海报；待补报名链接。草稿 published=false、image与signupUrl留空，未写入发布快照或网站运行时，未上传或部署。
+
+## 项目页移除 Lab 试用按钮（2026-11-01）
+
+按用户在 AsideFM 项目页的反馈，移除项目详情模板的 Try it at Super Lab／在 Super Lab 试用按钮及未使用文案，保留直接试用产品的外链按钮。管理中心共享页面预览同步，没有改表单接收逻辑或后台字段。
+
+验证：代码检查、网站和管理中心类型检查通过。延续现有任务分支，无新增 Skill，未推送、未部署。
