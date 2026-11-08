@@ -203,8 +203,6 @@
 .home-projects .project-card:only-child .meta { align-self: end; }
 .home-projects .project-card:only-child h3 { font-size: clamp(32px, 3.6vw, 48px); margin-block: 14px; }
 .home-projects .project-card:only-child p { align-self: start; margin-top: 0; max-width: 26em; }
-.home-session-preview .grid { grid-template-columns: 1fr; }
-.home-session-preview .session-card { aspect-ratio: 2.35 / 1; }
 .home-lens-preview .video-card {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -220,7 +218,6 @@
   .home-projects .project-card:only-child .project-art { height: 230px; margin-bottom: 22px; }
   .home-projects .project-card:only-child h3 { font-size: 30px; }
   .home-projects .project-card:only-child p { margin-bottom: 8px; }
-  .home-session-preview .session-card { aspect-ratio: 4 / 3; }
   .home-lens-preview .video-thumb { margin-bottom: 20px; }
   .home-lens-preview h3 { font-size: 26px; margin-top: 10px; }
   .home-projects .section-head, .home-session-preview { min-width: 0; }
@@ -230,3 +227,25 @@
 .about-title { font-size: clamp(38px, 5.5vw, 72px); line-height: 1.08; }
 .about-facts { margin-top: 24px; color: var(--cream); font-size: 16px; letter-spacing: .025em; }
 .about-programs-title { margin-top: 48px; font-size: clamp(26px, 3vw, 36px); }
+
+/* Keep people in event photos at a modest scale, including on wide screens. */
+.session-gallery {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(210px, 23vw, 270px);
+  justify-content: start;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 6px 6px 16px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.session-gallery .session-card { aspect-ratio: auto; border: 0; border-radius: 0; overflow: visible; scroll-snap-align: start; }
+.session-gallery .session-card img { aspect-ratio: 3 / 2; height: auto; object-fit: contain; border-radius: 12px; background: var(--brown-deep); }
+.session-gallery .session-card::after, .session-gallery .arrow-pill { display: none; }
+.session-gallery .session-caption { position: static; display: block; margin-top: 14px; }
+.session-gallery .session-caption .meta { font-size: 10px; }
+.session-gallery .session-caption h3 { font-size: 20px; line-height: 1.3; margin-top: 7px; }
+.session-gallery .session-card:hover img { transform: none; }
+.session-gallery .session-card:hover h3 { color: var(--cream); }
+@media (max-width: 760px) { .session-gallery { grid-auto-columns: 210px; gap: 16px; } }

@@ -92,7 +92,7 @@ export function SessionCards({ items }: { items?: Session[] }) {
   const { tx, locale } = useT()
   const { sessions } = useContent()
   return (
-    <div className="grid grid-2">
+    <div className="grid session-gallery">
       {(items ?? sessions).map((s, i) => (
         <LLink className="session-card" to={`/sessions/${s.slug}`} key={s.slug} data-reveal style={{ ['--i' as string]: i }}>
           <img src={s.image} alt={tx(s.imageAlt)} loading="lazy" />
