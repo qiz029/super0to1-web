@@ -2,7 +2,7 @@
 // TypeScript enforces it through `typeof en`.
 const en = {
   mission:
-    'We empower super individuals to move from 0 to 1 — by helping them close the loops that matter.',
+    'From 0 to 1. Close the loops that matter.',
   nav: {
     projects: 'Projects',
     lab: 'Super Lab',
@@ -19,8 +19,8 @@ const en = {
     language: 'Language',
   },
   home: {
-    headline: { plain: ['Build', 'something.'], accent: ['Move it', 'forward.'], gap: ' ' },
-    lede: 'A community for turning ideas into products, one step at a time. Learn together, test what you’re building, and turn feedback into your next step.',
+    headline: { plain: ['From', '0→1.'], accent: ['Together.'], gap: ' ' },
+    lede: 'A community for side projects and early ventures. Test ideas with others and close the loops that matter.',
     attend: 'Join a session',
     bringPrototype: 'Submit a product',
     participate: 'Take part',
@@ -200,7 +200,7 @@ const en = {
 export type Messages = typeof en
 
 const zh: Messages = {
-  mission: '我们助力超级个体实现从 0 到 1——帮他们走完每一个真正重要的闭环。',
+  mission: '从 0 到 1，走通真正重要的闭环。',
   nav: {
     // Program names are shared brand names; interface labels are localized.
     projects: 'Projects',
@@ -218,8 +218,8 @@ const zh: Messages = {
     language: '语言',
   },
   home: {
-    headline: { plain: ['把想法做出来，'], accent: ['再向前一步。'], gap: '' },
-    lede: '一个陪你把想法一步步变成产品的社群。一起学习，带着作品来试，把反馈变成下一步行动。',
+    headline: { plain: ['从', '0→1，'], accent: ['一起把想法做成。'], gap: '' },
+    lede: '一个轻创业与独立项目的社群。和大家一起验证想法，走通真正重要的闭环。',
     attend: '参加共学',
     bringPrototype: '提交产品报名',
     participate: '从这里参与',

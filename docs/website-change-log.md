@@ -204,3 +204,11 @@ Session 页增加 Join as a speaker／成为分享者，与原有邮件邀请按
 首页与后台通过 shared/home.ts 共用展示数量，CMS 首页推荐卡补充展示上限和排序说明，保留已有候选推荐列表。管理中心网页预览同步；数据结构、发布快照与表单不变。使用 code-structure 共享展示规则，未引入新依赖。
 
 验证：代码检查、网站与管理中心类型检查、两套构建通过。对预渲染HTML进行非浏览器静态检查：首页及中文首页均1产品/1活动/1访谈，栏目页仍1产品/2活动/6访谈；中英文查看全部产品链接正确。浏览器目视验收仍受本地URL访问策略限制，未执行；不将HTML检查当作实际布局验收。未推送、未部署。
+
+## 首页回归 0→1 与轻创业定位（2026-11-07）
+
+用户反馈 curious people 太泛，希望突出轻创业、0到1和重要闭环，不再用 super individuals 定义成员。调研 Indie Hackers（https://www.indiehackers.com/）与 FounderCafe（https://www.foundercafe.com/）当前页面，参考其直接说明独立项目/创业实践与社群互助的方式，不引用其商业承诺或筛选机制。
+
+首页英文改为 From 0→1. / Together.；正文 A community for side projects and early ventures. Test ideas with others and close the loops that matter. 中文同步为“从0→1，一起把想法做成。”及轻创业、独立项目、验证想法的说明。标题0→1用浅黄突出，第二行常规暖白，去除强调下划线。共享使命文案改为 From 0 to 1. Close the loops that matter.，About与页脚同步移除 super individuals 身份标签。未修改 CMS 内容快照中的用户内容。
+
+用户提到 bot 配置含义尚待澄清，已询问是否指页脚使命文案；本次没有删除任何机器人或后台配置。代码检查、网站与管理中心类型检查通过。原文案使用 unslop 思路精简；同一分支本地提交，未推送、未部署。浏览器实际渲染仍未目视验收。

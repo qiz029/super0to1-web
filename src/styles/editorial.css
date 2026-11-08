@@ -41,13 +41,8 @@
   background: var(--rose);
 }
 .home-hero h1 { font-size: clamp(52px, 5.8vw, 84px); line-height: 1.02; letter-spacing: -.055em; }
-.home-hero .hero-word.is-accent {
-  color: var(--cream);
-  text-decoration: underline;
-  text-decoration-color: var(--rose);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 10px;
-}
+.home-hero .hero-word.is-accent { display: block; color: var(--white); text-decoration: none; }
+.home-hero .hero-zero { color: var(--cream); }
 .home-hero .lede { font-size: 20px; line-height: 1.6; max-width: 29em; margin-top: 30px; }
 .participation { min-width: 0; }
 .home-brand-art { margin: 0 0 18px; overflow: visible; }

@@ -28,7 +28,7 @@ export function Home() {
           <h1 aria-label={words.map((x) => x.w).join(gap)}>
             {words.map(({ w, accent }, i) => (
               <Fragment key={w}>
-                <span className={accent ? 'hero-word is-accent' : 'hero-word'} style={{ ['--i' as string]: i + 1 }} aria-hidden="true">
+                <span className={`hero-word${accent ? ' is-accent' : ''}${w.includes('0→1') ? ' hero-zero' : ''}`} style={{ ['--i' as string]: i + 1 }} aria-hidden="true">
                   {w}
                 </span>
                 {gap}
