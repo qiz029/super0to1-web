@@ -203,23 +203,12 @@
 .home-projects .project-card:only-child .meta { align-self: end; }
 .home-projects .project-card:only-child h3 { font-size: clamp(32px, 3.6vw, 48px); margin-block: 14px; }
 .home-projects .project-card:only-child p { align-self: start; margin-top: 0; max-width: 26em; }
-.home-lens-preview .video-card {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  grid-template-rows: 1fr 2fr;
-  column-gap: clamp(24px, 4vw, 56px);
-}
-.home-lens-preview .video-thumb { grid-column: 1; grid-row: 1 / 3; margin: 0; }
-.home-lens-preview .meta { grid-column: 2; align-self: end; }
-.home-lens-preview h3 { grid-column: 2; align-self: start; font-size: clamp(26px, 3vw, 40px); max-width: 20em; margin-top: 16px; }
 #projects { scroll-margin-top: 100px; }
 @media (max-width: 760px) {
-  .home-projects .project-card:only-child, .home-lens-preview .video-card { display: block; }
+  .home-projects .project-card:only-child { display: block; }
   .home-projects .project-card:only-child .project-art { height: 230px; margin-bottom: 22px; }
   .home-projects .project-card:only-child h3 { font-size: 30px; }
   .home-projects .project-card:only-child p { margin-bottom: 8px; }
-  .home-lens-preview .video-thumb { margin-bottom: 20px; }
-  .home-lens-preview h3 { font-size: 26px; margin-top: 10px; }
   .home-projects .section-head, .home-session-preview { min-width: 0; }
   .section-head { flex-wrap: wrap; }
 }
@@ -229,7 +218,8 @@
 .about-programs-title { margin-top: 48px; font-size: clamp(26px, 3vw, 36px); }
 
 /* Keep people in event photos at a modest scale, including on wide screens. */
-.session-gallery {
+.media-gallery {
+  display: grid;
   grid-template-columns: none;
   grid-auto-flow: column;
   grid-auto-columns: clamp(210px, 23vw, 270px);
@@ -248,4 +238,11 @@
 .session-gallery .session-caption h3 { font-size: 20px; line-height: 1.3; margin-top: 7px; }
 .session-gallery .session-card:hover img { transform: none; }
 .session-gallery .session-card:hover h3 { color: var(--cream); }
-@media (max-width: 760px) { .session-gallery { grid-auto-columns: 210px; gap: 16px; } }
+@media (max-width: 760px) { .media-gallery { grid-auto-columns: 210px; gap: 16px; } }
+
+.home-lens-preview > div { min-width: 0; scroll-snap-align: start; }
+.home-lens-preview .video-card { display: block; }
+.home-lens-preview .video-thumb { margin-bottom: 14px; border-radius: 12px; }
+.home-lens-preview .meta { font-size: 10px; }
+.home-lens-preview h3 { font-size: 20px; line-height: 1.35; margin-top: 7px; }
+.home-lens-preview .video-card:hover .video-thumb img { transform: none; }

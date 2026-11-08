@@ -13,7 +13,7 @@ import { useT } from '../i18n/locale'
 export function Home() {
   const { t } = useT()
   const { videos, sessions, projects, home } = useContent()
-  const [featured] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
+  const featuredVideos = home.videoIds.flatMap(id => videos.filter(v => v.id === id)).slice(0, HOME_PREVIEW_LIMITS.videos)
   const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
   const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.program !== 'lab')).slice(0, HOME_PREVIEW_LIMITS.sessions)
   const nextSession = upcomingSession(sessions, home.upcomingSessionId)
@@ -72,15 +72,15 @@ export function Home() {
         <div className="home-session-preview"><SessionCards items={featuredSessions} /></div>
       </section>}
 
-      {home.showVideos && featured && <section className="section container">
+      {home.showVideos && featuredVideos.length > 0 && <section className="section container">
         <div className="section-head" data-reveal>
           <h2><LLink to="/lens"><ProgramName name="Super Lens" /> ↗</LLink></h2>
           <LLink className="text-link" to="/lens">
             {t.home.allConversations}
           </LLink>
         </div>
-        <div className="home-lens-preview" data-reveal>
-          <VideoCard video={featured} featured />
+        <div className="media-gallery home-lens-preview">
+          {featuredVideos.map(video => <div key={video.id} data-reveal><VideoCard video={video} /></div>)}
         </div>
       </section>}
 
@@ -92,7 +92,7 @@ export function SessionCards({ items }: { items?: Session[] }) {
   const { tx, locale } = useT()
   const { sessions } = useContent()
   return (
-    <div className="grid session-gallery">
+    <div className="grid media-gallery session-gallery">
       {(items ?? sessions).map((s, i) => (
         <LLink className="session-card" to={`/sessions/${s.slug}`} key={s.slug} data-reveal style={{ ['--i' as string]: i }}>
           <img src={s.image} alt={tx(s.imageAlt)} loading="lazy" />
