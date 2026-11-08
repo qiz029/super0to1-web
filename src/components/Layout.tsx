@@ -78,7 +78,6 @@ function Header() {
               {t.nav[item.key]}
             </LNavLink>
           ))}
-          <JoinUsButton className="nav-join" onOpen={() => setOpen(false)}>{t.nav.join}</JoinUsButton>
         </nav>
         <div className="header-tools">
           <LanguageSwitch />

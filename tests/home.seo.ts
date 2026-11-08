@@ -12,7 +12,7 @@ test('home prioritizes participation and content while preserving detail routes'
   await page.goto('/')
   const navigation = page.locator('#site-nav')
   await expect(navigation.getByRole('link')).toHaveText(['Super Session', 'Super Lab', 'Super Lens', 'About'])
-  await expect(navigation.getByRole('button', { name: 'Join us', exact: true })).toBeVisible()
+  await expect(navigation.getByRole('button')).toHaveCount(0)
   await expect(page.locator('.hero .actions a')).toHaveText(['Submit a product↗'])
   await expect(page.locator('.program-grid, .stepper, .join-copy')).toHaveCount(0)
   await expect(page.locator('main h2 a')).toHaveText(['Super Lab ↗', 'Super Session ↗', 'Super Lens ↗'])
@@ -28,7 +28,7 @@ test('home prioritizes participation and content while preserving detail routes'
 
 test('email sign-up remains separate from prototype registration and returns keyboard focus', async ({ page }) => {
   await page.goto('/')
-  const opener = page.locator('#site-nav').getByRole('button', { name: 'Join us', exact: true })
+  const opener = page.locator('.participation-actions').getByRole('button', { name: 'Join as a member', exact: false })
   await opener.click()
   const dialog = page.getByRole('dialog', { name: 'Join as a member', exact: true })
   await expect(dialog).toBeVisible()
@@ -48,7 +48,9 @@ test('mobile navigation and actions work in both languages without horizontal ov
   await page.getByRole('button', { name: '菜单', exact: true }).click()
   const navigation = page.locator('#site-nav')
   await expect(navigation.getByRole('link')).toHaveText(['Super Session', 'Super Lab', 'Super Lens', '关于'])
-  await navigation.getByRole('button', { name: '加入我们', exact: true }).click()
+  await expect(navigation.getByRole('button')).toHaveCount(0)
+  await page.getByRole('button', { name: '关闭', exact: true }).click()
+  await page.locator('.participation-actions').getByRole('button', { name: '加入社群', exact: false }).click()
   await expect(page.getByRole('dialog', { name: '加入社群', exact: true })).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(page.getByRole('button', { name: '菜单', exact: true })).toHaveAttribute('aria-expanded', 'false')

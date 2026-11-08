@@ -174,3 +174,7 @@ Session 页增加 Join as a speaker／成为分享者，与原有邮件邀请按
 按用户授权在现有 Super 0→1 日历创建 2026-11-05 19:30–21:00 PST 的 Super Lab 03，生成 Google Meet；两句英文介绍 Clare 与 Isla 的产品 Demo。原海报上传 Drive，并通过 Calendar 编辑器添加正式附件。读回活动确认状态、时间、Meet、海报附件标题与文件ID，截图在 outputs/events/super-lab-03-calendar.png，活动详细记录在同目录 calendar-record.json。当前只有 Jess 本人在名单，没有邀请外部人员。未改变海报分享权限，没有将会议信息写入网站发布快照。
 
 使用 Google Drive 与 skill-creator，创建并安装 super-event-calendar Skill，供以后从定稿海报生成活动、Meet、短英文介绍及正式海报附件。网站自动报名、确认邮件和动态加入受邀人仍待实现。Google 自动添加邀请受收件人设置限制，不能保证无须 RSVP。
+
+## 移除顶部 Join us（2026-11-07）
+
+按用户反馈移除全站页头 Join us 按钮，中英文和手机菜单同步；保留首页会员、分享者与产品入口以及页脚原有入口。移除无用导航按钮样式，现有导航测试改为从首页入口打开邮件表单。管理中心共享网页预览同步，无字段或提交逻辑修改。代码检查与网站、管理中心类型检查通过。延续当前分支，无新增 Skill；未推送、未部署。
