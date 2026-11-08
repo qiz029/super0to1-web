@@ -242,3 +242,25 @@
 .video-gallery .meta { font-size: 10px; }
 .video-gallery h3 { font-size: 20px; line-height: 1.35; }
 .video-gallery .video-card:hover .video-thumb img { transform: none; }
+
+/* Pair the supplied channel mark with the original Figma wordmark. */
+.logo { display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0; }
+.logo .logo-symbol { width: 52px; height: 52px; object-fit: contain; }
+.logo .logo-wordmark { width: 126px; height: auto; }
+.site-header { top: 0; margin-top: 0; padding-inline: var(--gutter); }
+.header-inner, .site-header.is-scrolled .header-inner {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: rgba(83, 69, 58, .97);
+  box-shadow: none;
+  padding-inline: 0;
+}
+@media (max-width: 1000px) {
+  .logo .logo-symbol { width: 44px; height: 44px; }
+  .logo .logo-wordmark { width: 104px; }
+}
+@media (max-width: 760px) {
+  .header-inner, .site-header.is-scrolled .header-inner { border-radius: 0; padding-inline: 0; }
+  .logo { gap: 5px; }
+}
