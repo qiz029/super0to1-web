@@ -1,36 +1,15 @@
-import { ProgramName } from '../components/ProgramName'
-import { LLink } from '../components/LocaleLink'
-import { PROGRAMS } from '../content/programs'
-import { localePath, useT } from '../i18n/locale'
-import { Link } from 'react-router'
+import { useT } from '../i18n/locale'
 
 export function About() {
-  const { t, tx, locale } = useT()
+  const { t } = useT()
   return (
-    <>
-      <section className="page-hero container about-hero">
-        <h1 className="about-title">{t.about.title}</h1>
-        <p className="about-facts">{t.about.facts}</p>
-      </section>
-      <section className="section container about-body">
-        <p>{t.about.intro}</p>
-        <p>{t.about.belief}</p>
-        <h2 className="about-programs-title">{t.about.programs}</h2>
-        <ul className="about-programs">
-          {PROGRAMS.map((p) => (
-            <li key={p.to}>
-              <LLink to={p.to}>
-                <strong><ProgramName name={p.name} /></strong>
-                <span>{tx(p.body)}</span>
-              </LLink>
-            </li>
-          ))}
-        </ul>
-        <p>{t.about.participateBody}</p>
-        <div className="actions">
-          <Link className="button" to={`${localePath(locale, '/')}#join-us`}>{t.about.participate}</Link>
-        </div>
-      </section>
-    </>
+    <section className="container about-page">
+      <article className="about-note">
+        <p className="about-label">{t.nav.about}</p>
+        <h1>{t.about.title}</h1>
+        <p className="about-intro">{t.about.intro}</p>
+        <p className="about-note-facts">{t.about.facts}</p>
+      </article>
+    </section>
   )
 }

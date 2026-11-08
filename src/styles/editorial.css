@@ -137,17 +137,6 @@
 .prototype-section .intake-form .button:hover { background: #5c4232; }
 .dialog { border-radius: 22px; border: 1px solid var(--cream); }
 
-.about-hero { padding-block: 70px 48px; }
-.about-mission { max-width: 13em !important; line-height: 1.06; }
-.about-programs { display: grid; gap: 12px; margin-block: 36px; }
-.about-programs li { background: var(--paper-light); border-radius: 18px; color: var(--brown-ink); padding: 0 28px; }
-.about-programs li:nth-child(2) { background: #f0c8b3; }
-.about-programs li:nth-child(3) { background: #c5d8e1; }
-.about-programs a { padding-block: 28px; border: 0; grid-template-columns: 230px 1fr; }
-.about-programs :is(strong, span), .about-programs li:nth-child(n) strong { color: inherit; }
-.about-programs a:hover strong { color: #805539; }
-.about-programs .program-name { font-size: 28px; }
-.about-programs .program-name strong { font-size: inherit; font-weight: 700; }
 .site-footer { background: #44372f; border-top: 1px solid var(--line); }
 
 @media (max-width: 1000px) {
@@ -170,9 +159,6 @@
   .illustrated-hero, .lab-hero { padding-block: 38px; gap: 28px; }
   .page-hero .program-title { font-size: clamp(38px, 9vw, 54px); }
   .brand-scene { max-height: 260px; }
-  .about-hero { padding-block: 42px 32px; }
-  .about-programs li { padding-inline: 22px; }
-  .about-programs a { grid-template-columns: 1fr; gap: 12px; padding-block: 24px; }
   .project-card { padding: 10px 10px 20px; border-radius: 18px; }
   .session-caption { left: 20px; bottom: 20px; }
 }
@@ -213,9 +199,6 @@
   .section-head { flex-wrap: wrap; }
 }
 
-.about-title { font-size: clamp(38px, 5.5vw, 72px); line-height: 1.08; }
-.about-facts { margin-top: 24px; color: var(--cream); font-size: 16px; letter-spacing: .025em; }
-.about-programs-title { margin-top: 48px; font-size: clamp(26px, 3vw, 36px); }
 
 /* Keep people in event photos at a modest scale, including on wide screens. */
 .media-gallery {
@@ -246,3 +229,18 @@
 .home-lens-preview .meta { font-size: 10px; }
 .home-lens-preview h3 { font-size: 20px; line-height: 1.35; margin-top: 7px; }
 .home-lens-preview .video-card:hover .video-thumb img { transform: none; }
+
+/* A short introduction, with no repeated program navigation or signup CTA. */
+.about-page { padding-block: clamp(40px, 7vw, 92px); }
+.about-note {
+  max-width: 940px;
+  margin-inline: auto;
+  padding: clamp(28px, 6vw, 72px);
+  border-radius: 20px;
+  background: var(--paper-light);
+  color: var(--brown-ink);
+}
+.about-label { margin: 0 0 28px; font-size: 14px; color: #6b584a; }
+.about-note h1 { font-size: clamp(38px, 5vw, 62px); line-height: 1.08; letter-spacing: -.045em; }
+.about-intro { max-width: 46ch; font-size: clamp(18px, 2vw, 24px); line-height: 1.65; margin: 28px 0 36px; }
+.about-note-facts { border-top: 1px solid var(--line-dark); padding-top: 20px; margin: 0; font-size: 13px; line-height: 1.6; color: #6b584a; }

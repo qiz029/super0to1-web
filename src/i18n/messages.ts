@@ -128,13 +128,9 @@ const en = {
     keepWatching: 'Keep watching',
   },
   about: {
-    title: 'About Super 0→1',
+    title: 'Super 0→1',
     facts: 'Founded in 2026 · Based in North America',
-    intro: 'Super 0→1 is a community for people exploring side projects and early ventures. We bring people together to learn from each other and put their ideas to the test.',
-    belief: 'Going from 0 to 1 takes more than an idea. A conversation, a working prototype, or feedback from someone trying your product can help close a loop that matters.',
-    programs: 'How we come together',
-    participate: 'Join us',
-    participateBody: 'Come to a session, try a product, share what you know, or bring something you’re working on.',
+    intro: 'A community for side projects and early ventures. Through shared learning, product demos, and conversations with people building their own businesses, we explore what it takes to go from 0 to 1.',
   },
   join: {
     roles: {
@@ -328,13 +324,9 @@ const zh: Messages = {
     keepWatching: '继续观看',
   },
   about: {
-    title: '关于 Super 0→1',
+    title: 'Super 0→1',
     facts: '2026 年成立 · 立足北美',
-    intro: 'Super 0→1 是一个关注轻创业与独立项目的社群。我们把正在探索自己项目的人聚在一起，相互学习，也让想法有机会被真正试一试。',
-    belief: '从 0 到 1，需要的不只是一个想法。一次交流、一个能用的原型，或一位试用者的反馈，都可能帮你走通一个重要的小闭环。',
-    programs: '我们怎样聚在一起',
-    participate: '参与进来',
-    participateBody: '来听一场分享、试用一个产品，分享你的经验，或者带上你正在做的东西。',
+    intro: '一个关注轻创业与独立项目的社群。通过共学、产品体验和创业者访谈，我们一起探索怎样把想法从 0 做到 1。',
   },
   join: {
     roles: {
