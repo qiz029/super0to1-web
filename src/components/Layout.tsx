@@ -114,7 +114,7 @@ function Footer() {
           ))}
           <Link to={`${localePath(locale, '/')}#join-us`}>{t.nav.join}</Link>
           <a href={site.youtube} target="_blank" rel="noopener noreferrer">
-            YouTube ↗
+            YouTube
           </a>
         </nav>
       </div>

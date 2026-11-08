@@ -37,7 +37,7 @@ test('homepage preview honors CMS recommendations and the inline email form', as
   content.site.signupUrl = 'https://registration.example.test/default'
   await page.route('**/api/previews/11111111-1111-1111-1111-111111111111', route => route.fulfill({ json: content }))
   await page.goto('/preview.html?id=11111111-1111-1111-1111-111111111111&path=/')
-  await expect(page.locator('main h2 a')).toHaveText(['Super Lab ↗'])
+  await expect(page.locator('main h2 a')).toHaveText(['Super Lab'])
   await expect(page.locator('main .project-card').first()).toContainText('Private preview prototype')
   await page.locator('.hero').getByRole('button', { name: 'Join as a speaker', exact: true }).click()
   await expect(page.getByRole('dialog').getByLabel('Topic or collaboration idea')).toBeVisible()

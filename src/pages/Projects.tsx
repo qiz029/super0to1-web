@@ -21,7 +21,7 @@ export function ProjectCards({ items, includeInvite = true }: { items?: Project[
             <span className="project-art project-art-dark">{p.name}</span>
           )}
           <span className="meta">{[p.stage ? tx(p.stage) : t.projects.featured, p.domain].filter(Boolean).join(' · ')}</span>
-          <h3>{p.name} →</h3>
+          <h3>{p.name}</h3>
           <p>{p.tagline ? tx(p.tagline) : t.projects.profileSoon}</p>
         </LLink>
       ))}
@@ -120,7 +120,7 @@ export function ProjectDetail() {
                 <dd>
                   {builder.url ? (
                     <a className="builder-name" href={builder.url} target="_blank" rel="noopener noreferrer">
-                      {builder.name} ↗
+                      {builder.name}
                     </a>
                   ) : (
                     <span className="builder-name">{builder.name}</span>

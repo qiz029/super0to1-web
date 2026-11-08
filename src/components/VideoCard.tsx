@@ -20,7 +20,7 @@ export function VideoCard({ video, featured }: { video: Video; featured?: boolea
 
 export function VideoGrid({ items }: { items: Video[] }) {
   return (
-    <div className="grid grid-3">
+    <div className="grid media-gallery video-gallery">
       {items.map((v, i) => (
         <div data-reveal style={{ ['--i' as string]: i % 3 }} key={v.id}>
           <VideoCard video={v} />

@@ -42,9 +42,9 @@ export function Home() {
         <div className="participation hero-in" style={{ ['--i' as string]: 6 }}>
           <div className="home-brand-art" aria-hidden="true"><img src="/media/brand-home-v3.webp" alt="" width="1536" height="1024" /></div>
           <div className="actions participation-actions">
-            <JoinUsButton className="button">{t.home.emailAction}<span aria-hidden="true">↗</span></JoinUsButton>
-            <JoinUsButton kind="speaker" className="participation-link">{t.home.speakerAction}<span aria-hidden="true">↗</span></JoinUsButton>
-            <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype}<span aria-hidden="true">↗</span></LLink>
+            <JoinUsButton className="button">{t.home.emailAction}</JoinUsButton>
+            <JoinUsButton kind="speaker" className="participation-link">{t.home.speakerAction}</JoinUsButton>
+            <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
           </div>
         </div>
       </section>
@@ -53,7 +53,7 @@ export function Home() {
         <div className="section-head" data-reveal>
           <div>
             <p className="eyebrow">{t.home.projects}</p>
-            <h2><LLink to="/lab"><ProgramName name="Super Lab" /> ↗</LLink></h2>
+            <h2><LLink to="/lab"><ProgramName name="Super Lab" /></LLink></h2>
             <p className="section-intro">{t.home.labBody}</p>
           </div>
           <LLink className="text-link" to="/lab#projects">{t.home.viewProjects}</LLink>
@@ -64,7 +64,7 @@ export function Home() {
       {home.showSessions && featuredSessions.length > 0 && <section className="section container">
         <div className="section-head" data-reveal>
           <div>
-            <h2><LLink to="/sessions"><ProgramName name="Super Session" /> ↗</LLink></h2>
+            <h2><LLink to="/sessions"><ProgramName name="Super Session" /></LLink></h2>
             <p className="section-intro">{t.home.sessionsBody}</p>
           </div>
           <LLink className="text-link" to="/sessions">{t.home.allSessions}</LLink>
@@ -74,7 +74,7 @@ export function Home() {
 
       {home.showVideos && featuredVideos.length > 0 && <section className="section container">
         <div className="section-head" data-reveal>
-          <h2><LLink to="/lens"><ProgramName name="Super Lens" /> ↗</LLink></h2>
+          <h2><LLink to="/lens"><ProgramName name="Super Lens" /></LLink></h2>
           <LLink className="text-link" to="/lens">
             {t.home.allConversations}
           </LLink>
@@ -93,18 +93,19 @@ export function SessionCards({ items }: { items?: Session[] }) {
   const { sessions } = useContent()
   return (
     <div className="grid media-gallery session-gallery">
-      {(items ?? sessions).map((s, i) => (
-        <LLink className="session-card" to={`/sessions/${s.slug}`} key={s.slug} data-reveal style={{ ['--i' as string]: i }}>
+      {(items ?? sessions).map((s, i) => {
+        const content = <>
           <img src={s.image} alt={tx(s.imageAlt)} loading="lazy" />
           <span className="session-caption">
             <span className="meta">{sessionDate(s, locale)}</span>
             <h3>{tx(s.title)}</h3>
           </span>
-          <span className="arrow-pill" aria-hidden="true">
-            →
-          </span>
-        </LLink>
-      ))}
+        </>
+        const props = { className: 'session-card', 'data-reveal': true, style: { ['--i' as string]: i } }
+        return s.eventState === 'ended'
+          ? <article {...props} key={s.slug}>{content}</article>
+          : <LLink {...props} to={`/sessions/${s.slug}`} key={s.slug}>{content}</LLink>
+      })}
     </div>
   )
 }
