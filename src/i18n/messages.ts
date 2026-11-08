@@ -19,7 +19,7 @@ const en = {
     language: 'Language',
   },
   home: {
-    headline: { plain: ['From', '0→1.'], accent: ['Together.'], gap: ' ' },
+    headline: { plain: ['From', '0→1.'], accent: [], gap: ' ' },
     lede: 'A community for side projects and early ventures. Test ideas with others and close the loops that matter.',
     attend: 'Join a session',
     bringPrototype: 'Submit a product',
@@ -215,7 +215,7 @@ const zh: Messages = {
     language: '语言',
   },
   home: {
-    headline: { plain: ['从', '0→1，'], accent: ['一起把想法做成。'], gap: '' },
+    headline: { plain: ['从', '0→1。'], accent: [], gap: '' },
     lede: '一个轻创业与独立项目的社群。和大家一起验证想法，走通真正重要的闭环。',
     attend: '参加共学',
     bringPrototype: '提交产品报名',
