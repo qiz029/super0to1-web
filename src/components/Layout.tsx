@@ -1,3 +1,4 @@
+import { ProgramName } from './ProgramName'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { useContent } from '../content/context'
@@ -75,7 +76,7 @@ function Header() {
         <nav id="site-nav" className={open ? 'site-nav is-open' : 'site-nav'} aria-label={t.nav.main}>
           {NAV.map((item) => (
             <LNavLink key={item.to} to={item.to} onClick={() => setOpen(false)}>
-              {t.nav[item.key]}
+              {item.key === 'about' ? t.nav.about : <ProgramName name={t.nav[item.key]} />}
             </LNavLink>
           ))}
         </nav>
@@ -109,7 +110,7 @@ function Footer() {
         <nav className="footer-nav" aria-label={t.nav.footer}>
           {NAV.map((item) => (
             <LLink key={item.to} to={item.to}>
-              {t.nav[item.key]}
+              {item.key === 'about' ? t.nav.about : <ProgramName name={t.nav[item.key]} />}
             </LLink>
           ))}
           <JoinUsButton className="footer-join">{t.nav.join}</JoinUsButton>

@@ -1,3 +1,4 @@
+import { ProgramName } from '../components/ProgramName'
 import { LLink } from '../components/LocaleLink'
 import { useContent } from '../content/context'
 import { PROGRAMS } from '../content/programs'
@@ -18,7 +19,7 @@ export function About() {
           {PROGRAMS.map((p) => (
             <li key={p.to}>
               <LLink to={p.to}>
-                <strong>Super <b>{p.name.replace(/^Super /, '')}</b></strong>
+                <strong><ProgramName name={p.name} /></strong>
                 <span>{tx(p.body)}</span>
               </LLink>
             </li>

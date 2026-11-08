@@ -1,3 +1,4 @@
+import { ProgramName } from '../components/ProgramName'
 import { useParams } from 'react-router'
 import { JoinButton } from '../components/JoinButton'
 import { LLink } from '../components/LocaleLink'
@@ -21,7 +22,7 @@ export function Sessions() {
   return (
     <>
       <IllustratedHero className="sessions-hero" image="/media/brand-session-v2.webp" alt={s.artAlt}>
-        <h1 className="program-title">Super <strong>Session</strong></h1>
+        <h1 className="program-title"><ProgramName name="Super Session" /></h1>
         <p className="lede">{s.lede}</p>
         <div className="actions">
           <JoinUsButton>{s.inviteAction}</JoinUsButton>

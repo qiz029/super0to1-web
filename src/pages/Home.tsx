@@ -1,3 +1,4 @@
+import { ProgramName } from '../components/ProgramName'
 import { Fragment } from 'react'
 import { VideoCard } from '../components/VideoCard'
 import { JoinUsButton } from '../components/JoinUsButton'
@@ -50,21 +51,21 @@ export function Home() {
         </div>
       </section>
 
-      {home.showProjects && featuredProjects.length > 0 && <section className="section container">
+      {home.showProjects && featuredProjects.length > 0 && <div className="home-projects"><section className="section container">
         <div className="section-head" data-reveal>
           <div>
             <p className="eyebrow">{t.home.projects}</p>
-            <h2><LLink to="/lab">{t.nav.lab} ↗</LLink></h2>
+            <h2><LLink to="/lab"><ProgramName name="Super Lab" /> ↗</LLink></h2>
             <p className="section-intro">{t.home.labBody}</p>
           </div>
         </div>
         <ProjectCards items={featuredProjects} includeInvite={false} />
-      </section>}
+      </section></div>}
 
       {home.showSessions && featuredSessions.length > 0 && <section className="section container">
         <div className="section-head" data-reveal>
           <div>
-            <h2><LLink to="/sessions">{t.nav.sessions} ↗</LLink></h2>
+            <h2><LLink to="/sessions"><ProgramName name="Super Session" /> ↗</LLink></h2>
             <p className="section-intro">{t.home.sessionsBody}</p>
           </div>
         </div>
@@ -73,7 +74,7 @@ export function Home() {
 
       {home.showVideos && featured && <section className="section container">
         <div className="section-head" data-reveal>
-          <h2><LLink to="/lens">{t.home.lens} ↗</LLink></h2>
+          <h2><LLink to="/lens"><ProgramName name="Super Lens" /> ↗</LLink></h2>
           <LLink className="text-link" to="/lens">
             {t.home.allConversations}
           </LLink>

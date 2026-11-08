@@ -1,3 +1,4 @@
+import { ProgramName } from '../components/ProgramName'
 import { JoinUsButton } from '../components/JoinUsButton'
 import { useT } from '../i18n/locale'
 import { useContent } from '../content/context'
@@ -16,7 +17,7 @@ export function Lab() {
       <EventFeature event={nextEvent?.program === 'lab' ? nextEvent : undefined} />
       <section className="page-hero container split lab-hero">
         <div>
-          <h1 className="program-title">Super <strong>Lab</strong></h1>
+          <h1 className="program-title"><ProgramName name="Super Lab" /></h1>
           <p className="lede">{l.lede}</p>
           <div className="lab-entry-actions actions">
             <a className="button" href="#submit-prototype">{l.bringPrototype}</a>

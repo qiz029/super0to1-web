@@ -1,3 +1,4 @@
+import { ProgramName } from '../components/ProgramName'
 import { useParams } from 'react-router'
 import { VideoGrid } from '../components/VideoCard'
 import { LLink } from '../components/LocaleLink'
@@ -12,7 +13,7 @@ export function Lens() {
   return (
     <>
       <IllustratedHero className="lens-hero" image="/media/brand-lens-v4.webp" alt={t.lens.artAlt}>
-        <h1 className="program-title">Super <strong>Lens</strong></h1>
+        <h1 className="program-title"><ProgramName name="Super Lens" /></h1>
         <p className="lede">{t.lens.lede}</p>
         <a className="text-link" href={site.youtube} target="_blank" rel="noopener noreferrer">
           {t.lens.subscribe}
