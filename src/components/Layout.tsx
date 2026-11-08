@@ -6,7 +6,6 @@ import { useReveal } from '../lib/useReveal'
 import { syncHead } from '../seo'
 import { htmlLang, LocaleContext, localePath, rememberLocale, splitLocale, useT, type Locale } from '../i18n/locale'
 import { LLink, LNavLink } from './LocaleLink'
-import { JoinUsButton } from './JoinUsButton'
 
 const YEAR = new Date().getFullYear()
 
@@ -99,7 +98,7 @@ function Header() {
 
 function Footer() {
   const { site } = useContent()
-  const { t } = useT()
+  const { t, locale } = useT()
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
@@ -113,7 +112,7 @@ function Footer() {
               {item.key === 'about' ? t.nav.about : <ProgramName name={t.nav[item.key]} />}
             </LLink>
           ))}
-          <JoinUsButton className="footer-join">{t.nav.join}</JoinUsButton>
+          <Link to={`${localePath(locale, '/')}#join-us`}>{t.nav.join}</Link>
           <a href={site.youtube} target="_blank" rel="noopener noreferrer">
             YouTube ↗
           </a>

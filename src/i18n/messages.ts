@@ -19,7 +19,6 @@ const en = {
     language: 'Language',
   },
   home: {
-    eyebrow: 'Super 0→1 Initiative',
     headline: { plain: ['Build', 'something.'], accent: ['Move it', 'forward.'], gap: ' ' },
     lede: 'A community for turning ideas into products, one step at a time. Learn together, test what you’re building, and turn feedback into your next step.',
     attend: 'Join a session',
@@ -219,7 +218,6 @@ const zh: Messages = {
     language: '语言',
   },
   home: {
-    eyebrow: 'Super 0→1 Initiative',
     headline: { plain: ['把想法做出来，'], accent: ['再向前一步。'], gap: '' },
     lede: '一个陪你把想法一步步变成产品的社群。一起学习，带着作品来试，把反馈变成下一步行动。',
     attend: '参加共学',

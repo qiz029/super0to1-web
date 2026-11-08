@@ -22,11 +22,8 @@ export function Home() {
   return (
     <>
       <EventFeature event={nextSession} />
-      <section className="hero home-hero container">
+      <section className="hero home-hero container" id="join-us">
         <div className="hero-copy">
-          <p className="eyebrow hero-in" style={{ ['--i' as string]: 0 }}>
-            {t.home.eyebrow}
-          </p>
           <h1 aria-label={words.map((x) => x.w).join(gap)}>
             {words.map(({ w, accent }, i) => (
               <Fragment key={w}>

@@ -33,13 +33,6 @@
   padding-block: 68px 80px;
 }
 .home-hero .hero-copy { padding-block: 24px; }
-.home-hero .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  letter-spacing: .14em;
-}
 .home-hero .eyebrow::before {
   content: '';
   width: 8px;
@@ -191,3 +184,5 @@
 @media (prefers-reduced-motion: reduce) {
   .participation-actions > :is(a, button) { transition: none; }
 }
+
+#join-us { scroll-margin-top: 100px; }

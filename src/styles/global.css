@@ -342,15 +342,6 @@ p {
 
 
 
-.footer-join {
-  background: transparent;
-  border: 0;
-  color: inherit;
-  font: inherit;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-}
 
 .section-intro {
   max-width: 42em;
