@@ -1,3 +1,4 @@
+import { HOME_PREVIEW_LIMITS } from '../../shared/home'
 import { ProgramName } from '../components/ProgramName'
 import { Fragment } from 'react'
 import { VideoCard } from '../components/VideoCard'
@@ -12,9 +13,9 @@ import { useT } from '../i18n/locale'
 export function Home() {
   const { t } = useT()
   const { videos, sessions, projects, home } = useContent()
-  const [featured, ...rest] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
-  const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id))
-  const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.program !== 'lab'))
+  const [featured] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
+  const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
+  const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.program !== 'lab')).slice(0, HOME_PREVIEW_LIMITS.sessions)
   const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
@@ -55,6 +56,7 @@ export function Home() {
             <h2><LLink to="/lab"><ProgramName name="Super Lab" /> ↗</LLink></h2>
             <p className="section-intro">{t.home.labBody}</p>
           </div>
+          <LLink className="text-link" to="/lab#projects">{t.home.viewProjects}</LLink>
         </div>
         <ProjectCards items={featuredProjects} includeInvite={false} />
       </section></div>}
@@ -65,8 +67,9 @@ export function Home() {
             <h2><LLink to="/sessions"><ProgramName name="Super Session" /> ↗</LLink></h2>
             <p className="section-intro">{t.home.sessionsBody}</p>
           </div>
+          <LLink className="text-link" to="/sessions">{t.home.allSessions}</LLink>
         </div>
-        <SessionCards items={featuredSessions} />
+        <div className="home-session-preview"><SessionCards items={featuredSessions} /></div>
       </section>}
 
       {home.showVideos && featured && <section className="section container">
@@ -76,17 +79,8 @@ export function Home() {
             {t.home.allConversations}
           </LLink>
         </div>
-        <div className="lens-feature">
-          <div data-reveal>
-            <VideoCard video={featured} featured />
-          </div>
-          <div className="lens-side">
-            {rest.slice(0, 2).map((v, i) => (
-              <div data-reveal style={{ ['--i' as string]: i + 1 }} key={v.id}>
-                <VideoCard video={v} />
-              </div>
-            ))}
-          </div>
+        <div className="home-lens-preview" data-reveal>
+          <VideoCard video={featured} featured />
         </div>
       </section>}
 

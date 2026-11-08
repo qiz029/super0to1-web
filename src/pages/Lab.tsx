@@ -44,7 +44,7 @@ export function Lab() {
         <IntakeForm kind="prototype" />
       </section>
 
-      {projects.length > 0 && <section className="section container">
+      {projects.length > 0 && <section className="section container" id="projects">
         <div className="section-head" data-reveal><h2>{t.home.projects}</h2></div>
         <ProjectCards items={projects} includeInvite={false} />
       </section>}
