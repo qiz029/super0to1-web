@@ -128,11 +128,13 @@ const en = {
     keepWatching: 'Keep watching',
   },
   about: {
-    eyebrow: 'Mission',
-    intro:
-      'Super 0→1 is a community for people building something of their own. We believe going from zero to one isn’t a single leap — it’s a series of loops you close, one by one. Our programs exist to help you close them faster, and not alone.',
-    projects:
-      'Projects that come through Super keep a record of the feedback, new use cases, and iterations that emerge from the community.',
+    title: 'About Super 0→1',
+    facts: 'Founded in 2026 · Based in North America',
+    intro: 'Super 0→1 is a community for people exploring side projects and early ventures. We bring people together to learn from each other and put their ideas to the test.',
+    belief: 'Going from 0 to 1 takes more than an idea. A conversation, a working prototype, or feedback from someone trying your product can help close a loop that matters.',
+    programs: 'How we come together',
+    participate: 'Join us',
+    participateBody: 'Come to a session, try a product, share what you know, or bring something you’re working on.',
   },
   join: {
     roles: {
@@ -189,7 +191,7 @@ const en = {
       `${title}, a Super Session from ${month}. Photos and highlights from the Super 0→1 community.`,
     lens: 'The Super 0→1 interview series — conversations with people finding their own path from zero to one.',
     episode: (title: string) => `Watch “${title}” on Super Lens, the Super 0→1 interview series.`,
-    about: 'Super 0→1 is a community for people building something of their own.',
+    about: 'Founded in 2026 and based in North America, Super 0→1 is a community for side projects and early ventures.',
     aboutTitle: 'About',
     project: (name: string) => `${name}, a featured Super 0→1 project.`,
     notFound: 'Page not found',
@@ -326,10 +328,13 @@ const zh: Messages = {
     keepWatching: '继续观看',
   },
   about: {
-    eyebrow: '使命',
-    intro:
-      'Super 0→1 是一个属于“在做自己的东西”的人的社群。我们相信，从 0 到 1 不是一次跳跃，而是一个个闭环，一次走完一个。我们的项目，就是为了帮你更快地走完它们，而且不是一个人走。',
-    projects: '经由 Super 的项目，会把社群里产生的反馈、新的使用场景和每一次迭代都记录下来。',
+    title: '关于 Super 0→1',
+    facts: '2026 年成立 · 立足北美',
+    intro: 'Super 0→1 是一个关注轻创业与独立项目的社群。我们把正在探索自己项目的人聚在一起，相互学习，也让想法有机会被真正试一试。',
+    belief: '从 0 到 1，需要的不只是一个想法。一次交流、一个能用的原型，或一位试用者的反馈，都可能帮你走通一个重要的小闭环。',
+    programs: '我们怎样聚在一起',
+    participate: '参与进来',
+    participateBody: '来听一场分享、试用一个产品，分享你的经验，或者带上你正在做的东西。',
   },
   join: {
     roles: {
@@ -384,7 +389,7 @@ const zh: Messages = {
     session: (title: string, month: string) => `${title}，${month}的 Super Session。来自 Super 0→1 社群的现场照片和精彩瞬间。`,
     lens: 'Super 0→1 的访谈系列：和正在走自己的 0 到 1 之路的人聊聊。',
     episode: (title: string) => `在 Super Lens 观看《${title}》，Super 0→1 访谈系列。`,
-    about: 'Super 0→1 是一个属于“在做自己的东西”的人的社群。',
+    about: 'Super 0→1 成立于 2026 年，是一个立足北美、关注轻创业与独立项目的社群。',
     aboutTitle: '关于',
     project: (name: string) => `${name}，Super 0→1 精选项目。`,
     notFound: '页面不存在',

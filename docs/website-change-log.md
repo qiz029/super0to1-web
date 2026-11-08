@@ -212,3 +212,11 @@ Session 页增加 Join as a speaker／成为分享者，与原有邮件邀请按
 首页英文改为 From 0→1. / Together.；正文 A community for side projects and early ventures. Test ideas with others and close the loops that matter. 中文同步为“从0→1，一起把想法做成。”及轻创业、独立项目、验证想法的说明。标题0→1用浅黄突出，第二行常规暖白，去除强调下划线。共享使命文案改为 From 0 to 1. Close the loops that matter.，About与页脚同步移除 super individuals 身份标签。未修改 CMS 内容快照中的用户内容。
 
 用户提到 bot 配置含义尚待澄清，已询问是否指页脚使命文案；本次没有删除任何机器人或后台配置。代码检查、网站与管理中心类型检查通过。原文案使用 unslop 思路精简；同一分支本地提交，未推送、未部署。浏览器实际渲染仍未目视验收。
+
+## About 介绍改为具体社群背景（2026-11-07）
+
+用户澄清 bot 指 About 页，并确认可保留；提供事实为2026年成立、北美组织。调研 Recurse Center About（https://www.recurse.com/about）与 Indie Hackers About（https://www.indiehackers.com/about）：参考其服务对象、地点、成立背景、实际活动的介绍方式。CreativeMornings 验证页不可读，未作为内容证据。
+
+About 标题改为 About Super 0→1／关于 Super 0→1，首屏明确 Founded in 2026 · Based in North America／2026年成立·立足北美。两段短介绍说明轻创业与独立项目社群、共同验证想法，以及闭环在交流/原型/反馈中的具体含义。保留三个节目卡片，增加节目介绍小标题；底部原 YouTube 按钮换成当前语言首页参与入口，避免与 Lens 重复。中英文 SEO 简介同步。未编造注册法人、创始人、成员规模或融资信息。
+
+管理中心共享网页预览同步，没有新增后台字段或改内容快照。使用 unslop 精简介绍；代码检查、网站和管理中心类型检查、两套构建通过。浏览器本地页面目视验收仍未执行。已记录并本地提交，未推送、未部署。

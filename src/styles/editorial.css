@@ -226,3 +226,7 @@
   .home-projects .section-head, .home-session-preview { min-width: 0; }
   .section-head { flex-wrap: wrap; }
 }
+
+.about-title { font-size: clamp(38px, 5.5vw, 72px); line-height: 1.08; }
+.about-facts { margin-top: 24px; color: var(--cream); font-size: 16px; letter-spacing: .025em; }
+.about-programs-title { margin-top: 48px; font-size: clamp(26px, 3vw, 36px); }

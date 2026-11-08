@@ -1,20 +1,21 @@
 import { ProgramName } from '../components/ProgramName'
 import { LLink } from '../components/LocaleLink'
-import { useContent } from '../content/context'
 import { PROGRAMS } from '../content/programs'
-import { useT } from '../i18n/locale'
+import { localePath, useT } from '../i18n/locale'
+import { Link } from 'react-router'
 
 export function About() {
-  const { site } = useContent()
-  const { t, tx } = useT()
+  const { t, tx, locale } = useT()
   return (
     <>
       <section className="page-hero container about-hero">
-        <p className="eyebrow">{t.about.eyebrow}</p>
-        <h1 className="about-mission">{t.mission}</h1>
+        <h1 className="about-title">{t.about.title}</h1>
+        <p className="about-facts">{t.about.facts}</p>
       </section>
       <section className="section container about-body">
         <p>{t.about.intro}</p>
+        <p>{t.about.belief}</p>
+        <h2 className="about-programs-title">{t.about.programs}</h2>
         <ul className="about-programs">
           {PROGRAMS.map((p) => (
             <li key={p.to}>
@@ -25,11 +26,9 @@ export function About() {
             </li>
           ))}
         </ul>
-        <p>{t.about.projects}</p>
+        <p>{t.about.participateBody}</p>
         <div className="actions">
-          <a className="button button-secondary" href={site.youtube} target="_blank" rel="noopener noreferrer">
-            YouTube ↗
-          </a>
+          <Link className="button" to={`${localePath(locale, '/')}#join-us`}>{t.about.participate}</Link>
         </div>
       </section>
     </>
