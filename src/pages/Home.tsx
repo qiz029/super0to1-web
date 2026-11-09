@@ -15,6 +15,8 @@ export function Home() {
   const featuredVideos = home.videoIds.flatMap(id => videos.filter(v => v.id === id)).slice(0, HOME_PREVIEW_LIMITS.videos)
   const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
   const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.eventState === 'ended')).slice(0, HOME_PREVIEW_LIMITS.sessions)
+  const showCollections = (home.showProjects && featuredProjects.length > 0) || (home.showVideos && featuredVideos.length > 0)
+  const pairCollections = home.showProjects && featuredProjects.length === 1 && home.showVideos && featuredVideos.length === 3
   const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
@@ -49,10 +51,10 @@ export function Home() {
 
       <EventFeature event={nextSession} registerLabel={t.home.rsvp} />
 
-      {home.showProjects && featuredProjects.length > 0 && <div className="home-projects"><section className="section container">
+      {showCollections && <div className={`home-collections container${pairCollections ? ' is-paired' : ''}`}>
+      {home.showProjects && featuredProjects.length > 0 && <section className="section home-projects">
         <div className="section-head" data-reveal>
           <div>
-            <p className="eyebrow">{t.home.projects}</p>
             <h2><LLink to="/lab"><ProgramName name="Super Lab" /></LLink></h2>
           </div>
           <LLink className="button home-projects-link" to="/lab#projects">{t.home.viewProjects}</LLink>
@@ -77,9 +79,9 @@ export function Home() {
             )
           })}
         </div>
-      </section></div>}
+      </section>}
 
-      {home.showVideos && featuredVideos.length > 0 && <section className="section container home-gallery-section">
+      {home.showVideos && featuredVideos.length > 0 && <section className="section home-gallery-section home-lens-section">
         <div className="section-head" data-reveal>
           <h2><LLink to="/lens"><ProgramName name="Super Lens" /></LLink></h2>
           <LLink className="text-link" to="/lens">
@@ -90,6 +92,8 @@ export function Home() {
           {featuredVideos.map(video => <div key={video.id} data-reveal><VideoCard video={video} home /></div>)}
         </div>
       </section>}
+
+      </div>}
 
       {home.showSessions && featuredSessions.length > 0 && <section className="section container home-gallery-section">
         <div className="section-head" data-reveal>
