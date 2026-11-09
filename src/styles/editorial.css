@@ -48,8 +48,7 @@
 .home-brand-art { margin: 0 0 18px; overflow: visible; }
 .home-brand-art img { height: clamp(240px, 24vw, 320px); object-fit: contain; }
 .participation-actions { gap: 9px; }
-.participation-actions > :is(a, button),
-.participation-actions > button.participation-link {
+.participation-actions > .button {
   min-height: 66px;
   padding: 15px 20px;
   margin: 0;
@@ -58,13 +57,19 @@
   font-family: var(--font-display);
   font-size: 19px;
   text-align: left;
-  background: #fff9ec08;
-  color: var(--white);
+  background: var(--cream);
+  color: var(--brown-ink);
+  border-color: var(--cream);
   transition: background .2s, border-color .2s;
 }
-.participation-actions > .button { background: var(--cream); color: var(--brown-ink); border-color: var(--cream); }
-.participation-actions > :is(a, button):hover { background: #fff9ec18; border-color: var(--cream); color: var(--white); }
 .participation-actions > .button:hover { background: var(--white); color: var(--brown-ink); }
+.participation-note { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
+.participation-actions > .participation-link,
+.participation-actions > button.participation-link {
+  min-height: 44px;
+  padding: 10px 0;
+  font-size: 16px;
+}
 
 .section { padding-block: clamp(52px, 7vw, 96px); }
 .section-head { margin-bottom: 32px; }
@@ -143,7 +148,7 @@
   .home-hero .lede { margin-top: 24px; font-size: 17px; }
   .home-brand-art img { height: 200px; }
   .home-brand-art { margin-bottom: 12px; }
-  .participation-actions > :is(a, button), .participation-actions > button.participation-link { min-height: 60px; font-size: 18px; padding: 12px 17px; }
+  .participation-actions > .button { min-height: 60px; font-size: 18px; padding: 12px 17px; }
   .illustrated-hero, .lab-hero { padding-block: 38px; gap: 28px; }
   .page-hero .program-title { font-size: clamp(38px, 9vw, 54px); }
   .brand-scene { max-height: 260px; }
@@ -234,8 +239,6 @@
 
 .about-note .about-intro { color: var(--brown-ink); margin-bottom: 0; }
 .participation-actions > :is(a, button) { justify-content: flex-start; }
-.participation-actions > :nth-child(2) { border-left: 3px solid var(--rose); }
-.participation-actions > :nth-child(3) { border-left: 3px solid var(--sky); }
 .session-gallery article.session-card:hover h3 { color: inherit; }
 .video-gallery > div { min-width: 0; scroll-snap-align: start; }
 .video-gallery .video-thumb { border-radius: 12px; margin-bottom: 14px; }

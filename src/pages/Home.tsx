@@ -43,6 +43,7 @@ export function Home() {
           <div className="home-brand-art" aria-hidden="true"><img src="/media/brand-home-v3.webp" alt="" width="1536" height="1024" /></div>
           <div className="actions participation-actions">
             <JoinUsButton className="button">{t.home.emailAction}</JoinUsButton>
+            <p className="participation-note">{t.home.emailActionNote}</p>
             <JoinUsButton kind="speaker" className="participation-link">{t.home.speakerAction}</JoinUsButton>
             <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
           </div>
