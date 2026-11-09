@@ -53,22 +53,14 @@
 .home-hero .lede { font-size: 20px; line-height: 1.6; max-width: 29em; margin-top: 30px; }
 .home-brand-art { margin: 0; overflow: visible; }
 .home-brand-art img { height: clamp(280px, 34vw, 430px); object-fit: contain; }
-.participation-actions { display: grid; justify-items: start; gap: 0; margin-top: 26px; }
-.participation-note { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
-.participation-secondary { display: flex; flex-wrap: wrap; gap: 0 18px; margin-top: 10px; }
-.participation-link {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 500;
-  text-underline-offset: 4px;
+.participation-actions { gap: 10px; margin-top: 26px; }
+.participation-actions .button { padding-inline: 15px; font-size: 14px; }
+.participation-actions .button-secondary {
+  background: rgb(255 249 236 / 8%);
+  border-color: rgb(255 249 236 / 38%);
+  color: var(--white);
 }
-.participation-link:is(:hover, :focus-visible) { color: var(--cream); text-decoration: underline; }
+.participation-actions .button-secondary:hover { background: rgb(255 249 236 / 15%); border-color: var(--white); }
 
 .section { padding-block: clamp(52px, 7vw, 96px); }
 .section-head { margin-bottom: 32px; }

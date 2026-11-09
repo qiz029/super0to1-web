@@ -38,11 +38,8 @@ export function Home() {
           </p>
           <div className="actions participation-actions hero-in" style={{ ['--i' as string]: 6 }}>
             <JoinUsButton className="button">{t.home.emailAction}</JoinUsButton>
-            <p className="participation-note">{t.home.emailActionNote}</p>
-            <div className="participation-secondary">
-              <JoinUsButton kind="speaker" className="participation-link">{t.home.speakerAction}</JoinUsButton>
-              <LLink className="participation-link" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
-            </div>
+            <JoinUsButton kind="speaker" className="button button-secondary">{t.home.speakerAction}</JoinUsButton>
+            <LLink className="button button-secondary" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
           </div>
         </div>
         <div className="home-brand-art hero-in" style={{ ['--i' as string]: 3 }} aria-hidden="true">
