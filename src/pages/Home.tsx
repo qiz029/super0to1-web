@@ -4,25 +4,24 @@ import { Fragment } from 'react'
 import { VideoCard } from '../components/VideoCard'
 import { JoinUsButton } from '../components/JoinUsButton'
 import { LLink } from '../components/LocaleLink'
-import { ProjectCards } from './Projects'
 import { useContent } from '../content/context'
 import { sessionDate, upcomingSession, type Session } from '../content/sessions'
 import { EventFeature } from '../components/EventFeature'
 import { useT } from '../i18n/locale'
 
 export function Home() {
-  const { t } = useT()
+  const { t, tx } = useT()
   const { videos, sessions, projects, home } = useContent()
   const featuredVideos = home.videoIds.flatMap(id => videos.filter(v => v.id === id)).slice(0, HOME_PREVIEW_LIMITS.videos)
-  const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
-  const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.program !== 'lab')).slice(0, HOME_PREVIEW_LIMITS.sessions)
+  const [featuredProject] = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
+  const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.eventState === 'ended')).slice(0, HOME_PREVIEW_LIMITS.sessions)
+  const projectUrl = featuredProject?.url ? tx(featuredProject.url) : undefined
   const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
 
   return (
     <>
-      <EventFeature event={nextSession} />
       <section className="hero home-hero container" id="join-us">
         <div className="hero-copy">
           <h1 aria-label={words.map((x) => x.w).join(gap)}>
@@ -50,30 +49,31 @@ export function Home() {
         </div>
       </section>
 
-      {home.showProjects && featuredProjects.length > 0 && <div className="home-projects"><section className="section container">
+      <EventFeature event={nextSession} registerLabel={t.home.rsvp} />
+
+      {home.showProjects && featuredProject && <div className="home-projects"><section className="section container">
         <div className="section-head" data-reveal>
           <div>
             <p className="eyebrow">{t.home.projects}</p>
             <h2><LLink to="/lab"><ProgramName name="Super Lab" /></LLink></h2>
-            <p className="section-intro">{t.home.labBody}</p>
           </div>
           <LLink className="text-link" to="/lab#projects">{t.home.viewProjects}</LLink>
         </div>
-        <ProjectCards items={featuredProjects} includeInvite={false} />
+        <article className="project-card home-project-feature" data-reveal>
+          {featuredProject.cover && (
+            <div className="project-art project-art-cover">
+              <img src={featuredProject.cover} alt={featuredProject.coverAlt ? tx(featuredProject.coverAlt) : ''} loading="lazy" />
+            </div>
+          )}
+          <div className="home-project-copy">
+            <h3><LLink to={`/projects/${featuredProject.slug}`}>{featuredProject.name}</LLink></h3>
+            <p>{featuredProject.tagline ? tx(featuredProject.tagline) : t.projects.profileSoon}</p>
+            {projectUrl && <a className="button" href={projectUrl} target="_blank" rel="noopener noreferrer">{t.projects.tryIt(featuredProject.name)}</a>}
+          </div>
+        </article>
       </section></div>}
 
-      {home.showSessions && featuredSessions.length > 0 && <section className="section container">
-        <div className="section-head" data-reveal>
-          <div>
-            <h2><LLink to="/sessions"><ProgramName name="Super Session" /></LLink></h2>
-            <p className="section-intro">{t.home.sessionsBody}</p>
-          </div>
-          <LLink className="text-link" to="/sessions">{t.home.allSessions}</LLink>
-        </div>
-        <div className="home-session-preview"><SessionCards items={featuredSessions} /></div>
-      </section>}
-
-      {home.showVideos && featuredVideos.length > 0 && <section className="section container">
+      {home.showVideos && featuredVideos.length > 0 && <section className="section container home-gallery-section">
         <div className="section-head" data-reveal>
           <h2><LLink to="/lens"><ProgramName name="Super Lens" /></LLink></h2>
           <LLink className="text-link" to="/lens">
@@ -83,6 +83,14 @@ export function Home() {
         <div className="media-gallery home-lens-preview">
           {featuredVideos.map(video => <div key={video.id} data-reveal><VideoCard video={video} /></div>)}
         </div>
+      </section>}
+
+      {home.showSessions && featuredSessions.length > 0 && <section className="section container home-gallery-section">
+        <div className="section-head" data-reveal>
+          <h2>{t.home.pastEvents}</h2>
+          <LLink className="text-link" to="/sessions">{t.home.allSessions}</LLink>
+        </div>
+        <SessionCards items={featuredSessions} />
       </section>}
 
     </>

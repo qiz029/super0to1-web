@@ -15,7 +15,7 @@ test('home prioritizes participation and content while preserving detail routes'
   await expect(navigation.getByRole('button')).toHaveCount(0)
   await expect(page.locator('.hero .actions a')).toHaveText(['Submit a product'])
   await expect(page.locator('.program-grid, .stepper, .join-copy')).toHaveCount(0)
-  await expect(page.locator('main h2 a')).toHaveText(['Super Lab', 'Super Session', 'Super Lens'])
+  await expect(page.locator('main h2')).toHaveText(['Super Lab', 'Super Lens', 'Past events'])
   await page.locator('h2 a[href="/lab"]').click()
   await expect(page.locator('.project-card[href^="/projects/"]')).not.toHaveCount(0)
   await page.locator('.project-card[href^="/projects/"]').first().click()

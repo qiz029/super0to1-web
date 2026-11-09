@@ -4,7 +4,7 @@ import { useT } from '../i18n/locale'
 import { LLink } from './LocaleLink'
 import { SessionAction } from './SessionAction'
 
-export function EventFeature({ event }: { event?: Session }) {
+export function EventFeature({ event, registerLabel }: { event?: Session; registerLabel?: string }) {
   const { t, tx, locale } = useT()
   if (!event) return null
   return <section className="container next-event" aria-label={t.home.nextEvent}>
@@ -13,6 +13,6 @@ export function EventFeature({ event }: { event?: Session }) {
       <h2><LLink to={`/sessions/${event.slug}`}>{tx(event.title)}</LLink></h2>
       <p>{[sessionDate(event, locale), tx(event.location)].filter(Boolean).join(' · ')}</p>
     </div>
-    <div className="actions"><SessionAction session={event} /></div>
+    <div className="actions"><SessionAction session={event} registerLabel={registerLabel} /></div>
   </section>
 }
