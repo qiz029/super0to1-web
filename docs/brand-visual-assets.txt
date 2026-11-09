@@ -34,4 +34,3 @@ Edit only the man on the right: replace his bald/shaved head with a conventional
 Lens guest replacement, built-in imagegen edit, 2026-10-31:
 Final asset: public/media/brand-lens-v4.webp. Previous version retained.
 Prompt: Use case: precise-object-edit. Edit target: supplied full Super Lens illustration. Replace only the woman on the left with a different fictional East Asian woman guest, straight dark shoulder-length hair tucked behind one ear, natural friendly expression, coral cardigan and ivory top. Preserve the one-on-one interview: same short-haired man on right, poses, two microphones, mugs, notebook, round wooden table, chairs, composition and warm hand-drawn pencil/watercolor illustration style. No text or logo. Maintain genuinely transparent background, no painted background, no halo. Keep landscape 1536x1024 framing.
-

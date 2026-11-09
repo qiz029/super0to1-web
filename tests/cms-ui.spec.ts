@@ -224,7 +224,7 @@ test('homepage controls save to a private preview in the website section order',
   try {
     await page.goto('/')
     await page.getByRole('button', { name: '↗ 首页推荐', exact: true }).click()
-    await expect(page.locator('main h2')).toHaveText(['下一场活动', '项目推荐', '活动推荐', '视频推荐'])
+    await expect(page.locator('main h2')).toHaveText(['下一场活动', '项目推荐', '视频推荐', '往期活动推荐'])
     await page.getByLabel('下一场活动', { exact: true }).selectOption('')
     for (const checkbox of await page.getByRole('checkbox', { name: '在首页显示这个区块', exact: true }).all()) await checkbox.uncheck()
     await page.getByRole('button', { name: '保存草稿', exact: true }).click()
