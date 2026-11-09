@@ -13,9 +13,8 @@ export function Home() {
   const { t, tx } = useT()
   const { videos, sessions, projects, home } = useContent()
   const featuredVideos = home.videoIds.flatMap(id => videos.filter(v => v.id === id)).slice(0, HOME_PREVIEW_LIMITS.videos)
-  const [featuredProject] = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
+  const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
   const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.eventState === 'ended')).slice(0, HOME_PREVIEW_LIMITS.sessions)
-  const projectUrl = featuredProject?.url ? tx(featuredProject.url) : undefined
   const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
@@ -51,26 +50,34 @@ export function Home() {
 
       <EventFeature event={nextSession} registerLabel={t.home.rsvp} />
 
-      {home.showProjects && featuredProject && <div className="home-projects"><section className="section container">
+      {home.showProjects && featuredProjects.length > 0 && <div className="home-projects"><section className="section container">
         <div className="section-head" data-reveal>
           <div>
             <p className="eyebrow">{t.home.projects}</p>
             <h2><LLink to="/lab"><ProgramName name="Super Lab" /></LLink></h2>
           </div>
-          <LLink className="text-link" to="/lab#projects">{t.home.viewProjects}</LLink>
+          <LLink className="button home-projects-link" to="/lab#projects">{t.home.viewProjects}</LLink>
         </div>
-        <article className="project-card home-project-feature" data-reveal>
-          {featuredProject.cover && (
-            <div className="project-art project-art-cover">
-              <img src={featuredProject.cover} alt={featuredProject.coverAlt ? tx(featuredProject.coverAlt) : ''} loading="lazy" />
-            </div>
-          )}
-          <div className="home-project-copy">
-            <h3><LLink to={`/projects/${featuredProject.slug}`}>{featuredProject.name}</LLink></h3>
-            <p>{featuredProject.tagline ? tx(featuredProject.tagline) : t.projects.profileSoon}</p>
-            {projectUrl && <a className="button" href={projectUrl} target="_blank" rel="noopener noreferrer">{t.projects.tryIt(featuredProject.name)}</a>}
-          </div>
-        </article>
+        <div className="home-project-grid">
+          {featuredProjects.map(project => {
+            const url = project.url ? tx(project.url) : undefined
+            const tryLabel = t.projects.tryIt(project.name)
+            const detail = `/projects/${project.slug}`
+            const cover = project.cover && <img src={project.cover} alt={project.coverAlt ? tx(project.coverAlt) : ''} loading="lazy" />
+            return (
+              <article key={project.id} className="project-card home-project-feature" data-reveal>
+                {cover && (url
+                  ? <a className="project-art project-art-cover" href={url} target="_blank" rel="noopener noreferrer" aria-label={tryLabel}>{cover}</a>
+                  : <LLink className="project-art project-art-cover" to={detail} aria-label={project.name}>{cover}</LLink>)}
+                <div className="home-project-copy">
+                  <h3><LLink to={detail}>{project.name}</LLink></h3>
+                  <p>{project.tagline ? tx(project.tagline) : t.projects.profileSoon}</p>
+                  {url && <a className="text-link" href={url} target="_blank" rel="noopener noreferrer">{tryLabel}</a>}
+                </div>
+              </article>
+            )
+          })}
+        </div>
       </section></div>}
 
       {home.showVideos && featuredVideos.length > 0 && <section className="section container home-gallery-section">

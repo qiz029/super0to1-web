@@ -162,33 +162,39 @@
 #join-us { scroll-margin-top: 100px; }
 
 /* Home shows a selection; program pages retain their full collections. */
-.home-projects .text-link { color: var(--brown-ink); }
-.home-project-feature {
-  display: grid;
-  align-items: center;
-  gap: clamp(16px, 4vw, 56px);
-  padding: 16px;
+.home-projects-link {
+  background: var(--brown-ink);
+  border-color: var(--brown-ink);
+  color: var(--paper-light);
 }
-.home-project-feature:has(.project-art) { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+.home-projects-link:hover { color: var(--brown-ink); }
+.home-project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: clamp(14px, 2vw, 24px);
+}
+.home-project-feature { min-width: 0; max-width: 390px; padding: 12px; }
 .home-project-feature .project-art {
-  height: clamp(180px, 28vw, 320px);
+  aspect-ratio: 16 / 10;
+  height: auto;
   min-height: 0;
   margin: 0;
 }
 .home-project-feature .project-art img { object-fit: contain; }
 .home-project-feature:hover .project-art img { transform: none; }
-.home-project-copy { padding: 12px; }
-.home-project-copy h3 { font-size: clamp(30px, 3.6vw, 48px); }
+.home-project-feature .project-art:hover { outline: 2px solid var(--brown-ink); outline-offset: -2px; }
+.home-project-feature .project-art:focus-visible { outline: 2px solid var(--brown-ink); outline-offset: 3px; }
+.home-project-copy { padding: 14px 8px 6px; }
+.home-project-copy h3 { font-size: 24px; }
 .home-project-copy h3 a:hover { text-decoration: underline; }
-.home-project-copy p { max-width: 26em; }
-.home-project-copy .button { margin-top: 16px; }
+.home-project-copy p { color: #6b584a; font-size: 15px; }
+.home-project-copy .text-link { display: inline-block; margin-top: 12px; color: var(--brown-ink); }
 .home-hero + .next-event { margin-top: 0; margin-bottom: clamp(24px, 4vw, 48px); }
 .home-gallery-section { padding-block: clamp(32px, 4vw, 56px); }
 .home-gallery-section .section-head { margin-bottom: 18px; }
 .home-gallery-section .section-head h2 { font-size: clamp(28px, 3vw, 40px); }
 #projects { scroll-margin-top: 100px; }
 @media (max-width: 760px) {
-  .home-project-feature:has(.project-art) { grid-template-columns: minmax(0, 1fr); }
   .section-head { flex-wrap: wrap; }
 }
 
