@@ -1958,11 +1958,6 @@ body::after {
 .home-hero .lede { max-width: 33em; }
 .home-brand-art { height: 150px; overflow: hidden; margin-bottom: 24px; }
 .home-brand-art img { width: 100%; }
-.participation-actions { display: grid; gap: 0; margin-top: 0; }
-.participation-actions > :is(a, button) { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 19px 20px; font-size: 17px; font-weight: 600; }
-.participation-actions > .button { border-radius: 10px; margin-bottom: 8px; }
-.participation-link { border-bottom: 1px solid var(--line); }
-.participation-link:hover { color: var(--cream); background: rgba(255,255,255,.04); }
 .next-event { margin-top: 36px; display: grid; grid-template-columns: 160px 1fr auto; gap: 28px; align-items: center; padding-block: 24px; border-block: 1px solid var(--line); }
 .next-event-image img { width: 160px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 6px; }
 .next-event h2 { font-size: 26px; margin-top: 8px; }
@@ -2005,8 +2000,6 @@ body::after {
 #past-sessions { scroll-margin-top: 110px; }
 .sessions-hero + .next-event { margin-top: 0; }
 
-.participation-actions > button.participation-link { text-align: left; background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; color: inherit; }
-.participation-actions > button.participation-link:hover { color: var(--cream); background: rgba(255,255,255,.04); }
 
 .dialog { max-height: calc(100svh - 48px); overflow-y: auto; }
 
