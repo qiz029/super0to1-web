@@ -27,7 +27,7 @@ const en = {
     emailTitle: 'Stay in the loop',
     emailBody: 'Get news about upcoming sessions and opportunities to share your product.',
     emailAction: 'Join as a member',
-    emailActionNote: 'Sign up by email to hear about upcoming events.',
+    emailActionNote: 'Get event invites by email.',
     speakerAction: 'Join as a speaker',
     youtubeAction: 'Watch on YouTube',
     nextEvent: 'Next event',

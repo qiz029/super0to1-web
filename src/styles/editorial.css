@@ -53,27 +53,22 @@
 .home-hero .lede { font-size: 20px; line-height: 1.6; max-width: 29em; margin-top: 30px; }
 .home-brand-art { margin: 0; overflow: visible; }
 .home-brand-art img { height: clamp(280px, 34vw, 430px); object-fit: contain; }
-.participation-actions { display: grid; grid-template-columns: repeat(2, auto); width: fit-content; max-width: 100%; column-gap: 22px; row-gap: 4px; margin-top: 26px; }
-.participation-actions > .button {
-  grid-column: 1 / -1;
-  justify-self: start;
-}
-.participation-note { grid-column: 1 / -1; margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.participation-actions { display: grid; justify-items: start; gap: 0; margin-top: 26px; }
+.participation-note { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+.participation-secondary { display: flex; flex-wrap: wrap; gap: 0 18px; margin-top: 10px; }
 .participation-link {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  justify-self: start;
   padding: 0;
   border: 0;
   background: transparent;
-  font-size: 15px;
-  font-weight: 600;
-  text-decoration: underline;
-  text-decoration-color: rgb(255 249 236 / 45%);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
   text-underline-offset: 4px;
 }
-.participation-link:hover { color: var(--cream); text-decoration-color: currentColor; }
+.participation-link:is(:hover, :focus-visible) { color: var(--cream); text-decoration: underline; }
 
 .section { padding-block: clamp(52px, 7vw, 96px); }
 .section-head { margin-bottom: 32px; }
