@@ -180,18 +180,21 @@ p { font-size: var(--text-body); }
 #join-us { scroll-margin-top: 100px; }
 
 /* Home shows a selection; program pages retain their full collections. */
-.home-projects-link {
+.collection-link {
   min-height: 48px;
   padding: 10px 20px;
+  font-size: 17px;
+  font-weight: 600;
+  flex-shrink: 0;
 }
 .home-project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: clamp(14px, 2vw, 24px);
 }
-.home-project-feature { min-width: 0; max-width: 400px; padding: 12px; }
+.home-project-feature { display: flex; flex-direction: column; min-width: 0; max-width: 400px; padding: 12px; }
 .home-project-feature .project-art {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   height: auto;
   min-height: 0;
   margin: 0;
@@ -200,14 +203,14 @@ p { font-size: var(--text-body); }
 .home-project-feature:hover .project-art img { transform: none; }
 .home-project-feature .project-art:hover { outline: 2px solid var(--brown-ink); outline-offset: -2px; }
 .home-project-feature .project-art:focus-visible { outline: 2px solid var(--brown-ink); outline-offset: 3px; }
-.home-project-copy { padding: 14px 8px 6px; }
+.home-project-copy { display: flex; flex-direction: column; flex: 1; padding: 16px 8px 8px; }
 .home-project-copy h3 { font-size: 28px; margin: 0 0 10px; }
 .home-project-copy h3 a:hover { text-decoration: underline; }
-.home-project-copy p { font-size: 18px; line-height: 1.5; }
-.home-project-copy .text-link { display: inline-block; margin-top: 4px; color: var(--brown-ink); font-size: 17px; font-weight: 600; }
+.home-project-copy p { font-size: 18px; line-height: 1.5; margin: 0 0 18px; }
+.home-project-copy .text-link { align-self: flex-start; display: inline-block; margin-top: auto; color: var(--brown-ink); font-size: 17px; font-weight: 600; }
 .home-hero + .next-event { margin-top: 0; margin-bottom: clamp(24px, 4vw, 48px); }
 .home-gallery-section { padding-block: 40px; }
-.home-gallery-section .section-head { margin-bottom: 24px; }
+.home-gallery-section .section-head { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: center; gap: 16px; margin-bottom: 24px; }
 
 #projects { scroll-margin-top: 100px; }
 @media (max-width: 760px) {
@@ -245,7 +248,7 @@ p { font-size: var(--text-body); }
 .home-lens-preview .video-card { display: block; }
 .home-lens-preview .video-thumb { margin-bottom: 14px; border-radius: 12px; }
 .home-lens-preview .meta { display: none; }
-.home-lens-preview h3 { font-size: 20px; line-height: 1.35; margin-top: 7px; }
+.home-lens-preview h3 { font-size: 20px; line-height: 1.35; min-height: 4.05em; margin: 0; }
 .home-lens-preview .video-card:hover .video-thumb img { transform: none; }
 
 /* A short introduction, with no repeated program navigation or signup CTA. */
@@ -307,12 +310,12 @@ p { font-size: var(--text-body); }
   color: var(--ink);
   background: linear-gradient(transparent 77%, var(--lime) 77% 94%, transparent 94%);
 }
-:is(.button.button-secondary, .home-projects-link) {
+:is(.button.button-secondary, .collection-link) {
   background: transparent;
   border-color: var(--control-line);
   color: var(--ink);
 }
-:is(.button.button-secondary, .home-projects-link):hover { background: var(--paper-tint); border-color: var(--ink); }
+:is(.button.button-secondary, .collection-link):hover { background: var(--paper-tint); border-color: var(--ink); }
 :is(.eyebrow, .meta, .facts dt, .lab-flow-number, .lab-flow-arrow) { color: var(--muted); }
 .meta { opacity: 1; }
 :is(.text-link, .builder-name) { color: var(--ink); }
@@ -325,15 +328,15 @@ p { font-size: var(--text-body); }
    With more projects, collections stack and the project cards stay in a grid. */
 .home-collections { border-top: 1px solid var(--line); }
 .home-collections > section { min-width: 0; border: 0; }
-.home-collections .section-head { justify-content: flex-start; align-items: center; gap: 16px; min-height: 52px; }
-.home-collections .section-head .text-link { font-size: 17px; }
-.home-collections .home-projects-link { font-size: 17px; font-weight: 600; }
-.home-collections .home-project-grid { align-items: start; }
+.home-collections .section-head { flex-wrap: wrap; justify-content: flex-start; align-items: center; gap: 16px; min-height: 52px; }
+.home-collections .home-project-grid { align-items: stretch; }
+@media (min-width: 1000px) {
+  .home-collections.is-paired { display: grid; grid-template-columns: minmax(340px, 1fr) minmax(0, 2.15fr); column-gap: 32px; }
+  .home-collections.is-paired .home-project-feature { width: 100%; }
+}
 @media (min-width: 1240px) {
   .home-collections.is-paired { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.15fr); column-gap: 40px; }
   .home-collections.is-paired .home-lens-preview { grid-auto-columns: minmax(0, 1fr); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
-  .home-collections.is-paired .home-project-feature { width: 100%; }
-  .home-collections.is-paired .home-project-feature .project-art { aspect-ratio: 16 / 9; }
 }
 @media (min-width: 1440px) {
   :root { --max: 1360px; }

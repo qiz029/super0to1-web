@@ -57,7 +57,7 @@ export function Home() {
           <div>
             <h2><LLink to="/lab"><ProgramName name="Super Lab" /></LLink></h2>
           </div>
-          <LLink className="button home-projects-link" to="/lab#projects">{t.home.viewProjects}</LLink>
+          <LLink className="button button-secondary collection-link" to="/lab#projects">{t.home.viewProjects}</LLink>
         </div>
         <div className="home-project-grid">
           {featuredProjects.map(project => {
@@ -84,7 +84,7 @@ export function Home() {
       {home.showVideos && featuredVideos.length > 0 && <section className="section home-gallery-section home-lens-section">
         <div className="section-head" data-reveal>
           <h2><LLink to="/lens"><ProgramName name="Super Lens" /></LLink></h2>
-          <LLink className="text-link" to="/lens">
+          <LLink className="button button-secondary collection-link" to="/lens">
             {t.home.allConversations}
           </LLink>
         </div>
@@ -98,7 +98,7 @@ export function Home() {
       {home.showSessions && featuredSessions.length > 0 && <section className="section container home-gallery-section">
         <div className="section-head" data-reveal>
           <h2>{t.home.pastEvents}</h2>
-          <LLink className="text-link" to="/sessions">{t.home.allSessions}</LLink>
+          <LLink className="button button-secondary collection-link" to="/sessions">{t.home.allSessions}</LLink>
         </div>
         <SessionCards items={featuredSessions} />
       </section>}
