@@ -18,7 +18,7 @@ export const sessionSchema = z.object({
 }).strict()
 export const videoSchema = z.object({
   ...common, youtubeId: z.union([z.literal(''), z.string().regex(/^[a-zA-Z0-9_-]{11}$/)]), title: localized,
-  summary: localized, cover: image, guestName: z.string().max(200), publishedDate: z.string().max(10),
+  homeTitle: localized.optional(), summary: localized, cover: image, guestName: z.string().max(200), publishedDate: z.string().max(10),
 }).strict()
 export const projectSchema = z.object({
   ...common, slug, name: z.string().max(200), domain: z.string().max(200).optional(),

@@ -87,7 +87,7 @@ export function Home() {
           </LLink>
         </div>
         <div className="media-gallery home-lens-preview">
-          {featuredVideos.map(video => <div key={video.id} data-reveal><VideoCard video={video} /></div>)}
+          {featuredVideos.map(video => <div key={video.id} data-reveal><VideoCard video={video} home /></div>)}
         </div>
       </section>}
 

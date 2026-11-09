@@ -68,7 +68,8 @@
 .section-head h2 a { display: inline-flex; align-items: baseline; gap: 20px; }
 .section-intro { max-width: 36em; line-height: 1.65; }
 .home-projects { background: var(--paper-light); color: var(--brown-ink); }
-.home-projects .section { border-top: 0; }
+.home-projects .section { border-top: 0; padding-block: clamp(38px, 5.2vw, 72px); }
+.home-projects .section-head { justify-content: flex-start; gap: 14px 24px; margin-bottom: 24px; }
 .home-projects :is(.eyebrow, .section-intro) { color: #6b584a; }
 .home-projects .eyebrow { margin-bottom: 12px; }
 .home-projects .project-card { border-color: var(--line-dark); }
@@ -152,6 +153,8 @@
 
 /* Home shows a selection; program pages retain their full collections. */
 .home-projects-link {
+  min-height: 42px;
+  padding: 8px 17px;
   background: var(--brown-ink);
   border-color: var(--brown-ink);
   color: var(--paper-light);
@@ -262,4 +265,11 @@
 @media (max-width: 760px) {
   .header-inner, .site-header.is-scrolled .header-inner { border-radius: 0; padding-inline: 0; }
   .logo { gap: 5px; }
+}
+@media (max-width: 380px) {
+  .site-header .logo-symbol { width: 36px; height: 36px; }
+  .site-header .logo-wordmark { width: 94px; }
+  .site-header .header-tools { gap: 5px; }
+  .site-header .lang-switch a { min-width: 32px; padding-inline: 6px; }
+  .site-header .menu-toggle { padding-inline: 12px; }
 }
