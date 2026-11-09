@@ -56,7 +56,7 @@ test('mobile navigation and actions work in both languages without horizontal ov
   await expect(page.getByRole('button', { name: '菜单', exact: true })).toHaveAttribute('aria-expanded', 'false')
   await expect(page.locator('.hero .actions a')).toHaveText(['提交产品报名'])
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-  const actions = await page.locator('.participation-actions > .button').boundingBox()
+  const actions = await page.locator('.participation-actions').getByRole('button', { name: '加入社群', exact: true }).boundingBox()
   expect(actions && actions.y + actions.height).toBeLessThan(844)
   await page.getByRole('link', { name: 'English', exact: true }).click()
   await page.getByRole('button', { name: 'Menu', exact: true }).click()
@@ -74,8 +74,11 @@ test('brand artwork and original wordmarks load without stretching on desktop an
       for (const image of await images.all()) {
         await expect(image).toBeVisible()
         await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true)
-        const geometry = await image.evaluate((el: HTMLImageElement) => ({ width: el.clientWidth, height: el.clientHeight, naturalWidth: el.naturalWidth, naturalHeight: el.naturalHeight, fit: getComputedStyle(el).objectFit }))
-        if (geometry.fit !== 'contain') expect(Math.abs(geometry.width / geometry.height - geometry.naturalWidth / geometry.naturalHeight)).toBeLessThan(.08)
+        const geometry = await image.evaluate((el: HTMLImageElement) => {
+          const { width, height } = el.getBoundingClientRect()
+          return { width, height, naturalWidth: el.naturalWidth, naturalHeight: el.naturalHeight, fit: getComputedStyle(el).objectFit, src: el.getAttribute('src') }
+        })
+        if (geometry.fit !== 'contain') expect(Math.abs(geometry.width / geometry.height - geometry.naturalWidth / geometry.naturalHeight), `${path} at ${width}px: ${geometry.src}`).toBeLessThan(.08)
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     }
