@@ -1,48 +1,54 @@
-import { JoinButton } from '../components/JoinButton'
-import { LoopDiagram } from '../components/LoopDiagram'
+import { ProgramName } from '../components/ProgramName'
+import { JoinUsButton } from '../components/JoinUsButton'
 import { useT } from '../i18n/locale'
+import { useContent } from '../content/context'
+import { ProjectCards } from './Projects'
+import { EventFeature } from '../components/EventFeature'
+import { upcomingSession } from '../content/sessions'
+import { IntakeForm } from '../components/IntakeForm'
 
 export function Lab() {
   const { t } = useT()
+  const { projects, sessions, home } = useContent()
+  const nextEvent = upcomingSession(sessions, home.upcomingSessionId)
   const l = t.lab
   return (
     <>
-      <section className="page-hero container split">
+      <EventFeature event={nextEvent?.program === 'lab' ? nextEvent : undefined} />
+      <section className="page-hero container split lab-hero">
         <div>
-          <p className="eyebrow">{l.eyebrow}</p>
-          <h1>Super Lab</h1>
+          <h1 className="program-title"><ProgramName name="Super Lab" /></h1>
           <p className="lede">{l.lede}</p>
+          <div className="lab-entry-actions actions">
+            <a className="button" href="#submit-prototype">{l.bringPrototype}</a>
+            <JoinUsButton source="lab_tester" className="button button-secondary">{l.joinTester}</JoinUsButton>
+          </div>
+          <p className="lab-entry-note">{l.testerNote}</p>
         </div>
-        <LoopDiagram />
+        <img className="lab-illustration" src="/media/lab-community-v2.webp" alt={l.illustrationAlt} width="1536" height="1024" />
       </section>
 
-      <section className="section container">
-        <div className="grid grid-3">
-          {l.steps.map((s, i) => (
-            <article className="step" key={s.n} data-reveal style={{ ['--i' as string]: i }}>
-              <span className="meta">{s.n}</span>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </article>
-          ))}
+      <section className="section container prototype-section" id="submit-prototype">
+        <div>
+          <p className="eyebrow">Super Lab</p>
+          <h2>{t.forms.prototypeTitle}</h2>
+          <p className="lede">{t.forms.prototypeIntro}</p>
+          <ol className="lab-flow" aria-label={l.howItWorks}>
+            {l.steps.map((step, index) => <li key={step.n}>
+              <span className="lab-flow-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div><h3>{step.title}</h3><p>{step.body}</p></div>
+              {index < l.steps.length - 1 && <span className="lab-flow-arrow" aria-hidden="true">↓</span>}
+            </li>)}
+          </ol>
         </div>
+        <IntakeForm kind="prototype" />
       </section>
 
-      <section className="band band-cream">
-        <div className="container cta-row">
-          <div>
-            <p className="eyebrow">{l.nextEyebrow}</p>
-            <h2>{l.nextTitle}</h2>
-            <p>{l.nextBody}</p>
-          </div>
-          <div className="actions">
-            <JoinButton role="Builder">{l.bringPrototype}</JoinButton>
-            <JoinButton role="Tester" variant="secondary">
-              {l.joinTester}
-            </JoinButton>
-          </div>
-        </div>
-      </section>
+      {projects.length > 0 && <section className="section container" id="projects">
+        <div className="section-head" data-reveal><h2>{t.home.projects}</h2></div>
+        <ProjectCards items={projects} includeInvite={false} />
+      </section>}
+
     </>
   )
 }

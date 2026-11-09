@@ -1,35 +1,32 @@
+import { HOME_PREVIEW_LIMITS } from '../../shared/home'
+import { ProgramName } from '../components/ProgramName'
 import { Fragment } from 'react'
-import { AnimatedNecklace } from '../components/Necklace'
 import { VideoCard } from '../components/VideoCard'
-import { YouGrid } from '../components/YouGrid'
-import { JoinButton } from '../components/JoinButton'
-import { Marquee } from '../components/Marquee'
-import { MethodStepper } from '../components/MethodStepper'
+import { JoinUsButton } from '../components/JoinUsButton'
 import { LLink } from '../components/LocaleLink'
-import { ProjectCards } from './Projects'
 import { useContent } from '../content/context'
-import { sessionDate, type Session } from '../content/sessions'
-import { PROGRAMS } from '../content/programs'
+import { sessionDate, upcomingSession, type Session } from '../content/sessions'
+import { EventFeature } from '../components/EventFeature'
 import { useT } from '../i18n/locale'
 
 export function Home() {
-  const { t, tx, locale } = useT()
+  const { t, tx } = useT()
   const { videos, sessions, projects, home } = useContent()
-  const [featured, ...rest] = home.videoIds.flatMap(id => videos.filter(v => v.id === id))
+  const featuredVideos = home.videoIds.flatMap(id => videos.filter(v => v.id === id)).slice(0, HOME_PREVIEW_LIMITS.videos)
+  const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
+  const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.eventState === 'ended')).slice(0, HOME_PREVIEW_LIMITS.sessions)
+  const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
 
   return (
     <>
-      <section className="hero container">
+      <section className="hero home-hero container" id="join-us">
         <div className="hero-copy">
-          <p className="eyebrow hero-in" style={{ ['--i' as string]: 0 }}>
-            {t.home.eyebrow}
-          </p>
           <h1 aria-label={words.map((x) => x.w).join(gap)}>
             {words.map(({ w, accent }, i) => (
               <Fragment key={w}>
-                <span className={accent ? 'hero-word is-accent' : 'hero-word'} style={{ ['--i' as string]: i + 1 }} aria-hidden="true">
+                <span className={`hero-word${accent ? ' is-accent' : ''}${w.includes('0→1') ? ' hero-zero' : ''}`} style={{ ['--i' as string]: i + 1 }} aria-hidden="true">
                   {w}
                 </span>
                 {gap}
@@ -39,103 +36,69 @@ export function Home() {
           <p className="lede hero-in" style={{ ['--i' as string]: 5 }}>
             {t.home.lede}
           </p>
-          <div className="actions hero-in" style={{ ['--i' as string]: 6 }}>
-            <a className="button" href="#programs">
-              {t.home.explore}
-            </a>
-            <LLink className="button button-secondary" to="/method">
-              {t.home.method}
-            </LLink>
+          <div className="actions participation-actions hero-in" style={{ ['--i' as string]: 6 }}>
+            <JoinUsButton className="button">{t.home.emailAction}</JoinUsButton>
+            <JoinUsButton kind="speaker" className="button button-secondary">{t.home.speakerAction}</JoinUsButton>
+            <LLink className="button button-secondary" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
           </div>
         </div>
-        <AnimatedNecklace className="hero-necklace" />
-      </section>
-
-      <Marquee />
-
-      <section className="band band-cream">
-        <div className="container">
-          <MethodStepper />
+        <div className="home-brand-art hero-in" style={{ ['--i' as string]: 3 }} aria-hidden="true">
+          <img src="/media/brand-home-v3.webp" alt="" width="1536" height="1024" />
         </div>
       </section>
 
-      <section className="section container" id="programs">
-        <div className="section-head" data-reveal>
-          <h2>{t.home.programs}</h2>
-        </div>
-        <div className="program-grid">
-          {PROGRAMS.map((p, i) => (
-            <LLink className={`program-card tone-${p.tone}`} to={p.to} key={p.to} data-reveal style={{ ['--i' as string]: i }}>
-              <span className="program-numeral" aria-hidden="true">
-                {p.numeral}
-              </span>
-              <span className="meta">{tx(p.tagline)}</span>
-              <h3>{p.name}</h3>
-              <p>{tx(p.body)}</p>
-              <span className="program-cta">
-                {tx(p.cta)}
-                <span className="arrow-pill" aria-hidden="true">
-                  →
-                </span>
-              </span>
-            </LLink>
-          ))}
-        </div>
-      </section>
+      <EventFeature event={nextSession} registerLabel={t.home.rsvp} />
 
-      {home.showSessions && <section className="section container">
+      {home.showProjects && featuredProjects.length > 0 && <div className="home-projects"><section className="section container">
         <div className="section-head" data-reveal>
-          <h2>{home.sessionIds.some(id => sessions.some(s => s.id === id && s.eventState !== 'ended')) ? (locale === 'zh' ? '活动与相遇' : 'Sessions & gatherings') : t.home.pastSessions}</h2>
-          <LLink className="text-link" to="/sessions">
-            {t.home.allSessions}
-          </LLink>
+          <div>
+            <p className="eyebrow">{t.home.projects}</p>
+            <h2><LLink to="/lab"><ProgramName name="Super Lab" /></LLink></h2>
+          </div>
+          <LLink className="button home-projects-link" to="/lab#projects">{t.home.viewProjects}</LLink>
         </div>
-        <SessionCards items={home.sessionIds.flatMap(id => sessions.filter(s => s.id === id))} />
-      </section>}
+        <div className="home-project-grid">
+          {featuredProjects.map(project => {
+            const url = project.url ? tx(project.url) : undefined
+            const tryLabel = t.projects.tryIt(project.name)
+            const detail = `/projects/${project.slug}`
+            const cover = project.cover && <img src={project.cover} alt={project.coverAlt ? tx(project.coverAlt) : ''} loading="lazy" />
+            return (
+              <article key={project.id} className="project-card home-project-feature" data-reveal>
+                {cover && (url
+                  ? <a className="project-art project-art-cover" href={url} target="_blank" rel="noopener noreferrer" aria-label={tryLabel}>{cover}</a>
+                  : <LLink className="project-art project-art-cover" to={detail} aria-label={project.name}>{cover}</LLink>)}
+                <div className="home-project-copy">
+                  <h3><LLink to={detail}>{project.name}</LLink></h3>
+                  <p>{project.tagline ? tx(project.tagline) : t.projects.profileSoon}</p>
+                  {url && <a className="text-link" href={url} target="_blank" rel="noopener noreferrer">{tryLabel}</a>}
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </section></div>}
 
-      {home.showVideos && featured && <section className="section container">
+      {home.showVideos && featuredVideos.length > 0 && <section className="section container home-gallery-section">
         <div className="section-head" data-reveal>
-          <h2>{t.home.lens}</h2>
+          <h2><LLink to="/lens"><ProgramName name="Super Lens" /></LLink></h2>
           <LLink className="text-link" to="/lens">
             {t.home.allConversations}
           </LLink>
         </div>
-        <div className="lens-feature">
-          <div data-reveal>
-            <VideoCard video={featured} featured />
-          </div>
-          <div className="lens-side">
-            {rest.slice(0, 2).map((v, i) => (
-              <div data-reveal style={{ ['--i' as string]: i + 1 }} key={v.id}>
-                <VideoCard video={v} />
-              </div>
-            ))}
-          </div>
+        <div className="media-gallery home-lens-preview">
+          {featuredVideos.map(video => <div key={video.id} data-reveal><VideoCard video={video} home /></div>)}
         </div>
       </section>}
 
-      {home.showProjects && <section className="section container">
+      {home.showSessions && featuredSessions.length > 0 && <section className="section container home-gallery-section">
         <div className="section-head" data-reveal>
-          <h2>{t.home.projects}</h2>
-          <LLink className="text-link" to="/projects">
-            {t.home.viewProjects}
-          </LLink>
+          <h2>{t.home.pastEvents}</h2>
+          <LLink className="text-link" to="/sessions">{t.home.allSessions}</LLink>
         </div>
-        <ProjectCards items={home.projectIds.flatMap(id => projects.filter(p => p.id === id))} />
+        <SessionCards items={featuredSessions} />
       </section>}
 
-      <section className="band band-deep">
-        <div className="container join">
-          <YouGrid />
-          <div className="join-copy" data-reveal>
-            <h2>{t.home.joinTitle}</h2>
-            <p className="lede">{t.home.joinBody}</p>
-            <div className="actions">
-              <JoinButton role="Community">{t.home.joinCta}</JoinButton>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   )
 }
@@ -144,19 +107,20 @@ export function SessionCards({ items }: { items?: Session[] }) {
   const { tx, locale } = useT()
   const { sessions } = useContent()
   return (
-    <div className="grid grid-2">
-      {(items ?? sessions).map((s, i) => (
-        <LLink className="session-card" to={`/sessions/${s.slug}`} key={s.slug} data-reveal style={{ ['--i' as string]: i }}>
+    <div className="grid media-gallery session-gallery">
+      {(items ?? sessions).map((s, i) => {
+        const content = <>
           <img src={s.image} alt={tx(s.imageAlt)} loading="lazy" />
           <span className="session-caption">
             <span className="meta">{sessionDate(s, locale)}</span>
             <h3>{tx(s.title)}</h3>
           </span>
-          <span className="arrow-pill" aria-hidden="true">
-            →
-          </span>
-        </LLink>
-      ))}
+        </>
+        const props = { className: 'session-card', 'data-reveal': true, style: { ['--i' as string]: i } }
+        return s.eventState === 'ended'
+          ? <article {...props} key={s.slug}>{content}</article>
+          : <LLink {...props} to={`/sessions/${s.slug}`} key={s.slug}>{content}</LLink>
+      })}
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { ProgramName } from './ProgramName'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { useContent } from '../content/context'
@@ -6,13 +7,9 @@ import { syncHead } from '../seo'
 import { htmlLang, LocaleContext, localePath, rememberLocale, splitLocale, useT, type Locale } from '../i18n/locale'
 import { LLink, LNavLink } from './LocaleLink'
 
-const YEAR = new Date().getFullYear()
-
 const NAV = [
-  { to: '/method', key: 'method' },
-  { to: '/projects', key: 'projects' },
-  { to: '/lab', key: 'lab' },
   { to: '/sessions', key: 'sessions' },
+  { to: '/lab', key: 'lab' },
   { to: '/lens', key: 'lens' },
   { to: '/about', key: 'about' },
 ] as const
@@ -22,7 +19,10 @@ export function Logo() {
   const { site } = useContent()
   return (
     <LLink className="logo" to="/" aria-label={t.nav.home}>
-      {site.name === 'Super 0→1' ? <>Super <span>0→1</span></> : site.name}
+      {site.name === 'Super 0→1' ? <>
+        <img className="logo-symbol" src="/brand/super-round-mark.webp" alt="" width="512" height="512" />
+        <img className="logo-wordmark" src="/brand/super-wordmark.png" alt={site.name} width="2046" height="462" />
+      </> : site.name}
     </LLink>
   )
 }
@@ -76,7 +76,7 @@ function Header() {
         <nav id="site-nav" className={open ? 'site-nav is-open' : 'site-nav'} aria-label={t.nav.main}>
           {NAV.map((item) => (
             <LNavLink key={item.to} to={item.to} onClick={() => setOpen(false)}>
-              {t.nav[item.key]}
+              {item.key === 'about' ? t.nav.about : <ProgramName name={t.nav[item.key]} />}
             </LNavLink>
           ))}
         </nav>
@@ -99,7 +99,7 @@ function Header() {
 
 function Footer() {
   const { site } = useContent()
-  const { t } = useT()
+  const { t, locale } = useT()
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
@@ -110,17 +110,15 @@ function Footer() {
         <nav className="footer-nav" aria-label={t.nav.footer}>
           {NAV.map((item) => (
             <LLink key={item.to} to={item.to}>
-              {t.nav[item.key]}
+              {item.key === 'about' ? t.nav.about : <ProgramName name={t.nav[item.key]} />}
             </LLink>
           ))}
+          <Link to={`${localePath(locale, '/')}#join-us`}>{t.nav.join}</Link>
           <a href={site.youtube} target="_blank" rel="noopener noreferrer">
-            YouTube ↗
+            YouTube
           </a>
         </nav>
       </div>
-      <p className="container footer-legal">
-        © {YEAR} {site.fullName}
-      </p>
     </footer>
   )
 }

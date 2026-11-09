@@ -1,7 +1,6 @@
 import type { RouteObject } from 'react-router'
 import { Layout } from './components/Layout'
 import { Home } from './pages/Home'
-import { Method } from './pages/Method'
 import { Projects, ProjectDetail } from './pages/Projects'
 import { Lab } from './pages/Lab'
 import { Sessions, SessionDetail } from './pages/Sessions'
@@ -16,7 +15,6 @@ const localeRoutes = (locale: Locale): RouteObject => ({
   element: <Layout locale={locale} />,
   children: [
     { index: true, element: <Home /> },
-    { path: 'method', element: <Method /> },
     { path: 'projects', element: <Projects /> },
     { path: 'projects/:slug', element: <ProjectDetail /> },
     { path: 'lab', element: <Lab /> },

@@ -19,7 +19,7 @@ test('localized detail breadcrumbs use localized names and canonical URLs', () =
     { '@type': 'ListItem', position: 2, name: 'Super Session', item: 'https://super0to1.com/zh/sessions' },
     { '@type': 'ListItem', position: 3, name: '找到你的方向', item: 'https://super0to1.com/zh/sessions/find-your-direction' },
   ])
-  assert.match(renderHead('/zh/method/'), /rel="canonical" href="https:\/\/super0to1.com\/zh\/method"/)
+  assert.match(renderHead('/zh/method/'), /noindex/)
 })
 
 test('video schema requires a real valid publication date and preserves date precision', () => {

@@ -6,11 +6,11 @@ import worker from '../cms/worker/index'
 import fixtureContent from './fixtures/site.json'
 import type { Env, StateView } from '../cms/worker/types'
 
-function fixture() {
+function fixture(initial: StateView['data'] | typeof fixtureContent = fixtureContent) {
   const database = new DatabaseSync(':memory:')
   database.exec(readFileSync(new URL('../cms/migrations/0001_initial.sql', import.meta.url), 'utf8'))
-  database.prepare('INSERT INTO state VALUES (1, 1, ?, ?, ?)').run(JSON.stringify(fixtureContent), new Date().toISOString(), 'test fixture')
-  for (const kind of ['sessions', 'videos', 'projects'] as const) for (const item of fixtureContent[kind]) database.prepare('INSERT INTO content_paths (kind, id, path) VALUES (?, ?, ?)').run(kind, item.id, 'slug' in item ? item.slug : item.youtubeId)
+  database.prepare('INSERT INTO state VALUES (1, 1, ?, ?, ?)').run(JSON.stringify(initial), new Date().toISOString(), 'test fixture')
+  for (const kind of ['sessions', 'videos', 'projects'] as const) for (const item of initial[kind]) database.prepare('INSERT INTO content_paths (kind, id, path) VALUES (?, ?, ?)').run(kind, item.id, 'slug' in item ? item.slug : item.youtubeId)
   class Statement {
     constructor(readonly sql: string, readonly values: unknown[] = []) {}
     bind(...values: unknown[]) { return new Statement(this.sql, values) }
@@ -64,6 +64,35 @@ test('cross-origin writes and malformed input never mutate saved content', async
   assert.equal((await request('/api/translate', 'POST', { source: 'zh', entries: [{ id: 'text', text: '测试' }] }, { origin: 'https://evil.test' })).status, 403)
   assert.equal((await request('/api/state', 'PUT', { revision: 1, data: { ...before.data, secret: 'not allowed' } })).status, 422)
   assert.equal((await (await request('/api/state')).json() as StateView).revision, 1)
+})
+test('editing and publishing an older video draft preserves existing content and fills missing homepage titles', async () => {
+  const old = structuredClone(fixtureContent) as StateView['data']
+  old.videos[0].title.en = 'Existing video draft title'
+  old.videos[1].homeTitle = { en: 'Custom homepage title', zh: '自定义短标题' }
+  old.videos[2].homeTitle = { en: '', zh: '' }
+  const { request, database } = fixture(old)
+
+  const first = await (await request('/api/state')).json() as StateView
+  const expected = structuredClone(old)
+  expected.videos[0].homeTitle = { en: 'Start by being honest with yourself', zh: '从对自己诚实开始' }
+  assert.deepEqual(first.data, expected)
+  assert.equal(first.revision, 1)
+
+  expected.videos[0].summary = { en: 'Edited video summary', zh: '更新后的视频简介' }
+  first.data.videos[0].summary = expected.videos[0].summary
+  const save = await request('/api/state', 'PUT', { revision: first.revision, data: first.data })
+  assert.equal(save.status, 200)
+  const { revision } = await save.json() as { revision: number }
+
+  const preview = await request('/api/previews', 'POST', { revision })
+  assert.equal(preview.status, 201)
+  const { id } = await preview.json() as { id: string }
+  assert.deepEqual(await (await request(`/api/previews/${id}`)).json(), expected)
+
+  const requestId = crypto.randomUUID()
+  assert.equal((await request('/api/releases', 'POST', { revision, requestId })).status, 202)
+  const release = database.prepare('SELECT data FROM releases WHERE id = ?').get(requestId) as { data: string }
+  assert.deepEqual(JSON.parse(release.data), { ...expected, releaseId: requestId })
 })
 test('publication freezes approved records, preserves private draft edits, locks concurrent publishing and retries idempotently', async () => {
   const { request, database } = fixture()
@@ -122,6 +151,7 @@ test('a release is live only after its exact commit passes CI and is served by p
   try {
     const id = crypto.randomUUID()
     assert.equal((await request('/api/releases', 'POST', { revision: 1, requestId: id })).status, 202)
+    assert(remote.videos.slice(0, 3).every(video => video.homeTitle?.en && video.homeTitle.zh))
     const status = (releaseId: string) => (database.prepare('SELECT status FROM releases WHERE id = ?').get(releaseId) as { status: string }).status
     assert.equal(status(id), 'deploying')
     servedRelease = id; servedCommit = 'different-commit'

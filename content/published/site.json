@@ -123,7 +123,11 @@
       },
       "cover": "",
       "guestName": "",
-      "publishedDate": ""
+      "publishedDate": "",
+      "homeTitle": {
+        "en": "Start by being honest with yourself",
+        "zh": "从对自己诚实开始"
+      }
     },
     {
       "id": "bnqAROVwhc4",
@@ -139,7 +143,11 @@
       },
       "cover": "",
       "guestName": "",
-      "publishedDate": ""
+      "publishedDate": "",
+      "homeTitle": {
+        "en": "How a photography community grew to 200 members",
+        "zh": "一个摄影社群如何发展到 200 人"
+      }
     },
     {
       "id": "8MXhzjdRCk8",
@@ -155,7 +163,11 @@
       },
       "cover": "",
       "guestName": "",
-      "publishedDate": ""
+      "publishedDate": "",
+      "homeTitle": {
+        "en": "How a sports photographer reads the game",
+        "zh": "体育摄影师怎么看懂比赛"
+      }
     },
     {
       "id": "hyng_gR8juE",

@@ -1,0 +1,36 @@
+Brand visual assets, 2026-10-31
+
+Figma source: https://www.figma.com/design/s9YtmSwaPr1Bw7YSWl8Ncg/Super-0-1-Social-Media
+Original exports, unchanged pixels and proportions:
+- Node 92:12 -> public/brand/super-wordmark.png, 2046 × 462; shared website header/footer.
+- Node 197:2 -> public/brand/super-lab.png, 855 × 454; Lab title.
+- Node 158:7 -> public/brand/super-lens.png, 855 × 454; Lens title.
+No standalone Session wordmark was confirmed; the existing text heading remains. Temporary Figma download URLs are not used at runtime. CMS previews serve the same local assets.
+
+New scene illustrations use built-in image_gen, with public/media/lab-community-v2.webp as style reference only. Saved as alpha WebP:
+- public/media/brand-home-v2.webp
+- public/media/brand-session-v2.webp
+- public/media/brand-lens-v2.webp
+The initial same-character alternatives were rejected and are not referenced or committed. Lab's illustration is unchanged.
+
+Final shared prompt:
+Use the supplied image ONLY as a reference for hand-drawn line quality, paper texture, warm ivory/lemon/coral/sky palette and friendly editorial cartoon style. NEW CHARACTERS required: do NOT copy any faces, hairstyles or clothing from the reference; specifically no bun-haired woman, no curly-haired man with round glasses, no same three-person cast. Landscape 3:2, true transparent background, clean edges, no matte color or glow, no text, letters, logos, UI, frame. One coherent adult community scene, generous margins, no childish proportions.
+
+Home scene prompt appended:
+Two different adult community builders exchanging a paper prototype and an open notebook. An East Asian woman with very short cropped straight hair and a coral jacket, and a South Asian man with shoulder-length straight hair and a pale blue overshirt. Both standing, welcoming relaxed gestures. No table or computer.
+
+Session scene prompt appended:
+A talk, clearly ONE speaker in front and an audience listening below. A confident middle-aged East Asian woman with short silver hair, coral blouse and dark trousers stands beside a small easel with three abstract colored shapes. Four different adult listeners seated in two simple rows in the foreground, seen mostly from behind or three-quarter back, looking toward her; varied ages and hair. Audience scale smaller and lower than speaker, clear presentation hierarchy, no other facilitator.
+
+Lens scene prompt appended:
+Exactly TWO people in a one-to-one interview. One East Asian male interviewer with a shaved head, no glasses, pale blue shirt, and one Black female guest with short natural curly hair and a muted coral cardigan. Seated facing each other across a small round table with two microphones and a notebook. Guest speaks with a hand gesture, interviewer listens attentively. No audience, no third person.
+
+Hair correction, built-in image_gen edit, 2026-10-31:
+Final assets: public/media/brand-home-v3.webp and public/media/brand-lens-v3.webp. Previous versions retained for rollback.
+Home edit prompt:
+Edit only the man on the right: replace his shoulder-length hair with a conventional neat short dark haircut, short sides and softly side-parted top, and remove his beard and mustache for a clean-shaven face. Keep his friendly expression, skin tone, pose, blue shirt, notebook, hands and body unchanged. Keep the woman, composition, props, colors, hand-drawn texture and transparent background unchanged. No new objects, text or background. Natural approachable adult, understated everyday appearance.
+Lens edit prompt:
+Edit only the man on the right: replace his bald/shaved head with a conventional neat short dark haircut, short sides and softly side-parted top, naturally following his head shape. Keep his face, friendly expression, pose, skin tone, blue shirt and clean-shaven appearance unchanged. Preserve the woman on the left, exactly two interview participants, microphones, table, composition, hand-drawn texture, colors and transparent background. No other changes.
+Lens guest replacement, built-in imagegen edit, 2026-10-31:
+Final asset: public/media/brand-lens-v4.webp. Previous version retained.
+Prompt: Use case: precise-object-edit. Edit target: supplied full Super Lens illustration. Replace only the woman on the left with a different fictional East Asian woman guest, straight dark shoulder-length hair tucked behind one ear, natural friendly expression, coral cardigan and ivory top. Preserve the one-on-one interview: same short-haired man on right, poses, two microphones, mugs, notebook, round wooden table, chairs, composition and warm hand-drawn pencil/watercolor illustration style. No text or logo. Maintain genuinely transparent background, no painted background, no halo. Keep landscape 1536x1024 framing.

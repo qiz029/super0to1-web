@@ -3,6 +3,7 @@ import { createMemoryRouter, RouterProvider } from 'react-router'
 import { routes } from '../../src/routes'
 import { ContentContext } from '../../src/content/context'
 import '../../src/styles/global.css'
+import '../../src/styles/editorial.css'
 import '../../src/styles/fonts.css'
 import type { Snapshot } from '../../shared/content'
 const root = createRoot(document.getElementById('root')!)

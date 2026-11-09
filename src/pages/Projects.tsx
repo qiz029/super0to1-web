@@ -1,5 +1,4 @@
 import { useParams } from 'react-router'
-import { JoinButton } from '../components/JoinButton'
 import { LLink } from '../components/LocaleLink'
 import { Necklace, type Pearl } from '../components/Necklace'
 import { useContent } from '../content/context'
@@ -7,7 +6,7 @@ import type { Project } from '../content/projects'
 import { useT } from '../i18n/locale'
 import { NotFound } from './NotFound'
 
-export function ProjectCards({ items }: { items?: Project[] }) {
+export function ProjectCards({ items, includeInvite = true }: { items?: Project[]; includeInvite?: boolean }) {
   const { projects } = useContent()
   const { t, tx } = useT()
   return (
@@ -22,16 +21,16 @@ export function ProjectCards({ items }: { items?: Project[] }) {
             <span className="project-art project-art-dark">{p.name}</span>
           )}
           <span className="meta">{[p.stage ? tx(p.stage) : t.projects.featured, p.domain].filter(Boolean).join(' · ')}</span>
-          <h3>{p.name} →</h3>
+          <h3>{p.name}</h3>
           <p>{p.tagline ? tx(p.tagline) : t.projects.profileSoon}</p>
         </LLink>
       ))}
-      <LLink className="project-card" to="/lab" data-reveal style={{ ['--i' as string]: 1 }}>
+      {includeInvite && <LLink className="project-card" to="/lab" data-reveal style={{ ['--i' as string]: 1 }}>
         <span className="project-art">{t.projects.yourProjectArt}</span>
         <span className="meta">Super Lab</span>
         <h3>{t.projects.yourProjectTitle}</h3>
         <p>{t.projects.yourProjectBody}</p>
-      </LLink>
+      </LLink>}
     </div>
   )
 }
@@ -84,9 +83,6 @@ export function ProjectDetail() {
               {t.projects.tryIt(project.name)}
             </a>
           )}
-          <JoinButton role="Tester" variant={url ? 'secondary' : 'primary'}>
-            {t.projects.tryAtLab}
-          </JoinButton>
         </div>
       </section>
 
@@ -124,7 +120,7 @@ export function ProjectDetail() {
                 <dd>
                   {builder.url ? (
                     <a className="builder-name" href={builder.url} target="_blank" rel="noopener noreferrer">
-                      {builder.name} ↗
+                      {builder.name}
                     </a>
                   ) : (
                     <span className="builder-name">{builder.name}</span>

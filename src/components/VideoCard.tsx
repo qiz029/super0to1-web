@@ -2,8 +2,9 @@ import { LLink } from './LocaleLink'
 import { thumbnail, type Video } from '../content/videos'
 import { useT } from '../i18n/locale'
 
-export function VideoCard({ video, featured }: { video: Video; featured?: boolean }) {
+export function VideoCard({ video, featured, home = false }: { video: Video; featured?: boolean; home?: boolean }) {
   const { tx } = useT()
+  const title = (home && video.homeTitle ? tx(video.homeTitle).trim() : '') || tx(video.title)
   return (
     <LLink className={featured ? 'video-card is-featured' : 'video-card'} to={`/lens/${video.youtubeId}`}>
       <span className="video-thumb">
@@ -13,14 +14,14 @@ export function VideoCard({ video, featured }: { video: Video; featured?: boolea
         </span>
       </span>
       <span className="meta">Super Lens</span>
-      <h3>{tx(video.title)}</h3>
+      <h3>{title}</h3>
     </LLink>
   )
 }
 
 export function VideoGrid({ items }: { items: Video[] }) {
   return (
-    <div className="grid grid-3">
+    <div className="grid media-gallery video-gallery">
       {items.map((v, i) => (
         <div data-reveal style={{ ['--i' as string]: i % 3 }} key={v.id}>
           <VideoCard video={v} />

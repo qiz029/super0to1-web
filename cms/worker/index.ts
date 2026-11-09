@@ -40,10 +40,20 @@ async function latestPublic(env: Env): Promise<Snapshot> {
   const row = await env.DB.prepare("SELECT data FROM releases WHERE status = 'live' ORDER BY created_at DESC LIMIT 1").first<{ data: string }>()
   return row ? snapshotSchema.parse(JSON.parse(row.data)) : snapshotSchema.parse(seed)
 }
+// Older drafts predate the homepage titles bundled with the site.
+function withHomeTitles(data: Snapshot): Snapshot {
+  const videos = data.videos.map(video => {
+    if (video.homeTitle !== undefined) return video
+    const fallback = seed.videos.find(item => item.id === video.id && item.youtubeId === video.youtubeId)?.homeTitle
+    return fallback ? { ...video, homeTitle: fallback } : video
+  })
+  return { ...data, videos }
+}
+
 async function savedRevision(env: Env, revision: number) {
   const row = await env.DB.prepare('SELECT data FROM revisions WHERE revision = ?').bind(revision).first<{ data: string }>()
   if (!row) throw new HttpError(404, '找不到这个草稿版本。')
-  return snapshotSchema.parse(JSON.parse(row.data))
+  return withHomeTitles(snapshotSchema.parse(JSON.parse(row.data)))
 }
 function transformMedia(data: Snapshot, preview: boolean) {
   return JSON.parse(JSON.stringify(data).replace(/"media:([a-f0-9]{64})"/g, (_, hash: string) => JSON.stringify(preview ? `/api/media/${hash}` : `/cms-media/${hash}.webp`))) as Snapshot
@@ -83,7 +93,7 @@ async function createRelease(env: Env, actor: Actor, input: unknown) {
   } else {
     const current = await state(env)
     if (!body.revision || body.revision !== current.revision) throw new HttpError(409, '草稿已更新，请重新载入并预览后发布。')
-    data = snapshotSchema.parse(JSON.parse(current.data)); revision = current.revision
+    data = withHomeTitles(snapshotSchema.parse(JSON.parse(current.data))); revision = current.revision
   }
   await locks(env, data)
   const issues = contentIssues(data, await latestPublic(env))
@@ -143,7 +153,7 @@ export async function cmsApi(request: Request, env: Env, actor: Actor, ctx: Exec
   if (path === '/api/state' && request.method === 'GET') {
     const row = await state(env)
     await rememberPaths(env, snapshotSchema.parse(seed))
-    const data = snapshotSchema.parse(JSON.parse(row.data))
+    const data = withHomeTitles(snapshotSchema.parse(JSON.parse(row.data)))
     return json({ data, revision: row.revision, updatedAt: row.updated_at, actor, issues: contentIssues(data, await latestPublic(env)) })
   }
   if (path === '/api/state' && request.method === 'PUT') {

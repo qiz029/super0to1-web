@@ -9,6 +9,7 @@ export function translationFields(item: Session | Video | Project): TranslationF
   const result: TranslationField[] = []
   const add = (key: string, label: string, value?: Localized) => { if (value) result.push({ key, label, value }) }
   if ('title' in item) add('title', '标题', item.title)
+  if ('youtubeId' in item) add('homeTitle', '首页短标题', item.homeTitle)
   add('summary', '简介', item.summary)
   if ('image' in item) {
     add('body', '活动正文', item.body)

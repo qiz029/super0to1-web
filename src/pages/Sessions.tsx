@@ -1,59 +1,44 @@
+import { ProgramName } from '../components/ProgramName'
 import { useParams } from 'react-router'
 import { JoinButton } from '../components/JoinButton'
 import { LLink } from '../components/LocaleLink'
 import { SessionCards } from './Home'
 import { useContent } from '../content/context'
-import { sessionDate } from '../content/sessions'
+import { sessionDate, upcomingSession as findUpcomingSession } from '../content/sessions'
+import { EventFeature } from '../components/EventFeature'
+import { JoinUsButton } from '../components/JoinUsButton'
 import { useT } from '../i18n/locale'
+import { IllustratedHero } from '../components/IllustratedHero'
 import { NotFound } from './NotFound'
 
 export function Sessions() {
-  const { t, tx, locale } = useT()
-  const { sessions, home } = useContent()
-  const upcomingSession = sessions.find(item => item.id === home.upcomingSessionId)
+  const { t } = useT()
+  const { sessions: events, home } = useContent()
+  const sessions = events.filter(item => item.program !== 'lab')
+  const next = findUpcomingSession(sessions, home.upcomingSessionId)
+  const comingUp = sessions.filter(item => ['announced', 'open'].includes(item.eventState) && item.id !== next?.id)
+  const past = sessions.filter(item => item.eventState === 'ended')
   const s = t.sessions
   return (
     <>
-      <section className="page-hero container">
-        <p className="eyebrow">{s.eyebrow}</p>
-        <h1>Super Session</h1>
+      <IllustratedHero className="sessions-hero" image="/media/brand-session-v2.webp" alt={s.artAlt}>
+        <h1 className="program-title"><ProgramName name="Super Session" /></h1>
         <p className="lede">{s.lede}</p>
-      </section>
-
-      <section className="band band-cream">
-        <div className="container cta-row">
-          <div>
-            <p className="eyebrow">{s.upcoming}</p>
-            {upcomingSession ? (
-              <>
-                <h2>{tx(upcomingSession.title)}</h2>
-                <p>
-                  {sessionDate(upcomingSession, locale)} · {tx(upcomingSession.location)}
-                </p>
-              </>
-            ) : (
-              <>
-                <h2>{s.nextTitle}</h2>
-                <p>{s.nextBody}</p>
-              </>
-            )}
-          </div>
-          <div className="actions">
-            {upcomingSession?.eventState === 'announced' ? <LLink className="button" to={`/sessions/${upcomingSession.slug}`}>{locale === 'zh' ? '查看活动预告' : 'View session details'}</LLink> : <JoinButton role="Session attendee" signupUrl={upcomingSession?.signupUrl}>{s.saveSeat}</JoinButton>}
-          </div>
+        <div className="actions">
+          <JoinUsButton>{s.inviteAction}</JoinUsButton>
+          <JoinUsButton kind="speaker" defaultInterest="session_speaker" className="button button-secondary">{t.home.speakerAction}</JoinUsButton>
         </div>
-      </section>
+      </IllustratedHero>
 
-      {sessions.some(item => ['announced', 'open'].includes(item.eventState)) && <section className="section container">
-        <div className="section-head"><h2>{locale === 'zh' ? '即将举行' : 'Coming up'}</h2></div>
-        <SessionCards items={sessions.filter(item => ['announced', 'open'].includes(item.eventState))} />
+      <EventFeature event={next} />
+      {comingUp.length > 0 && <section className="section container">
+        <div className="section-head"><h2>{s.upcoming}</h2></div>
+        <SessionCards items={comingUp} />
       </section>}
-      <section className="section container">
-        <div className="section-head" data-reveal>
-          <h2>{s.past}</h2>
-        </div>
-        <SessionCards items={sessions.filter(item => item.eventState === 'ended')} />
-      </section>
+      {past.length > 0 && <section className="section container" id="past-sessions">
+        <div className="section-head" data-reveal><h2>{s.past}</h2></div>
+        <SessionCards items={past} />
+      </section>}
     </>
   )
 }
@@ -68,10 +53,10 @@ export function SessionDetail() {
   return (
     <>
       <section className="page-hero container">
-        <LLink className="back-link" to="/sessions">
-          {t.sessions.back}
+        <LLink className="back-link" to={session.program === 'lab' ? '/lab' : '/sessions'}>
+          {session.program === 'lab' ? 'Super Lab' : t.sessions.back}
         </LLink>
-        <p className="eyebrow">Super Session / {sessionDate(session, locale)}</p>
+        <p className="eyebrow">{session.program === 'lab' ? 'Super Lab' : 'Super Session'} / {sessionDate(session, locale)}</p>
         <h1>{tx(session.title)}</h1>
         {session.summary && <p className="lede">{tx(session.summary)}</p>}
       </section>
@@ -84,19 +69,6 @@ export function SessionDetail() {
         {session.eventState === 'open' && <JoinButton role="Session attendee" signupUrl={session.signupUrl}>{t.sessions.saveSeat}</JoinButton>}
         {session.eventState === 'cancelled' && <p>{locale === 'zh' ? '本场活动已取消。' : 'This session has been cancelled.'}</p>}
       </section>}
-      <section className="section container">
-        <div className="section-head">
-          <h2>{t.sessions.more}</h2>
-        </div>
-        <div className="actions">
-          <LLink className="button" to="/sessions">
-            {t.sessions.all}
-          </LLink>
-          <LLink className="button button-secondary" to="/lens">
-            {t.sessions.watchLens}
-          </LLink>
-        </div>
-      </section>
     </>
   )
 }

@@ -11,14 +11,14 @@ const link = z.string().max(2000).refine(value => {
 const image = z.string().max(2000).refine(value => !value || /^media:[a-f0-9]{64}$/.test(value) || /^\/(?:media|cms-media)\/[a-zA-Z0-9_.-]+$/.test(value) || /^https:\/\/[^\s]+$/.test(value), '请选择图片或填写 HTTPS 图片地址')
 const common = { id: identifier, published: z.boolean() }
 export const sessionSchema = z.object({
-  ...common, slug, title: localized, summary: localized, body: localized,
+  ...common, program: z.enum(['session', 'lab']).optional(), slug, title: localized, summary: localized, body: localized,
   month: localized, image, imageAlt: localized, datePrecision: z.enum(['month', 'datetime']),
   startsAt: z.string().max(40), endsAt: z.string().max(40), timezone: z.string().max(100),
   location: localized, signupUrl: link, eventState: z.enum(['announced', 'open', 'ended', 'cancelled']),
 }).strict()
 export const videoSchema = z.object({
   ...common, youtubeId: z.union([z.literal(''), z.string().regex(/^[a-zA-Z0-9_-]{11}$/)]), title: localized,
-  summary: localized, cover: image, guestName: z.string().max(200), publishedDate: z.string().max(10),
+  homeTitle: localized.optional(), summary: localized, cover: image, guestName: z.string().max(200), publishedDate: z.string().max(10),
 }).strict()
 export const projectSchema = z.object({
   ...common, slug, name: z.string().max(200), domain: z.string().max(200).optional(),
