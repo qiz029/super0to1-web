@@ -7,8 +7,6 @@ import { syncHead } from '../seo'
 import { htmlLang, LocaleContext, localePath, rememberLocale, splitLocale, useT, type Locale } from '../i18n/locale'
 import { LLink, LNavLink } from './LocaleLink'
 
-const YEAR = new Date().getFullYear()
-
 const NAV = [
   { to: '/sessions', key: 'sessions' },
   { to: '/lab', key: 'lab' },
@@ -121,9 +119,6 @@ function Footer() {
           </a>
         </nav>
       </div>
-      <p className="container footer-legal">
-        © {YEAR} {site.fullName}
-      </p>
     </footer>
   )
 }

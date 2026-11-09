@@ -1447,14 +1447,6 @@ a.builder-name:hover {
   color: var(--cream);
 }
 
-.footer-legal {
-  margin-top: 48px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  color: rgba(224, 217, 210, 0.7);
-}
-
 /* Texture */
 body::after {
   content: '';
