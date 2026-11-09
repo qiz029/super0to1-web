@@ -57,7 +57,7 @@
 }
 .home-hero h1 { font-size: clamp(60px, 7.5vw, 104px); line-height: 1.02; letter-spacing: -.055em; }
 .home-hero .hero-word.is-accent { display: block; color: var(--ink); text-decoration: none; }
-.home-hero .lede { font-size: 20px; line-height: 1.6; max-width: 29em; margin-top: 30px; }
+.home-hero .lede { font-size: 21px; font-weight: 500; line-height: 1.6; max-width: 28em; margin-top: 30px; }
 .home-brand-art { margin: 0; overflow: visible; }
 .home-brand-art img { height: clamp(280px, 34vw, 430px); object-fit: contain; }
 .participation-actions { gap: 10px; margin-top: 26px; }
@@ -139,7 +139,7 @@
   .home-hero { grid-template-columns: 1fr; min-height: 0; gap: 24px; padding-block: 38px 40px; }
   .home-hero .hero-copy { padding-block: 0; }
   .home-hero h1 { font-size: clamp(48px, 11.5vw, 76px); line-height: 1.06; }
-  .home-hero .lede { margin-top: 18px; font-size: 17px; }
+  .home-hero .lede { margin-top: 18px; font-size: 18px; }
   .home-brand-art img { height: clamp(185px, 48vw, 285px); }
   .illustrated-hero, .lab-hero { padding-block: 38px; gap: 28px; }
   .page-hero .program-title { font-size: clamp(38px, 9vw, 54px); }
