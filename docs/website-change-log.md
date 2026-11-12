@@ -360,3 +360,13 @@ CMS 网页预览同步共享样式，管理字段、内容快照、视频短标�
 按反馈保留两条线之间的三个参与入口。5178设计稿的作品与访谈放进同一浅暖灰区域，统一外边距、封面比例和标题样式；桌面四张封面均为286×161px，移除旧竖分隔线。往期活动仍使用小相册。窄屏将作品与访谈上下分组，视频保持横滑。
 
 1440、1100、390px检查无整页溢出，图片均加载。只更新独立设计稿和日志，未修改5177正式实现、CMS或后台。版本保存在原视觉分支，未部署。
+
+## Approved homepage design integrated (2026-11-11)
+
+Applied the approved 5178 study to the working homepage on port 5177. The three participation actions sit between horizontal rules and retain the existing member and speaker dialogs and product submission link. Kept the original illustration. Projects and videos share a warm neutral panel with aligned covers and consistent typography; past events remain small photos. Mobile stacks the groups and keeps video scrolling.
+
+CMS content, fields, drafts, short titles and submission backends are unchanged. The CMS preview uses the shared updated page and styles. Eight in-memory rendering cases cover English/Chinese with 0, 1 and 3 projects, plus hidden collections. Only one project with three videos uses the paired layout.
+
+Checked 1440px, 1100px and 390px layouts in the browser, language switching, member and speaker dialogs, and product submission navigation. Desktop covers align and there is no page overflow. No real submissions or email delivery were tested. Website and CMS builds, lint and 15 existing content/SEO/translation tests passed. Updated affected browser-test selectors; the full end-to-end suite was not run.
+
+Continued in the existing new-feature worktree, agent/visual-system-1109b; used unslop for this note. Screenshot: outputs/visual-system-1109b/home-integrated-1111.jpg. Local implementation commit: 9808824. No push or deployment.
