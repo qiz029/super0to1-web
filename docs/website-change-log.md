@@ -370,3 +370,13 @@ CMS content, fields, drafts, short titles and submission backends are unchanged.
 Checked 1440px, 1100px and 390px layouts in the browser, language switching, member and speaker dialogs, and product submission navigation. Desktop covers align and there is no page overflow. No real submissions or email delivery were tested. Website and CMS builds, lint and 15 existing content/SEO/translation tests passed. Updated affected browser-test selectors; the full end-to-end suite was not run.
 
 Continued in the existing new-feature worktree, agent/visual-system-1109b; used unslop for this note. Screenshot: outputs/visual-system-1109b/home-integrated-1111.jpg. Local implementation commit: 9808824. No push or deployment.
+
+## Program page visual review (2026-11-11)
+
+Reviewed Lab, Session, Lens and About in the browser after the homepage was accepted. Continued the same visual-system task in its existing isolated worktree. Kept Session's small photo album and About's short introduction unchanged.
+
+Lab: removed decorative step numbers and arrows, separated the three explanations with fine rules, capped project cards at 340px and used 16:9 covers. Added anchor clearance so the fixed header does not cover the submission introduction.
+
+Lens: changed the full library from a horizontal strip to three columns on desktop, two on mobile and one below 361px. Covers stay at most 280px wide; full titles remain visible. Removed the repeated Super Lens label from each library card. Homepage and episode recommendations are unaffected.
+
+Checked English desktop and Chinese 390px mobile layouts, the product submission anchor and the video grid. No page overflow observed. Final desktop library check showed six videos in two rows. Website prerender, CMS build, type checks and lint passed; the build used node --import tsx for content validation because the tsx CLI IPC socket is restricted in the sandbox. Final CSS adjustments were checked in the browser. No submission or CMS data changed. Saved Lab screenshot at outputs/visual-system-1109b/lab-polish-1111.jpg. No push or deployment. Used the existing new-feature isolation and unslop for the change note.

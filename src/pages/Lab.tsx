@@ -34,17 +34,15 @@ export function Lab() {
           <h2>{t.forms.prototypeTitle}</h2>
           <p className="lede">{t.forms.prototypeIntro}</p>
           <ol className="lab-flow" aria-label={l.howItWorks}>
-            {l.steps.map((step, index) => <li key={step.n}>
-              <span className="lab-flow-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            {l.steps.map((step) => <li key={step.n}>
               <div><h3>{step.title}</h3><p>{step.body}</p></div>
-              {index < l.steps.length - 1 && <span className="lab-flow-arrow" aria-hidden="true">↓</span>}
             </li>)}
           </ol>
         </div>
         <IntakeForm kind="prototype" />
       </section>
 
-      {projects.length > 0 && <section className="section container" id="projects">
+      {projects.length > 0 && <section className="section container lab-projects" id="projects">
         <div className="section-head" data-reveal><h2>{t.home.projects}</h2></div>
         <ProjectCards items={projects} includeInvite={false} />
       </section>}

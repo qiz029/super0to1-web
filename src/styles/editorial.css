@@ -144,9 +144,9 @@ p { font-size: var(--text-body); }
 .lab-flow { max-width: 440px; margin-top: 32px; }
 .lab-flow h3 { font-size: 22px; }
 .lab-flow p { font-size: 18px; line-height: 1.55; }
-.lab-flow li { padding-bottom: 28px; }
+.lab-flow li { display: block; padding-block: 20px; border-top: 1px solid var(--line); }
 .lab-flow-number { font-size: var(--text-label); }
-.prototype-section { gap: clamp(28px, 4vw, 64px); }
+.prototype-section { gap: clamp(28px, 4vw, 64px); scroll-margin-top: 104px; }
 .prototype-section > div > .lede { color: var(--ink); }
 .intake-form fieldset { gap: 22px; }
 .intake-form label { font-size: 18px; line-height: 1.45; color: var(--ink); }
@@ -271,6 +271,32 @@ p { font-size: var(--text-body); }
 .video-gallery .meta { font-size: var(--text-label); }
 .video-gallery h3 { font-size: 20px; line-height: 1.35; }
 .video-gallery .video-card:hover .video-thumb img { transform: none; }
+
+/* Program collections keep small covers while making every item visible. */
+.lab-projects > .grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 340px)); gap: 24px; }
+.lab-projects .project-card { border-color: var(--line); }
+.lab-projects .project-art { aspect-ratio: 16 / 9; margin-bottom: 18px; }
+.lab-projects .project-card h3 { font: 550 23px/1.35 var(--font-body); letter-spacing: -.015em; }
+.lab-projects .project-card p { font-size: 18px; }
+.lens-library .video-gallery {
+  grid-auto-flow: row;
+  grid-auto-columns: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 888px;
+  gap: 32px 24px;
+  overflow: visible;
+  padding: 0;
+}
+.lens-library .video-card { max-width: 280px; }
+.lens-library .video-gallery .meta { display: none; }
+.lens-library .video-gallery h3 { font-family: var(--font-body); font-weight: 550; letter-spacing: -.015em; }
+@media (max-width: 760px) {
+  .lens-library .video-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  .lens-library .video-gallery h3 { font-size: 17px; line-height: 1.45; }
+}
+@media (max-width: 360px) {
+  .lens-library .video-gallery { grid-template-columns: 1fr; }
+}
 
 /* Pair the supplied channel mark with the original Figma wordmark. */
 .logo { display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0; }
