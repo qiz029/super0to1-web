@@ -392,3 +392,29 @@ Browser checks confirmed the Lab cover fits inside its 340px card and member, sp
 ## Release preparation (2026-11-14)
 
 Jess approved deploying the reviewed version. Synced origin/main and confirmed there were no competing open PRs or new main commits. All 36 unit tests, website prerender, CMS build, type checks and lint passed. Updated remaining CMS-preview and intake browser-test selectors for the participation actions moved below the hero. Assertions and expected behavior are unchanged. GitHub Actions will run the full browser suites before deploying. Content snapshots and saved CMS drafts are unchanged by this release.
+
+## Navigation preview after launch (2026-11-14)
+
+Created agent/navigation-polish-1114a from the deployed origin/main commit cfb81c7 using new-feature. No competing open PRs. Installed dependencies independently. This is a local preview on port 5179, not a production change.
+
+Viewed the actual official homepages of South Park Commons (https://www.southparkcommons.com/), Antler (https://www.antler.co/) and Entrepreneurs First (https://www.joinef.com/). SPC gives the navigation a separate pale surface; Antler separates its logo, navigation and actions; EF uses a central wordmark and strong brand color. Used the first two approaches without adding a signup button or copying their branding.
+
+The header now has a warm-white background, 92px desktop height, 22px navigation text, larger wordmark and more space between links. The active page uses a muted olive background and bottom rule. Language controls remain secondary. Narrow desktop text is 20px; mobile header is 76px and expanded menu text is 22px. Only header styles changed; CMS preview shares them, and CMS data is unchanged.
+
+Website client and CMS builds, type checks, lint and diff checks passed. Browser checks at measured CSS widths 1422, 1222, 1000, 482 and 390 found no horizontal overflow. Verified mobile menu open/close, navigation to Lab and Chinese language switching. Screenshot: outputs/navigation-polish-1114a/navigation.jpg. No push or deployment.
+
+## Navigation and footer refinement (2026-11-14)
+
+Reviewed the actual headers and footers of First Round (https://www.firstround.com/) and ODF (https://joinodf.com/). Borrowed restrained navigation and clear footer grouping, without their colors or oversized wordmarks.
+
+Removed the olive active-navigation block. The current page now has a dark brown underline; hover uses a finer underline. Matched the header to the warm page background, added 8px of top space and confined its lower rule to the content width. Kept the larger navigation type from this branch.
+
+Removed the footer's tinted band and full-width heavy border. It now shares the page background with an inset fine rule, aligned brand copy and two link columns: Session/Lab/Lens and About/Join us/YouTube. Mobile stacks the brand above the two columns. Link destinations, CMS content, forms and homepage sections are unchanged.
+
+Browser checks at measured CSS widths 990, 1600 and 390 found no page overflow. Checked the active underline, mobile menu, navigation to Lens, Chinese switching and the mobile footer. Website client build, CMS build, type checks, content validation, lint and diff check passed. No real submissions were made. Screenshots: outputs/navigation-polish-1114a/navigation-refined.jpg and footer-refined.jpg.
+
+Continued the existing new-feature worktree, agent/navigation-polish-1114a; used unslop for the note. Local preview only, no push or deployment.
+
+## Navigation release preparation (2026-11-14)
+
+Jess approved deployment of the refined navigation and footer. Fetched origin/main and confirmed the reviewed branch is two commits ahead with no competing open PRs. All 36 unit tests, full website prerender, CMS build, type checks and lint passed. The initial sandboxed auth test could not open its local test port; the complete suite passed with local listening permitted. Production publication and saved CMS content are unchanged. The main-branch workflow will run browser checks before deploying the site and CMS.
