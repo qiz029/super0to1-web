@@ -19,7 +19,7 @@ export function Lens() {
           {t.lens.subscribe}
         </a>
       </IllustratedHero>
-      <section className="section container">
+      <section className="section container lens-library">
         <VideoGrid items={videos} />
       </section>
     </>

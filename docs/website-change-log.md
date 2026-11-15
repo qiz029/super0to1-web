@@ -328,3 +328,67 @@ View projects 改为作品区主按钮。推荐项目最多显示三张，宽屏
 生成三种首页插图方向供比较。站点预览继续使用原插图。
 
 首页副标题加到中等字重，桌面为 21 像素，手机为 18 像素。保留宽屏首页的 1360 像素内容宽度上限。
+
+## 十站视觉对照后的字号与分组调整（2026-11-09）
+
+实际观察十家官方页面，记录在 docs/visual-review-2026-11-09.md。新分支 agent/visual-system-1109b 从 origin/main 的 0e21b65 隔离创建，没有未合并 PR 冲突。使用 new-feature 管理隔离，unslop 校对新写说明。
+
+首页取消单作品时标题与卡片分居左右的布局。1240px 以上、一个作品及三条访谈时，两栏目并列，各自标题贴近内容；更多作品按原推荐顺序使用独立网格，手机仍上下排列。删除作品区重复的小标签。作品图片和 Try 链接仍到产品网址，项目名仍到详情。
+
+全站加深说明文字、增加正文与表单字号。首页介绍桌面上限24px、手机20px，常规正文19px，卡片说明与表单标签18px，辅助说明16px。缩短首屏和栏目留白，统一栏目标题间距。去掉阅读内容的淡入和位移动画，避免滚动时文字暂时发浅。保留暖米色背景、原插图、小照片与多条小视频。
+
+CMS 网页预览同步共享样式，管理字段、内容快照、视频短标题及表单后台均未修改。两套构建、15项内容/SEO/翻译单测通过；浏览器检查桌面和手机版主要页面、中文菜单和嘉宾弹窗。内存模拟验证中英文0/1/3作品的布局条件。未向正式表单提交数据。改动只在本地分支，预览端口5177，未部署。
+
+补充全站对比度检查：首页、Lab、Session、Lens、About、AsideFM详情、视频详情及会员弹窗的已渲染文字，核对计算字色与祖先纯色背景；未发现低于4.5:1的普通可见文字。此检查不覆盖图片内嵌文字，隐藏的播放图标不计入正文结果。
+
+## 首页视觉收尾（2026-11-09）
+
+同一视觉调整任务继续在 agent/visual-system-1109b 完成。三个栏目入口统一为48px高的浅底描边按钮。作品缩略图统一16:9，文字区使用固定间距，多作品时试用入口对齐；首页视频标题预留三行高度，长标题继续展开，不截断。
+
+一个作品和三条访谈的并列布局延伸至1000px。1000至1239px的访谈列表可横滑，1240px以上完整展示三条，较窄屏幕上下排列。数据数量条件和CMS字段保持不变。
+
+浏览器检查1440、1367、1240、1093、1000和390 CSS像素宽度。1093px用于模拟1366px窗口放大125%后的可用布局宽度，未将浏览器实际缩放设置为125%。未发现整页横向溢出或标题截断。三个栏目链接逐一点击验证；中文390px布局通过。官网和CMS预览构建、类型检查及lint通过。使用既有new-feature隔离工作区，unslop整理日志。仍为本地预览，未推送或部署。
+
+## 整页视觉方向稿（2026-11-09）
+
+新增独立HTML设计稿 docs/design-studies/home-1109.html，预览端口5178，与当前5177版本对照。强调0→1标题，收拢原插图，三个参与入口组成整排。减少圆角外框，作品和访谈以细分栏组织；往期照片使用小相册排法，页脚保持同色底。
+
+只使用已有项目、视频、往期活动和品牌素材。设计稿的链接指向现有网站，会员和讲者入口回到现有参与区，不含报名提交功能。正式页面、CMS及后台未修改。1440px桌面、1100px笔记本、390px手机检查无整页横向溢出，素材均加载。截图存于工作区 outputs/home-design-study。沿用当前隔离分支保存稿件，未推送或部署。
+
+## 设计稿的统一展示底板（2026-11-09）
+
+按反馈保留两条线之间的三个参与入口。5178设计稿的作品与访谈放进同一浅暖灰区域，统一外边距、封面比例和标题样式；桌面四张封面均为286×161px，移除旧竖分隔线。往期活动仍使用小相册。窄屏将作品与访谈上下分组，视频保持横滑。
+
+1440、1100、390px检查无整页溢出，图片均加载。只更新独立设计稿和日志，未修改5177正式实现、CMS或后台。版本保存在原视觉分支，未部署。
+
+## Approved homepage design integrated (2026-11-11)
+
+Applied the approved 5178 study to the working homepage on port 5177. The three participation actions sit between horizontal rules and retain the existing member and speaker dialogs and product submission link. Kept the original illustration. Projects and videos share a warm neutral panel with aligned covers and consistent typography; past events remain small photos. Mobile stacks the groups and keeps video scrolling.
+
+CMS content, fields, drafts, short titles and submission backends are unchanged. The CMS preview uses the shared updated page and styles. Eight in-memory rendering cases cover English/Chinese with 0, 1 and 3 projects, plus hidden collections. Only one project with three videos uses the paired layout.
+
+Checked 1440px, 1100px and 390px layouts in the browser, language switching, member and speaker dialogs, and product submission navigation. Desktop covers align and there is no page overflow. No real submissions or email delivery were tested. Website and CMS builds, lint and 15 existing content/SEO/translation tests passed. Updated affected browser-test selectors; the full end-to-end suite was not run.
+
+Continued in the existing new-feature worktree, agent/visual-system-1109b; used unslop for this note. Screenshot: outputs/visual-system-1109b/home-integrated-1111.jpg. Local implementation commit: 9808824. No push or deployment.
+
+## Program page visual review (2026-11-11)
+
+Reviewed Lab, Session, Lens and About in the browser after the homepage was accepted. Continued the same visual-system task in its existing isolated worktree. Kept Session's small photo album and About's short introduction unchanged.
+
+Lab: removed decorative step numbers and arrows, separated the three explanations with fine rules, capped project cards at 340px and used 16:9 covers. Added anchor clearance so the fixed header does not cover the submission introduction.
+
+Lens: changed the full library from a horizontal strip to three columns on desktop, two on mobile and one below 361px. Covers stay at most 280px wide; full titles remain visible. Removed the repeated Super Lens label from each library card. Homepage and episode recommendations are unaffected.
+
+Checked English desktop and Chinese 390px mobile layouts, the product submission anchor and the video grid. No page overflow observed. Final desktop library check showed six videos in two rows. Website prerender, CMS build, type checks and lint passed; the build used node --import tsx for content validation because the tsx CLI IPC socket is restricted in the sandbox. Final CSS adjustments were checked in the browser. No submission or CMS data changed. Saved Lab screenshot at outputs/visual-system-1109b/lab-polish-1111.jpg. No push or deployment. Used the existing new-feature isolation and unslop for the change note.
+
+## Project cover containment and dialog colors (2026-11-14)
+
+Fixed project covers overflowing their cards. The old fixed height combined with the new aspect ratio forced a wider image box. Shared card artwork now uses 100% width, automatic height and a 16:9 ratio.
+
+Replaced the yellow background on shared signup dialogs with warm white, dark brown text and buttons, subtle input borders and a lighter backdrop and shadow. This shared style covers member, tester, speaker and event dialogs. No form fields, submission handling or CMS data changed.
+
+Browser checks confirmed the Lab cover fits inside its 340px card and member, speaker and tester dialogs use the new colors and close correctly. Saved member-dialog-1114.jpg in outputs/visual-system-1109b. Website client build, CMS build, type checks, content validation and lint passed. Continued the existing isolated visual-system branch; no push or deployment.
+
+## Release preparation (2026-11-14)
+
+Jess approved deploying the reviewed version. Synced origin/main and confirmed there were no competing open PRs or new main commits. All 36 unit tests, website prerender, CMS build, type checks and lint passed. Updated remaining CMS-preview and intake browser-test selectors for the participation actions moved below the hero. Assertions and expected behavior are unchanged. GitHub Actions will run the full browser suites before deploying. Content snapshots and saved CMS drafts are unchanged by this release.

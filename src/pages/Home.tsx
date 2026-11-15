@@ -15,13 +15,15 @@ export function Home() {
   const featuredVideos = home.videoIds.flatMap(id => videos.filter(v => v.id === id)).slice(0, HOME_PREVIEW_LIMITS.videos)
   const featuredProjects = home.projectIds.flatMap(id => projects.filter(p => p.id === id)).slice(0, HOME_PREVIEW_LIMITS.projects)
   const featuredSessions = home.sessionIds.flatMap(id => sessions.filter(s => s.id === id && s.eventState === 'ended')).slice(0, HOME_PREVIEW_LIMITS.sessions)
+  const showCollections = (home.showProjects && featuredProjects.length > 0) || (home.showVideos && featuredVideos.length > 0)
+  const pairCollections = home.showProjects && featuredProjects.length === 1 && home.showVideos && featuredVideos.length === 3
   const nextSession = upcomingSession(sessions, home.upcomingSessionId)
   const { plain, accent, gap } = t.home.headline
   const words = [...plain.map((w) => ({ w, accent: false })), ...accent.map((w) => ({ w, accent: true }))]
 
   return (
     <>
-      <section className="hero home-hero container" id="join-us">
+      <section className="hero home-hero container">
         <div className="hero-copy">
           <h1 aria-label={words.map((x) => x.w).join(gap)}>
             {words.map(({ w, accent }, i) => (
@@ -36,26 +38,29 @@ export function Home() {
           <p className="lede hero-in" style={{ ['--i' as string]: 5 }}>
             {t.home.lede}
           </p>
-          <div className="actions participation-actions hero-in" style={{ ['--i' as string]: 6 }}>
-            <JoinUsButton className="button">{t.home.emailAction}</JoinUsButton>
-            <JoinUsButton kind="speaker" className="button button-secondary">{t.home.speakerAction}</JoinUsButton>
-            <LLink className="button button-secondary" to="/lab#submit-prototype">{t.home.bringPrototype}</LLink>
-          </div>
         </div>
         <div className="home-brand-art hero-in" style={{ ['--i' as string]: 3 }} aria-hidden="true">
           <img src="/media/brand-home-v3.webp" alt="" width="1536" height="1024" />
         </div>
       </section>
 
+      <div className="container home-participation" id="join-us">
+        <div className="participation-actions">
+          <JoinUsButton className="participation-action is-member"><span>{t.home.emailAction}</span></JoinUsButton>
+          <JoinUsButton kind="speaker" className="participation-action"><span>{t.home.speakerAction}</span></JoinUsButton>
+          <LLink className="participation-action" to="/lab#submit-prototype"><span>{t.home.bringPrototype}</span></LLink>
+        </div>
+      </div>
+
       <EventFeature event={nextSession} registerLabel={t.home.rsvp} />
 
-      {home.showProjects && featuredProjects.length > 0 && <div className="home-projects"><section className="section container">
+      {showCollections && <div className="container"><div className={`home-collections${pairCollections ? ' is-paired' : ''}`}>
+      {home.showProjects && featuredProjects.length > 0 && <section className="section home-projects">
         <div className="section-head" data-reveal>
           <div>
-            <p className="eyebrow">{t.home.projects}</p>
             <h2><LLink to="/lab"><ProgramName name="Super Lab" /></LLink></h2>
           </div>
-          <LLink className="button home-projects-link" to="/lab#projects">{t.home.viewProjects}</LLink>
+          <LLink className="collection-link" to="/lab#projects">{t.home.viewProjects}</LLink>
         </div>
         <div className="home-project-grid">
           {featuredProjects.map(project => {
@@ -77,12 +82,12 @@ export function Home() {
             )
           })}
         </div>
-      </section></div>}
+      </section>}
 
-      {home.showVideos && featuredVideos.length > 0 && <section className="section container home-gallery-section">
+      {home.showVideos && featuredVideos.length > 0 && <section className="section home-gallery-section home-lens-section">
         <div className="section-head" data-reveal>
           <h2><LLink to="/lens"><ProgramName name="Super Lens" /></LLink></h2>
-          <LLink className="text-link" to="/lens">
+          <LLink className="collection-link" to="/lens">
             {t.home.allConversations}
           </LLink>
         </div>
@@ -91,10 +96,12 @@ export function Home() {
         </div>
       </section>}
 
-      {home.showSessions && featuredSessions.length > 0 && <section className="section container home-gallery-section">
+      </div></div>}
+
+      {home.showSessions && featuredSessions.length > 0 && <section className="section container home-gallery-section home-past">
         <div className="section-head" data-reveal>
           <h2>{t.home.pastEvents}</h2>
-          <LLink className="text-link" to="/sessions">{t.home.allSessions}</LLink>
+          <LLink className="collection-link" to="/sessions">{t.home.allSessions}</LLink>
         </div>
         <SessionCards items={featuredSessions} />
       </section>}
