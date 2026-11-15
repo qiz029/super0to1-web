@@ -380,3 +380,11 @@ Lab: removed decorative step numbers and arrows, separated the three explanation
 Lens: changed the full library from a horizontal strip to three columns on desktop, two on mobile and one below 361px. Covers stay at most 280px wide; full titles remain visible. Removed the repeated Super Lens label from each library card. Homepage and episode recommendations are unaffected.
 
 Checked English desktop and Chinese 390px mobile layouts, the product submission anchor and the video grid. No page overflow observed. Final desktop library check showed six videos in two rows. Website prerender, CMS build, type checks and lint passed; the build used node --import tsx for content validation because the tsx CLI IPC socket is restricted in the sandbox. Final CSS adjustments were checked in the browser. No submission or CMS data changed. Saved Lab screenshot at outputs/visual-system-1109b/lab-polish-1111.jpg. No push or deployment. Used the existing new-feature isolation and unslop for the change note.
+
+## Project cover containment and dialog colors (2026-11-14)
+
+Fixed project covers overflowing their cards. The old fixed height combined with the new aspect ratio forced a wider image box. Shared card artwork now uses 100% width, automatic height and a 16:9 ratio.
+
+Replaced the yellow background on shared signup dialogs with warm white, dark brown text and buttons, subtle input borders and a lighter backdrop and shadow. This shared style covers member, tester, speaker and event dialogs. No form fields, submission handling or CMS data changed.
+
+Browser checks confirmed the Lab cover fits inside its 340px card and member, speaker and tester dialogs use the new colors and close correctly. Saved member-dialog-1114.jpg in outputs/visual-system-1109b. Website client build, CMS build, type checks, content validation and lint passed. Continued the existing isolated visual-system branch; no push or deployment.

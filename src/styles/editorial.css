@@ -87,7 +87,7 @@
   background: var(--card-light);
   color: var(--brown-ink);
 }
-.project-card .project-art { border-radius: 13px; margin-bottom: 22px; }
+.project-card .project-art { width: 100%; height: auto; min-width: 0; aspect-ratio: 16 / 9; border-radius: 13px; margin-bottom: 22px; }
 .project-card > :is(.meta, h3, p) { margin-inline: 10px; }
 .project-card .meta { opacity: 1; font-size: var(--text-label); }
 .project-card h3 { font-size: 29px; margin-top: 10px; }
@@ -126,7 +126,13 @@
 .prototype-section .intake-form :focus-visible { outline-color: #75523b; }
 .prototype-section .intake-form .button { background: var(--brown-ink); color: var(--cream); border-color: var(--brown-ink); }
 .prototype-section .intake-form .button:hover { background: #5c4232; }
-.dialog { border-radius: 22px; border: 1px solid var(--cream); }
+.dialog { border-radius: 22px; border: 1px solid var(--line-dark); background: var(--card-light); color: var(--brown-ink); box-shadow: 0 24px 64px rgb(46 38 32 / 22%); }
+.dialog::backdrop { background: rgb(46 38 32 / 45%); }
+.dialog :is(p, .eyebrow, .form-note) { color: var(--muted); }
+.dialog .button { background: var(--brown-ink); border-color: var(--brown-ink); color: var(--card-light); }
+.dialog .button:hover { background: #5c4232; border-color: #5c4232; }
+.dialog .intake-form :is(input, textarea, select) { background: #fffdf8; border-color: var(--control-line); }
+.dialog .dialog-close { color: var(--brown-ink); }
 
 .site-footer {
   background: var(--paper-tint);
