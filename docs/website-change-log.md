@@ -392,3 +392,13 @@ Browser checks confirmed the Lab cover fits inside its 340px card and member, sp
 ## Release preparation (2026-11-14)
 
 Jess approved deploying the reviewed version. Synced origin/main and confirmed there were no competing open PRs or new main commits. All 36 unit tests, website prerender, CMS build, type checks and lint passed. Updated remaining CMS-preview and intake browser-test selectors for the participation actions moved below the hero. Assertions and expected behavior are unchanged. GitHub Actions will run the full browser suites before deploying. Content snapshots and saved CMS drafts are unchanged by this release.
+
+## Navigation preview after launch (2026-11-14)
+
+Created agent/navigation-polish-1114a from the deployed origin/main commit cfb81c7 using new-feature. No competing open PRs. Installed dependencies independently. This is a local preview on port 5179, not a production change.
+
+Viewed the actual official homepages of South Park Commons (https://www.southparkcommons.com/), Antler (https://www.antler.co/) and Entrepreneurs First (https://www.joinef.com/). SPC gives the navigation a separate pale surface; Antler separates its logo, navigation and actions; EF uses a central wordmark and strong brand color. Used the first two approaches without adding a signup button or copying their branding.
+
+The header now has a warm-white background, 92px desktop height, 22px navigation text, larger wordmark and more space between links. The active page uses a muted olive background and bottom rule. Language controls remain secondary. Narrow desktop text is 20px; mobile header is 76px and expanded menu text is 22px. Only header styles changed; CMS preview shares them, and CMS data is unchanged.
+
+Website client and CMS builds, type checks, lint and diff checks passed. Browser checks at measured CSS widths 1422, 1222, 1000, 482 and 390 found no horizontal overflow. Verified mobile menu open/close, navigation to Lab and Chinese language switching. Screenshot: outputs/navigation-polish-1114a/navigation.jpg. No push or deployment.
