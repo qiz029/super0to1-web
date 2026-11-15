@@ -414,3 +414,7 @@ Removed the footer's tinted band and full-width heavy border. It now shares the 
 Browser checks at measured CSS widths 990, 1600 and 390 found no page overflow. Checked the active underline, mobile menu, navigation to Lens, Chinese switching and the mobile footer. Website client build, CMS build, type checks, content validation, lint and diff check passed. No real submissions were made. Screenshots: outputs/navigation-polish-1114a/navigation-refined.jpg and footer-refined.jpg.
 
 Continued the existing new-feature worktree, agent/navigation-polish-1114a; used unslop for the note. Local preview only, no push or deployment.
+
+## Navigation release preparation (2026-11-14)
+
+Jess approved deployment of the refined navigation and footer. Fetched origin/main and confirmed the reviewed branch is two commits ahead with no competing open PRs. All 36 unit tests, full website prerender, CMS build, type checks and lint passed. The initial sandboxed auth test could not open its local test port; the complete suite passed with local listening permitted. Production publication and saved CMS content are unchanged. The main-branch workflow will run browser checks before deploying the site and CMS.
