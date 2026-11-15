@@ -388,3 +388,7 @@ Fixed project covers overflowing their cards. The old fixed height combined with
 Replaced the yellow background on shared signup dialogs with warm white, dark brown text and buttons, subtle input borders and a lighter backdrop and shadow. This shared style covers member, tester, speaker and event dialogs. No form fields, submission handling or CMS data changed.
 
 Browser checks confirmed the Lab cover fits inside its 340px card and member, speaker and tester dialogs use the new colors and close correctly. Saved member-dialog-1114.jpg in outputs/visual-system-1109b. Website client build, CMS build, type checks, content validation and lint passed. Continued the existing isolated visual-system branch; no push or deployment.
+
+## Release preparation (2026-11-14)
+
+Jess approved deploying the reviewed version. Synced origin/main and confirmed there were no competing open PRs or new main commits. All 36 unit tests, website prerender, CMS build, type checks and lint passed. Updated remaining CMS-preview and intake browser-test selectors for the participation actions moved below the hero. Assertions and expected behavior are unchanged. GitHub Actions will run the full browser suites before deploying. Content snapshots and saved CMS drafts are unchanged by this release.
